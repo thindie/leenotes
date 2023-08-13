@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">leenotes</string>
+    <string name="text_field_hint_search">поиск</string>
+    <string name="text_field_remove">Убрать?</string>
+    <string name="text_field_created">cоздана: %s</string>
+    <string name="text_field_attach_link">прикрепи ссылку:</string>
+    <string name="text_field_tags_shadow">облако тегов:</string>
+    <string name="text_field_will_spend">Потрачу:</string>
+    <string name="text_field_rubles">рублей</string>
+    <string name="text_field_task">Дело</string>
+    <string name="text_field_remember_costs">и запомнить траты</string>
+    <string name="text_field_notice">Внести?</string>
+    <string name="text_field_to_costs">в расходы</string>
+    <string name="text_field_from_costs">из расходов</string>
+
+
+    <string name="button_label_cancel">отмена</string>
+    <string name="button_label_details">детали</string>
+    <string name="button_label_remove">убрать</string>
+    <string name="button_label_change_mind">Передумала</string>
+    <string name="button_label_shuffled">Запуталась</string>
+    <string name="button_label_remember">Запомнить</string>
+    <string name="button_label_offcost">Без трат</string>
+    <string name="button_label_oh_no">Ну нет</string>
+    <string name="button_label_cacheen">Дзинь!</string>
+    <string name="button_label_hurrah">Ура!</string>
+    <string name="button_label_good">Хорошо</string>
+    <string name="button_label_forget">Забыть</string>
+    <string name="button_label_dokay">Так и быть</string>
 </resources>
