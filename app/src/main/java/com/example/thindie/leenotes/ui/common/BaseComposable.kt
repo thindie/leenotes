@@ -14,23 +14,6 @@ import com.example.thindie.leenotes.ui.theme.typo
 
 @Composable
 fun Qwerty(modifier: Modifier = Modifier) {
-    Text(
-        text = stringResource(id = R.string.app_name),
-        style = typo.displayLarge,
-        color = colors.primary
-    )
-
-    Text(
-        text = stringResource(id = R.string.app_name),
-        style = typo.displayMedium,
-        color = colors.secondary
-    )
-
-    Text(
-        text = stringResource(id = R.string.app_name),
-        style = typo.displaySmall,
-        color = colors.tertiary
-    )
 
 }
 
@@ -38,13 +21,5 @@ fun Qwerty(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun QwertyPreview() {
-    Column {
-        LeenotesTheme {
-            Qwerty()
-        }
-        LeenotesTheme(darkTheme = true) {
-            Qwerty()
-        }
-    }
 
 }
