@@ -92,7 +92,7 @@ class NotesInputFieldState(
 
     private val _isError = mutableStateOf(false)
 
-    val height = if (isSingleLine) 86.dp else 154.dp
+    val height = if (isSingleLine) 65.dp else 125.dp
     val isError: State<Boolean>
         get() = _isError
 

@@ -1,6 +1,8 @@
 package com.example.thindie.leenotes.ui.dialogs
 
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -21,7 +23,7 @@ fun NotesDialog(
     Dialog(onDismissRequest = { onDismissRequest(false) }) {
 
         Surface(
-            modifier = modifier.size(350.dp),
+            modifier = modifier.wrapContentHeight(),
             shape = RoundedCornerShape(54.dp),
             color = colors.primary
         ) {
