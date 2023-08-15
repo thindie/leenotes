@@ -19,11 +19,11 @@ fun NotesInputFields(modifier: Modifier = Modifier, state: NotesInputFieldState)
         modifier = modifier
             .fillMaxWidth(state.width.value)
             .height(state.height)
-            .padding(start = 8.dp, end = 8.dp, top = 3.dp, bottom = 3.dp),
+            .padding(start = 8.dp, end = 8.dp, top = 1.dp, bottom = 6.dp),
         value = state.fieldState.value,
         textStyle = typo.bodyLarge,
         colors = state.textFieldColors,
-        shape = RoundedCornerShape(15.dp),
+        shape = if (!state.isSingleLine) RoundedCornerShape(30.dp) else RoundedCornerShape(52.dp),
         singleLine = state.isSingleLine,
         leadingIcon = { if (state.Icon != null) state.Icon },
         label = { state.fieldHint },

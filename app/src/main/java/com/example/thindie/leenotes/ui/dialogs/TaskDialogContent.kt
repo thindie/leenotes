@@ -3,6 +3,7 @@ package com.example.thindie.leenotes.ui.dialogs
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,10 +31,11 @@ fun TaskDialogContent(
         modifier = modifier
             .padding(horizontal = 9.dp, vertical = 17.dp)
             .fillMaxWidth()
+            .wrapContentHeight()
     ) {
         Text(
             modifier = Modifier
-                .padding(bottom = 6.dp, start = 22.dp),
+                .padding(start = 22.dp),
             style = typo.headlineSmall,
             text = stringResource(id = R.string.text_field_task)
         )

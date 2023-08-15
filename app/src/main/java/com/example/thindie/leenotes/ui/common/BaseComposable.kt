@@ -23,7 +23,7 @@ fun QwertyPreview() {
 @Preview(showBackground = true)
 @Composable
 fun QwertyPreviewDark() {
-    LeenotesTheme {
+    LeenotesTheme(darkTheme = true) {
 
     }
 }
