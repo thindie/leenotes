@@ -27,6 +27,7 @@ fun NotesInputFields(modifier: Modifier = Modifier, state: NotesInputFieldState)
         singleLine = state.isSingleLine,
         leadingIcon = { if (state.Icon != null) state.Icon },
         label = { state.fieldHint },
+        minLines = if (state.isSingleLine) 1 else 10,
         supportingText = { state.fieldSupportingText },
         onValueChange = state::onValueChange
     )
