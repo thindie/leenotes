@@ -1,5 +1,6 @@
 package com.example.thindie.leenotes.ui.dialogs
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,16 +13,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.ui.common.NotesButton
 import com.example.thindie.leenotes.ui.theme.LeenotesTheme
 import com.example.thindie.leenotes.ui.theme.colors
 import com.example.thindie.leenotes.ui.theme.typo
 
-
+@Suppress("LongParameterList")
 @Composable
-fun RemoveNoteDialogContent(
+fun ConfirmDismissDialog(
     modifier: Modifier = Modifier,
+    @StringRes headline: Int,
+    @StringRes supportingHeadline: Int,
+    @StringRes confirmButton: Int,
+    @StringRes dismissButton: Int,
     representValue: String,
     onClickConfirm: () -> Unit,
     onClickDismiss: () -> Unit,
@@ -37,17 +41,22 @@ fun RemoveNoteDialogContent(
         Text(
             style = typo.displaySmall,
             color = colors.onPrimary,
-            text = stringResource(id = R.string.text_field_remove)
+            text = stringResource(id = headline)
+        )
+        Text(
+            style = typo.labelLarge,
+            color = colors.onSecondary,
+            text = stringResource(id = supportingHeadline)
         )
         Text(
             style = typo.bodyLarge,
-            color = colors.onSecondary,
+            color = colors.onPrimary,
             text = representValue
         )
-        NotesButton(title = R.string.button_label_change_mind, isOutlined = true) {
+        NotesButton(title = dismissButton, isOutlined = true) {
             onClickDismiss()
         }
-        NotesButton(title = R.string.button_label_good, isOutlined = false) {
+        NotesButton(title = confirmButton, isOutlined = false) {
             onClickConfirm()
         }
     }
@@ -59,9 +68,7 @@ fun RemoveNoteDialogContent(
 fun RemoveNoteDialogContentPreview() {
     LeenotesTheme {
         NotesDialog(onDismissRequest = {}) {
-            RemoveNoteDialogContent(representValue = "Value?", onClickConfirm = { }) {
 
-            }
         }
 
     }
@@ -72,9 +79,7 @@ fun RemoveNoteDialogContentPreview() {
 fun RemoveNoteDialogContentPreviewDark() {
     LeenotesTheme(darkTheme = true) {
         NotesDialog(onDismissRequest = {}) {
-            RemoveNoteDialogContent(representValue = "Value?", onClickConfirm = { }) {
 
-            }
         }
     }
 }

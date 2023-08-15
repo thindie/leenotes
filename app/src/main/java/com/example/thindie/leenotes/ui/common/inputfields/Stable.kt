@@ -11,10 +11,12 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import com.example.thindie.leenotes.ui.theme.colors
 
 @Composable
@@ -29,14 +31,32 @@ fun rememberInputState(
     }
 }
 
+@Composable
+fun rememberDigitInputState(
+    isSingleLine: Boolean,
+    @DrawableRes leadingIcon: Int = 0,
+    @StringRes hint: Int = 0,
+    @StringRes supportingText: Int = 0,
+): DigitInputState {
+    return remember(isSingleLine) {
+        DigitInputState(isSingleLine, leadingIcon, hint, supportingText)
+    }
+}
+
+
 @Stable
-class NotesInputFieldState(
+open class NotesInputFieldState(
     val isSingleLine: Boolean,
     @DrawableRes private val leadingIcon: Int,
     @StringRes private val hint: Int,
     @StringRes private val supportingText: Int,
+    val fullSizeField: Float = 1f,
+    val halvedSizeField: Float = 0.6f,
 ) {
-    private val fieldWidthState = mutableStateOf(1f)
+
+    private val shouldDeactivateFocus = mutableStateOf(false)
+    private val fieldWidthState =
+        mutableStateOf(if (shouldDeactivateFocus.value) halvedSizeField else fullSizeField)
 
     val width
         @Composable get() = animateFloatAsState(
@@ -90,13 +110,13 @@ class NotesInputFieldState(
                 Icon(painter = painterResource(id = leadingIcon), contentDescription = "")
             } else null
 
-    private val _isError = mutableStateOf(false)
+    protected val _isError = mutableStateOf(false)
 
     val height = if (isSingleLine) 65.dp else 125.dp
     val isError: State<Boolean>
         get() = _isError
 
-    private val _fieldValue = mutableStateOf("")
+    protected val _fieldValue = mutableStateOf("")
     val fieldState: State<String>
         get() = _fieldValue
 
@@ -105,22 +125,46 @@ class NotesInputFieldState(
         _fieldValue.value = value
     }
 
-    fun onWidthLess(){
-        fieldWidthState.value = 0.6f
+    private fun onWidthLess() {
+        fieldWidthState.value = halvedSizeField
+        shouldDeactivateFocus.value = false
     }
 
-    fun onWidthRestore(){
-        fieldWidthState.value = 1f
+    fun onWidthRestore() {
+        fieldWidthState.value = fullSizeField
+        _fieldValue.value = ""
+        shouldDeactivateFocus.value = true
     }
 
-    fun isValid(): Boolean {
-        return if (isSingleLine) {
-            if (_fieldValue.value.isBlank()) {
-                _isError.value = true
-            }
-            _fieldValue.value.isBlank()
-        } else true
-    }
 
+    fun onFocusChanged(it: FocusState) {
+        if (!it.hasFocus) {
+            onWidthRestore()
+        } else onWidthLess()
+    }
+}
+
+@Stable
+class DigitInputState(
+    private val isLineSingle: Boolean,
+    @DrawableRes private val leadingIcon: Int,
+    @StringRes private val hint: Int,
+    @StringRes private val supportingText: Int,
+    fullSize: Float = 1f,
+    halvedSize: Float = 0.6f,
+) : NotesInputFieldState(
+    isSingleLine = isLineSingle,
+    leadingIcon = leadingIcon,
+    hint = hint,
+    supportingText = supportingText,
+    fullSizeField = fullSize,
+    halvedSizeField = halvedSize
+) {
+
+    fun validate(): Boolean  {
+        _isError.value =  _fieldValue.value.isDigitsOnly().not()
+        return isError.value
+    }
 
 }
+
