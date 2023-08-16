@@ -1,9 +1,11 @@
 package com.example.thindie.leenotes.ui.screens.allnotesscreen
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
@@ -20,10 +22,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.domain.Note
+import com.example.thindie.leenotes.ui.common.NoteCard
 import com.example.thindie.leenotes.ui.common.NotesControllableField
 import com.example.thindie.leenotes.ui.common.NotesTopAppBar
 import com.example.thindie.leenotes.ui.common.inputfields.NotesInputFieldState
 import com.example.thindie.leenotes.ui.common.inputfields.rememberInputState
+import com.example.thindie.leenotes.ui.common.rememberNoteCardState
+import com.example.thindie.leenotes.ui.dialogs.ConfirmDismissDialog
 import com.example.thindie.leenotes.ui.dialogs.NotesDialog
 import com.example.thindie.leenotes.ui.dialogs.TaskDialogContent
 import com.example.thindie.leenotes.ui.theme.LeenotesTheme
@@ -41,9 +46,11 @@ fun AllNotesScreen(
         leadingIcon = R.drawable.icon_search
     ),
     onClickDetails: (Long) -> Unit,
-    onClickRemoveAndSaveCost: (Long) -> Unit,
-    onClickRemoveAndForgetCost: (Long) -> Unit,
 ) {
+    val shouldShowRemovalDialog = remember {
+        mutableStateOf(false)
+    }
+
     Scaffold(
         modifier = modifier,
         topBar = { NotesTopAppBar(action = {}) },
@@ -62,11 +69,31 @@ fun AllNotesScreen(
                 title = R.string.text_field_cancel,
                 state = searchBarState
             )
-            LazyColumn() {
-
-            }
+            NotesList(
+                notes = emptyList(),
+                onClickDetails = onClickDetails,
+                onClickRemove = { noteId ->
+                    shouldShowRemovalDialog.value = true
+                }
+            )
         }
 
+    }
+    if (shouldShowRemovalDialog.value) {
+        NotesDialog(onDismissRequest = { shouldShowRemovalDialog.value = false }) {
+            ConfirmDismissDialog(
+                headline = R.string.text_field_remove,
+                supportingHeadline = R.string.text_field_remember_costs,
+                confirmButton = R.string.button_label_remember,
+                dismissButton = R.string.button_label_offcost,
+                representValue = "",
+                onClickConfirm = {
+                    notesScreenViewModel.onConfirmSaveCosts()
+                    shouldShowRemovalDialog.value = false }) {
+                shouldShowRemovalDialog.value = false
+                notesScreenViewModel.onDismissSaveCosts()
+            }
+        }
     }
 }
 
@@ -119,14 +146,39 @@ private fun NoteFloatingButton(
 }
 
 
+@Composable
+private fun NotesList(
+    modifier: Modifier = Modifier,
+    notes: List<Note>,
+    onClickDetails: (Long) -> Unit,
+    onClickRemove: (Long) -> Unit,
+) {
+    LazyColumn(
+        modifier = modifier
+            .padding(start = 8.dp, end = 8.dp, top = 18.dp, bottom = 4.dp),
+        contentPadding = PaddingValues(top = 2.dp, bottom = 2.dp)
+    ) {
+        items(notes, key = { note -> note.timeStamp }) { item: Note ->
+            NoteCard(
+                state = rememberNoteCardState(),
+                title = item.title,
+                time = item.noteCreateAt,
+                body = item.body,
+                noteId = item.timeStamp,
+                onClickDetails = onClickDetails,
+                onClickRemove = onClickRemove,
+            )
+        }
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
 fun AllNotesScreenPreview() {
     LeenotesTheme {
         AllNotesScreen(
             onClickDetails = {},
-            onClickRemoveAndSaveCost = {},
-            onClickRemoveAndForgetCost = {}
         )
     }
 }

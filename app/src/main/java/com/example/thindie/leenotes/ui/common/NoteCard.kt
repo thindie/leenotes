@@ -30,11 +30,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.thindie.leenotes.R
+import com.example.thindie.leenotes.ui.dialogs.NotesDialog
 import com.example.thindie.leenotes.ui.theme.LeenotesTheme
 import com.example.thindie.leenotes.ui.theme.colors
 import com.example.thindie.leenotes.ui.theme.typo
 import kotlinx.coroutines.CoroutineScope
 
+@Suppress("LongParameterList")
 @Composable
 fun NoteCard(
     modifier: Modifier = Modifier,
@@ -42,7 +44,11 @@ fun NoteCard(
     title: String,
     time: String,
     body: String,
+    noteId: Long,
+    onClickDetails: (Long) -> Unit,
+    onClickRemove: (Long) -> Unit
 ) {
+
     Card(
         modifier = modifier
             .padding(start = 8.dp, end = 8.dp, bottom = 3.dp, top = 3.dp)
@@ -125,7 +131,7 @@ fun NoteCard(
                         title = R.string.button_label_remove,
                         isOutlined = true
                     ) {
-
+                        onClickRemove(noteId)
                     }
                     NotesButton(
                         modifier = Modifier
@@ -135,9 +141,10 @@ fun NoteCard(
                         title = R.string.button_label_details,
                         isOutlined = true
                     ) {
-
+                        onClickDetails(noteId)
                     }
                 }
+
             }
 
         }
@@ -151,7 +158,12 @@ fun NoteCard(
 fun NoteCardPreview() {
     LeenotesTheme {
         val state = rememberNoteCardState()
-        NoteCard(state = state, title = "title", time = "09 aвг 23", body = "some text")
+        NoteCard(
+            state = state, title = "title", time = "09 aвг 23", body = "some text",
+            noteId = 0,
+            onClickDetails = {},  onClickRemove = {},
+
+        )
     }
 }
 
@@ -160,7 +172,13 @@ fun NoteCardPreview() {
 fun NoteCardPreviewDark() {
     LeenotesTheme(darkTheme = true) {
         val state = rememberNoteCardState()
-        NoteCard(state = state, title = "title", time = "09 aвг 23", body = "some text")
+        NoteCard(
+            state = state, title = "title", time = "09 aвг 23", body = "some text",
+
+            noteId = 0,
+            onClickDetails = {},
+            onClickRemove = {},
+        )
     }
 }
 

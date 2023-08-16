@@ -10,4 +10,12 @@ class NotesScreenViewModel @Inject constructor() : ViewModel() {
     fun onClickedActionButtonForResult(note: Note) {
 
     }
+
+    fun onConfirmSaveCosts() {
+
+    }
+
+    fun onDismissSaveCosts() {
+
+    }
 }
