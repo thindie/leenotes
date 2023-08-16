@@ -40,6 +40,8 @@ private val LightColorScheme = lightColorScheme(
     primaryContainer = Color(0xFF389CD4),
 )
 
+val seedColor = Color(0xFF389CD4)
+
 @Composable
 fun LeenotesTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
