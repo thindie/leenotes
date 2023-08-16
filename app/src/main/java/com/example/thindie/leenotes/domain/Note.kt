@@ -16,7 +16,7 @@ data class Note(
     val tagShadow: String = DEFAULT_STRING_FIELD,
     val isSearchAdapted: Boolean = tagShadow.isNotBlank(),
     val hyperLink: String = DEFAULT_STRING_FIELD,
-    val isHasLink: Boolean,
+    val isHasLink: Boolean = tagShadow.isNotBlank(),
 ) {
     val timeStamp
         get() = instant.epochSecond

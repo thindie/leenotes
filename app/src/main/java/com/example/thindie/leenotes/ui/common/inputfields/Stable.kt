@@ -112,7 +112,7 @@ open class NotesInputFieldState(
 
     protected val _isError = mutableStateOf(false)
 
-    val height = if (isSingleLine) 65.dp else 125.dp
+    val height = if (isSingleLine) 75.dp else 130.dp
     val isError: State<Boolean>
         get() = _isError
 
@@ -123,6 +123,10 @@ open class NotesInputFieldState(
     fun onValueChange(value: String) {
         _isError.value = false
         _fieldValue.value = value
+    }
+
+    fun clearField(){
+        onValueChange("")
     }
 
     private fun onWidthLess() {

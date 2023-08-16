@@ -27,4 +27,5 @@
     <string name="button_label_good">Хорошо</string>
     <string name="button_label_forget">Забыть</string>
     <string name="button_label_dokay">Так и быть</string>
+    <string name="fab_symbol">+</string>
 </resources>
