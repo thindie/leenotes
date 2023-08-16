@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.ui.common.NotesButton
 import com.example.thindie.leenotes.ui.common.inputfields.DigitInputState
-import com.example.thindie.leenotes.ui.common.inputfields.NotesInputFields
+import com.example.thindie.leenotes.ui.common.inputfields.NotesInputField
 import com.example.thindie.leenotes.ui.common.inputfields.rememberDigitInputState
 import com.example.thindie.leenotes.ui.theme.LeenotesTheme
 import com.example.thindie.leenotes.ui.theme.colors
@@ -60,7 +60,7 @@ fun CoastalEntranceDialogContent(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            NotesInputFields(
+            NotesInputField(
                 modifier = Modifier
                     .onFocusChanged {
                         currencyInputField.onFocusChanged(it)

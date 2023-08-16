@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.ui.common.NotesButton
 import com.example.thindie.leenotes.ui.common.inputfields.NotesInputFieldState
-import com.example.thindie.leenotes.ui.common.inputfields.NotesInputFields
+import com.example.thindie.leenotes.ui.common.inputfields.NotesInputField
 import com.example.thindie.leenotes.ui.common.inputfields.rememberInputState
 import com.example.thindie.leenotes.ui.theme.LeenotesTheme
 import com.example.thindie.leenotes.ui.theme.typo
@@ -39,8 +39,8 @@ fun TaskDialogContent(
             style = typo.headlineSmall,
             text = stringResource(id = R.string.text_field_task)
         )
-        NotesInputFields(state = headLine)
-        NotesInputFields(state = body)
+        NotesInputField(state = headLine)
+        NotesInputField(state = body)
         NotesButton(title = R.string.button_label_change_mind, isOutlined = true) {
             onClickDismiss()
         }

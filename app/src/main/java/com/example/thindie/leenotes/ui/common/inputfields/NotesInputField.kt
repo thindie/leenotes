@@ -14,7 +14,7 @@ import com.example.thindie.leenotes.ui.theme.LeenotesTheme
 import com.example.thindie.leenotes.ui.theme.typo
 
 @Composable
-fun NotesInputFields(modifier: Modifier = Modifier, state: NotesInputFieldState) {
+fun NotesInputField(modifier: Modifier = Modifier, state: NotesInputFieldState) {
     OutlinedTextField(
         modifier = modifier
             .fillMaxWidth(state.width.value)
@@ -38,7 +38,7 @@ fun NotesInputFields(modifier: Modifier = Modifier, state: NotesInputFieldState)
 @Composable
 fun NotesInputFieldsPreview() {
     LeenotesTheme(darkTheme = false) {
-        NotesInputFields(
+        NotesInputField(
             state = rememberInputState(
                 isSingleLine = true,
                 hint = R.string.text_field_hint_search
@@ -53,7 +53,7 @@ fun NotesInputFieldsPreview() {
 @Composable
 fun NotesInputFieldsPreviewDark() {
     LeenotesTheme(darkTheme = true) {
-        NotesInputFields(
+        NotesInputField(
             state = rememberInputState(
                 isSingleLine = true,
                 hint = R.string.text_field_hint_search
