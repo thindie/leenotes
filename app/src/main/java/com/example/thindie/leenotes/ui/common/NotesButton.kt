@@ -29,7 +29,7 @@ fun NotesButton(
     Button(
         modifier = modifier
             .fillMaxWidth()
-            .padding(start = 9.dp, end = 9.dp),
+            .padding(start = 9.dp, end = 9.dp, bottom = 4.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = if (isOutlined) colors.tertiary else colors.primaryContainer,
             contentColor = if (isOutlined) colors.onTertiary else Color.White,
@@ -37,7 +37,7 @@ fun NotesButton(
         onClick = onClick,
         shape = RoundedCornerShape(52.dp)
     ) {
-        Text(text = stringResource(id = title), style = typo.bodyLarge)
+        Text(text = stringResource(id = title), style = typo.headlineSmall)
     }
 }
 

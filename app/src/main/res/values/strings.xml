@@ -28,4 +28,5 @@
     <string name="button_label_forget">Забыть</string>
     <string name="button_label_dokay">Так и быть</string>
     <string name="fab_symbol">+</string>
+    <string name="text_field_cancel">отмена</string>
 </resources>

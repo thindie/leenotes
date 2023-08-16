@@ -1,5 +1,7 @@
 package com.example.thindie.leenotes.ui.screens.allnotesscreen
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -18,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.domain.Note
+import com.example.thindie.leenotes.ui.common.NotesControllableField
+import com.example.thindie.leenotes.ui.common.NotesTopAppBar
 import com.example.thindie.leenotes.ui.common.inputfields.NotesInputFieldState
 import com.example.thindie.leenotes.ui.common.inputfields.rememberInputState
 import com.example.thindie.leenotes.ui.dialogs.NotesDialog
@@ -31,24 +35,38 @@ import com.example.thindie.leenotes.ui.theme.typo
 fun AllNotesScreen(
     modifier: Modifier = Modifier,
     notesScreenViewModel: NotesScreenViewModel = hiltViewModel(),
-    searchBarState: NotesInputFieldState = rememberInputState(isSingleLine = true),
+    searchBarState: NotesInputFieldState = rememberInputState(
+        isSingleLine = true,
+        hint = R.string.text_field_hint_search,
+        leadingIcon = R.drawable.icon_search
+    ),
     onClickDetails: (Long) -> Unit,
     onClickRemoveAndSaveCost: (Long) -> Unit,
     onClickRemoveAndForgetCost: (Long) -> Unit,
 ) {
-
     Scaffold(
         modifier = modifier,
-        topBar = {},
+        topBar = { NotesTopAppBar(action = {}) },
         snackbarHost = {},
         floatingActionButton =
         { NoteFloatingButton(onClickAdd = notesScreenViewModel::onClickedActionButtonForResult) },
         floatingActionButtonPosition = FabPosition.End,
         containerColor = colors.primary,
     ) {
-        LazyColumn(modifier = modifier.padding(it)) {
+        Column(
+            modifier = modifier
+                .padding(it)
+                .fillMaxSize()
+        ) {
+            NotesControllableField(
+                title = R.string.text_field_cancel,
+                state = searchBarState
+            )
+            LazyColumn() {
 
+            }
         }
+
     }
 }
 
@@ -105,7 +123,11 @@ private fun NoteFloatingButton(
 @Composable
 fun AllNotesScreenPreview() {
     LeenotesTheme {
-        NoteFloatingButton(onClickAdd = {})
+        AllNotesScreen(
+            onClickDetails = {},
+            onClickRemoveAndSaveCost = {},
+            onClickRemoveAndForgetCost = {}
+        )
     }
 }
 

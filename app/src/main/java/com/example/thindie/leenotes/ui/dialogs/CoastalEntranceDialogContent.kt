@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.ui.common.NotesButton
+import com.example.thindie.leenotes.ui.common.NotesControllableField
 import com.example.thindie.leenotes.ui.common.inputfields.DigitInputState
 import com.example.thindie.leenotes.ui.common.inputfields.NotesInputField
 import com.example.thindie.leenotes.ui.common.inputfields.rememberDigitInputState
@@ -40,7 +41,6 @@ fun CoastalEntranceDialogContent(
     onClickDismiss: () -> Unit,
     onClickConfirm: (String) -> Unit,
 ) {
-    val focusManager = LocalFocusManager.current
     val context = LocalContext.current
     Column(
         modifier = modifier
@@ -52,33 +52,10 @@ fun CoastalEntranceDialogContent(
     ) {
         Text(
             text = stringResource(id = dialogTitle),
-            style = typo.headlineSmall,
+            style = typo.displaySmall,
             color = colors.onPrimary
         )
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            NotesInputField(
-                modifier = Modifier
-                    .onFocusChanged {
-                        currencyInputField.onFocusChanged(it)
-                    }, state = currencyInputField
-            )
-            if (currencyInputField.width.value == currencyInputField.halvedSizeField) {
-                Text(
-                    modifier = modifier
-                        .clickable {
-                            focusManager.clearFocus();
-                            currencyInputField.onWidthRestore()
-                        },
-                    text = stringResource(id = currency),
-                    style = typo.labelLarge,
-                    color = colors.primaryContainer
-                )
-            }
-        }
+        NotesControllableField(title = currency, state = currencyInputField)
         NotesButton(title = dismissButtonTitle, isOutlined = true) {
             onClickDismiss()
         }
