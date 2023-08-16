@@ -64,4 +64,8 @@ object Dependencies {
     object Gson {
         const val gson = "com.google.code.gson:gson:2.10.1"
     }
+
+    object Utils {
+        const val desugaring = "com.android.tools:desugar_jdk_libs:2.0.3"
+    }
 }
