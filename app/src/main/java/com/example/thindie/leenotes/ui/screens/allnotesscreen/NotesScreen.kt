@@ -20,6 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.domain.Note
 import com.example.thindie.leenotes.ui.common.NoteCard
@@ -47,9 +49,11 @@ fun AllNotesScreen(
     ),
     onClickDetails: (Long) -> Unit,
 ) {
-    val shouldShowRemovalDialog = remember {
-        mutableStateOf(false)
-    }
+
+    val screenState =
+        notesScreenViewModel
+            .notesScreenState
+            .collectAsStateWithLifecycle(minActiveState = Lifecycle.State.RESUMED)
 
     Scaffold(
         modifier = modifier,
@@ -66,6 +70,7 @@ fun AllNotesScreen(
                 .fillMaxSize()
         ) {
             NotesControllableField(
+                modifier = modifier.padding(vertical = 20.dp),
                 title = R.string.text_field_cancel,
                 state = searchBarState
             )
@@ -73,14 +78,14 @@ fun AllNotesScreen(
                 notes = emptyList(),
                 onClickDetails = onClickDetails,
                 onClickRemove = { noteId ->
-                    shouldShowRemovalDialog.value = true
+                    notesScreenViewModel.onSummonRemoveDialog(noteId)
                 }
             )
         }
 
     }
-    if (shouldShowRemovalDialog.value) {
-        NotesDialog(onDismissRequest = { shouldShowRemovalDialog.value = false }) {
+    if (screenState.value.shouldShowDialog) {
+        NotesDialog(onDismissRequest = { notesScreenViewModel.onDismissDialog() }) {
             ConfirmDismissDialog(
                 headline = R.string.text_field_remove,
                 supportingHeadline = R.string.text_field_remember_costs,
@@ -89,8 +94,9 @@ fun AllNotesScreen(
                 representValue = "",
                 onClickConfirm = {
                     notesScreenViewModel.onConfirmSaveCosts()
-                    shouldShowRemovalDialog.value = false }) {
-                shouldShowRemovalDialog.value = false
+                    notesScreenViewModel.onDismissDialog()
+                }) {
+                notesScreenViewModel.onDismissDialog()
                 notesScreenViewModel.onDismissSaveCosts()
             }
         }
@@ -101,8 +107,14 @@ fun AllNotesScreen(
 @Composable
 private fun NoteFloatingButton(
     modifier: Modifier = Modifier,
-    headlineState: NotesInputFieldState = rememberInputState(isSingleLine = true),
-    bodyState: NotesInputFieldState = rememberInputState(isSingleLine = true),
+    headlineState: NotesInputFieldState = rememberInputState(
+        isSingleLine = true,
+        supportingText = R.string.text_field_enter_task
+    ),
+    bodyState: NotesInputFieldState = rememberInputState(
+        isSingleLine = true,
+        supportingText = R.string.text_field_focus_task
+    ),
     onClickAdd: (Note) -> Unit,
 ) {
 

@@ -29,26 +29,26 @@ fun <T : NotesInputFieldState> NotesControllableField(
 ) {
     val focusManager = LocalFocusManager.current
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
         NotesInputField(
-            modifier = Modifier
+            modifier = modifier
                 .onFocusChanged {
                     state.onFocusChanged(it)
                 }, state = state
         )
         if (state.width.value == state.halvedSizeField) {
             Text(
-                modifier = modifier
-                    .padding(vertical = 12.dp)
+                modifier = Modifier
+                    .padding(bottom = state.height/4, start = 20.dp)
                     .clickable {
                         focusManager.clearFocus();
                         state.onWidthRestore()
                     },
                 text = stringResource(id = title),
-                style = typo.titleLarge,
+                style = typo.headlineSmall,
                 color = colors.primaryContainer
             )
         }

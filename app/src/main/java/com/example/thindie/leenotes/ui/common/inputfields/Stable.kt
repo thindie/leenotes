@@ -6,6 +6,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
@@ -100,9 +101,20 @@ open class NotesInputFieldState(
 
             )
     val fieldHint
-        @Composable get() = if (hint != 0) stringResource(id = hint) else ""
+        @Composable get() =
+            if (hint != 0 && width.value == fullSizeField)
+                Text(
+                    text = stringResource(
+                        id = hint
+                    )
+                ) else Text(text = "")
     val fieldSupportingText
-        @Composable get() = if (supportingText != 0) stringResource(id = supportingText) else ""
+        @Composable get() = if (supportingText != 0 && width.value == fullSizeField)
+            Text(
+                text = stringResource(
+                    id = supportingText
+                )
+            ) else Text(text = "")
 
     val Icon
         @Composable get() =
@@ -112,7 +124,7 @@ open class NotesInputFieldState(
 
     protected val _isError = mutableStateOf(false)
 
-    val height = if (isSingleLine) 75.dp else 130.dp
+    val height = if (isSingleLine) 90.dp else 130.dp
     val isError: State<Boolean>
         get() = _isError
 
@@ -125,7 +137,7 @@ open class NotesInputFieldState(
         _fieldValue.value = value
     }
 
-    fun clearField(){
+    fun clearField() {
         onValueChange("")
     }
 
@@ -165,8 +177,8 @@ class DigitInputState(
     halvedSizeField = halvedSize
 ) {
 
-    fun validate(): Boolean  {
-        _isError.value =  _fieldValue.value.isDigitsOnly().not()
+    fun validate(): Boolean {
+        _isError.value = _fieldValue.value.isDigitsOnly().not()
         return isError.value
     }
 

@@ -67,6 +67,7 @@ dependencies {
     implementation(Dependencies.Lifecycle.core)
     implementation(Dependencies.Lifecycle.lifecycleRuntime)
     implementation(Dependencies.Lifecycle.activityCompose)
+    implementation(Dependencies.Lifecycle.сomposeLifecycle)
 
 
     // Compose

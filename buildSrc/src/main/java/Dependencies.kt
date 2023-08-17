@@ -1,3 +1,7 @@
+import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.kotlin.dsl.DependencyHandlerScope
+import org.gradle.kotlin.dsl.accessors.runtime.addDependencyTo
+
 object Dependencies {
 
     object Compose {
@@ -16,12 +20,16 @@ object Dependencies {
         const val toolingPreview = "androidx.compose.ui:ui-tooling-preview"
         const val tooling = "androidx.compose.ui:ui-tooling"
         const val manifest = "androidx.compose.ui:ui-test-manifest"
+
     }
 
     object Lifecycle {
         const val core = "androidx.core:core-ktx:1.10.1"
         const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
         const val activityCompose = "androidx.activity:activity-compose:1.7.2"
+        const val сomposeRuntime = "androidx.compose.runtime:runtime-android:1.5.0"
+        const val сomposeLifecycle = "androidx.lifecycle:lifecycle-runtime-compose:2.6.1"
+
     }
 
     object Testing {

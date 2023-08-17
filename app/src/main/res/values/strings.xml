@@ -7,7 +7,7 @@
     <string name="text_field_tags_shadow">облако тегов:</string>
     <string name="text_field_will_spend">Потрачу:</string>
     <string name="text_field_rubles">рублей</string>
-    <string name="text_field_task">Дело</string>
+    <string name="text_field_task">Срочненько!</string>
     <string name="text_field_remember_costs">и запомнить траты</string>
     <string name="text_field_notice">Внести?</string>
     <string name="text_field_to_costs">в расходы</string>
@@ -29,4 +29,6 @@
     <string name="button_label_dokay">Так и быть</string>
     <string name="fab_symbol">+</string>
     <string name="text_field_cancel">отмена</string>
+    <string name="text_field_enter_task">Напиши задачу</string>
+    <string name="text_field_focus_task">Опиши подробно</string>
 </resources>
