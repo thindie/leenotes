@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -75,8 +76,7 @@ fun NoteCard(
                     )
                 }
             }
-
-            Spacer(modifier = Modifier.weight(1f, true))
+             Spacer(modifier = Modifier.weight(1f, true))
             Text(
                 text = time,
                 modifier = Modifier.padding(end = 5.dp),
@@ -116,30 +116,29 @@ fun NoteCard(
                         )
                     }
                 }
-
-                Spacer(modifier = Modifier.weight(1f, true))
-                Row(
+                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                         .fillMaxWidth()
                 ) {
                     NotesButton(
                         modifier = Modifier
                             .padding(start = 18.dp)
-                            .height(state.normalSize / 2)
                             .width(state.normalSize * 2),
                         title = R.string.button_label_remove,
-                        isOutlined = true
+                        isOutlined = true,
+                        isMinorButton = true
                     ) {
                         onClickRemove(noteId)
                     }
                     NotesButton(
                         modifier = Modifier
                             .padding(end = 18.dp)
-                            .height(state.normalSize / 2)
                             .width(state.normalSize * 2),
                         title = R.string.button_label_details,
-                        isOutlined = true
+                        isOutlined = true,
+                        isMinorButton = true
                     ) {
                         onClickDetails(noteId)
                     }

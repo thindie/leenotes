@@ -3,6 +3,7 @@ package com.example.thindie.leenotes.ui.common
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -24,10 +25,12 @@ fun NotesButton(
     modifier: Modifier = Modifier,
     @StringRes title: Int,
     isOutlined: Boolean,
+    isMinorButton: Boolean = false,
     onClick: () -> Unit,
 ) {
     Button(
         modifier = modifier
+            .height(60.dp)
             .fillMaxWidth()
             .padding(start = 9.dp, end = 9.dp, bottom = 4.dp),
         colors = ButtonDefaults.buttonColors(
@@ -37,7 +40,10 @@ fun NotesButton(
         onClick = onClick,
         shape = RoundedCornerShape(52.dp)
     ) {
-        Text(text = stringResource(id = title), style = typo.headlineSmall)
+        Text(
+            text = stringResource(id = title),
+            style = if (!isMinorButton) typo.headlineSmall else typo.bodySmall
+        )
     }
 }
 

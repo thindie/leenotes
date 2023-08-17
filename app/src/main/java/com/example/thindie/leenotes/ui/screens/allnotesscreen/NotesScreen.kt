@@ -70,12 +70,12 @@ fun AllNotesScreen(
                 .fillMaxSize()
         ) {
             NotesControllableField(
-                modifier = modifier.padding(vertical = 20.dp),
+                modifier = modifier.padding(horizontal = 10.dp),
                 title = R.string.text_field_cancel,
                 state = searchBarState
             )
             NotesList(
-                notes = emptyList(),
+                notes = screenState.value.notesList,
                 onClickDetails = onClickDetails,
                 onClickRemove = { noteId ->
                     notesScreenViewModel.onSummonRemoveDialog(noteId)
