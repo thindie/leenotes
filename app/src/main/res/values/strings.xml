@@ -2,7 +2,7 @@
     <string name="app_name">leenotes</string>
     <string name="text_field_hint_search">поиск</string>
     <string name="text_field_remove">Убрать?</string>
-    <string name="text_field_created">cоздана: %s</string>
+    <string name="text_field_created">"cоздана: %s"</string>
     <string name="text_field_attach_link">прикрепи ссылку:</string>
     <string name="text_field_tags_shadow">облако тегов:</string>
     <string name="text_field_will_spend">Потрачу:</string>

@@ -44,7 +44,6 @@ class NotesScreenViewModel @Inject constructor(private val repo: FakeRepo) : Vie
             repo
                 .observeNotes()
                 .onEach {
-                    Log.d("SERVICE_TAG_OBSERVER", it.size.toString())
                     _notesListState.value = it }
                 .launchIn(this)
         }

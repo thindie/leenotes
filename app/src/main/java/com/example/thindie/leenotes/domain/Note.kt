@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter
 
 
 data class Note(
-    private val instant: Instant = Instant.now(),
+    val instant: Instant = Instant.now(),
     val title: String,
     val body: String = DEFAULT_STRING_FIELD,
     val isHasBody: Boolean = body.isNotBlank(),
