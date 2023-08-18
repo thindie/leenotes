@@ -103,7 +103,7 @@ fun ConcreteNoteScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 20.dp, vertical = 10.dp),
+                            .padding(horizontal = 20.dp, vertical = 20.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
@@ -134,7 +134,7 @@ fun ConcreteNoteScreen(
                             instant = note.instant,
                             title = note.title,
                             body = body.fieldState.value,
-                            cost = currencyInputFieldState.fieldState.value.toInt(),
+                            cost = currencyInputFieldState.value,
                             tagShadow = attachLink.fieldState.value,
                             hyperLink = attachLink.fieldState.value,
                         )
@@ -144,13 +144,19 @@ fun ConcreteNoteScreen(
             }
         }
         if (shouldShowCoastalDialog.value) {
-            NotesDialog(onDismissRequest = { shouldShowCoastalDialog.value = false }) {
+            NotesDialog(onDismissRequest = {
+                currencyInputFieldState.onResetWidthAndState()
+                shouldShowCoastalDialog.value = false
+            }) {
                 CoastalEntranceDialogContent(
                     dialogTitle = R.string.text_field_will_spend,
                     dismissButtonTitle = R.string.button_label_oh_no,
                     confirmButtonTitle = R.string.button_label_cacheen,
                     currency = R.string.text_field_rubles,
-                    onClickDismiss = { shouldShowCoastalDialog.value = false },
+                    onClickDismiss = {
+                        currencyInputFieldState.onResetWidthAndState()
+                        shouldShowCoastalDialog.value = false
+                    },
                     currencyInputField = currencyInputFieldState,
                     onClickConfirm = {
                         shouldShowCoastalDialog.value = false

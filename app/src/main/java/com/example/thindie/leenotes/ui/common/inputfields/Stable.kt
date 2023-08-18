@@ -137,6 +137,11 @@ open class NotesInputFieldState(
         _fieldValue.value = value
     }
 
+    fun onResetWidthAndState() {
+        clearField()
+        onWidthRestore()
+    }
+
     fun clearField() {
         onValueChange("")
     }
@@ -176,6 +181,9 @@ class DigitInputState(
     fullSizeField = fullSize,
     halvedSizeField = halvedSize
 ) {
+
+    val value
+        get() = if (validate()) this.fieldState.value.toInt() else 0
 
     fun validate(): Boolean {
         _isError.value = _fieldValue.value.isDigitsOnly().not()
