@@ -19,6 +19,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.domain.Note
 import com.example.thindie.leenotes.ui.common.NotesButton
@@ -34,12 +37,14 @@ import com.example.thindie.leenotes.ui.theme.LeenotesTheme
 import com.example.thindie.leenotes.ui.theme.colors
 import com.example.thindie.leenotes.ui.theme.seedColor
 import com.example.thindie.leenotes.ui.theme.typo
+import java.time.Instant
 
 @Suppress("LongParameterList")
 @Composable
 fun ConcreteNoteScreen(
     modifier: Modifier = Modifier,
-    note: Note,
+    id: Long,
+    concreteNoteScreenViewModel: ConcreteNoteScreenViewModel = hiltViewModel(),
     body: NotesInputFieldState = rememberInputState(
         isSingleLine = false,
     ),
@@ -56,8 +61,15 @@ fun ConcreteNoteScreen(
     onClickConfirm: (Note) -> Unit,
 ) {
     val shouldShowCoastalDialog = remember { mutableStateOf(false) }
-    currencyInputFieldState.onValueChange(note.cost.toString())
-    body.onValueChange(note.body)
+
+    concreteNoteScreenViewModel.onClickDetail(id)
+
+    val concreteNoteState =
+        concreteNoteScreenViewModel.concreteNoteScreenState.collectAsStateWithLifecycle(
+            minActiveState = Lifecycle.State.RESUMED
+        )
+    currencyInputFieldState.onValueChange(concreteNoteState.value?.cost.toString())
+    body.onValueChange(concreteNoteState.value?.body.toString())
 
     Scaffold(
         modifier = modifier,
@@ -75,14 +87,14 @@ fun ConcreteNoteScreen(
                     Text(
                         modifier = Modifier
                             .padding(start = 20.dp, top = 40.dp),
-                        text = stringResource(id = R.string.text_field_created, note.noteCreateAt),
+                        text = stringResource(id = R.string.text_field_created, concreteNoteState.value?.noteCreateAt.toString()),
                         style = typo.labelLarge, color = colors.onSecondaryContainer
                     )
                 }
                 item {
                     Text(
                         modifier = Modifier.padding(start = 20.dp, bottom = 40.dp),
-                        text = note.title,
+                        text = concreteNoteState.value?.title.toString(),
                         style = typo.headlineLarge
                     )
                 }
@@ -130,15 +142,15 @@ fun ConcreteNoteScreen(
                         onClickDismiss()
                     }
                     NotesButton(title = R.string.button_label_good, isOutlined = false) {
-                        val newNote = note.copy(
-                            instant = note.instant,
-                            title = note.title,
+                        val newNote = concreteNoteState.value?.copy(
+                            instant = concreteNoteState.value?.instant ?: Instant.now(),
+                            title = concreteNoteState.value?.title.toString(),
                             body = body.fieldState.value,
                             cost = currencyInputFieldState.value,
                             tagShadow = attachLink.fieldState.value,
                             hyperLink = attachLink.fieldState.value,
                         )
-                        onClickConfirm(newNote)
+                        onClickConfirm(requireNotNull(newNote))
                     }
                 }
             }
@@ -172,13 +184,7 @@ fun ConcreteNoteScreen(
 @Composable
 fun ConcreteNoteScreenPreview() {
     LeenotesTheme {
-        ConcreteNoteScreen(note = Note(
-            title = "Аптека",
-            body = "Всякоразозолин, поскулин, радикаин, перпротуин",
-            cost = 0,
-            isCost = false,
-            hyperLink = "",
-        ), onClickDismiss = { }, onClickConfirm = {})
+
     }
 }
 

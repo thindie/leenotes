@@ -170,13 +170,13 @@ private fun NotesList(
             .padding(start = 8.dp, end = 8.dp, top = 18.dp, bottom = 4.dp),
         contentPadding = PaddingValues(top = 2.dp, bottom = 2.dp)
     ) {
-        items(notes, key = { note -> note.timeStamp }) { item: Note ->
+        items(notes, key = { note -> note.timestamp }) { item: Note ->
             NoteCard(
                 state = rememberNoteCardState(),
                 title = item.title,
                 time = item.noteCreateAt,
                 body = item.body,
-                noteId = item.timeStamp,
+                noteId = item.timestamp,
                 onClickDetails = onClickDetails,
                 onClickRemove = onClickRemove,
             )

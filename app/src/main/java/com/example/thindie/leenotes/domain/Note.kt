@@ -1,5 +1,6 @@
 package com.example.thindie.leenotes.domain
 
+import java.sql.Timestamp
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -17,11 +18,10 @@ data class Note(
     val isSearchAdapted: Boolean = tagShadow.isNotBlank(),
     val hyperLink: String = DEFAULT_STRING_FIELD,
     val isHasLink: Boolean = tagShadow.isNotBlank(),
+    val timestamp: Long = instant.epochSecond
 ) {
-    val timeStamp
-        get() = instant.epochSecond
 
-    private val localDateTime = LocalDateTime
+     private val localDateTime = LocalDateTime
         .ofInstant(instant, ZoneOffset.UTC)
 
     val noteCreateAt

@@ -2,24 +2,27 @@ package com.example.thindie.leenotes.domain
 
 import android.util.Log
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
+@Singleton
 class FakeRepo @Inject constructor() : NoteManager, NotesObserver {
 
     private val listFlow = MutableStateFlow(emptyList<Note>())
     private val list = mutableListOf<Note>()
     override suspend fun provideNote(id: Long): Note {
-        return requireNotNull(list.find { it.timeStamp == id })
+        val note = list.find { it.timestamp == id }
+        return  note!!
     }
 
     override suspend fun deleteNoteSaveCost(id: Long) {
-        list.removeIf { it.timeStamp == id }
+        list.removeIf { it.timestamp == id }
         refreshList()
     }
 
     override suspend fun deleteNoteDeleteCost(id: Long) {
-        list.removeIf { it.timeStamp == id }
+        list.removeIf { it.timestamp == id }
         refreshList()
     }
 
