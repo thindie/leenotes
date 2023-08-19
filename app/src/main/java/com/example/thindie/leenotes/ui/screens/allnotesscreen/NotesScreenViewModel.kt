@@ -1,10 +1,10 @@
 package com.example.thindie.leenotes.ui.screens.allnotesscreen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.thindie.leenotes.domain.FakeRepo
 import com.example.thindie.leenotes.domain.Note
+import com.example.thindie.leenotes.domain.NoteManager
+import com.example.thindie.leenotes.domain.NotesObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class NotesScreenViewModel @Inject constructor(private val repo: FakeRepo) : ViewModel() {
+class NotesScreenViewModel @Inject constructor(
+    private val notesManager: NoteManager,
+    private val notesObserver: NotesObserver,
+) : ViewModel() {
 
     private val _notesListState = MutableStateFlow<List<Note>>(emptyList())
     private val _currentNoteState = MutableStateFlow<Note?>(null)
@@ -41,18 +44,18 @@ class NotesScreenViewModel @Inject constructor(private val repo: FakeRepo) : Vie
     @Inject
     fun onStart() {
         viewModelScope.launch {
-            repo
+            notesObserver
                 .observeNotes()
                 .onEach {
-                    _notesListState.value = it }
+                    _notesListState.value = it
+                }
                 .launchIn(this)
         }
     }
 
     fun onClickedActionButtonForResult(note: Note) {
-
-        viewModelScope.launch {
-            repo
+         viewModelScope.launch {
+            notesManager
                 .addNote(note)
         }
     }
@@ -68,11 +71,10 @@ class NotesScreenViewModel @Inject constructor(private val repo: FakeRepo) : Vie
     fun onSummonRemoveDialog(noteId: Long) {
         viewModelScope.launch {
             _currentNoteState.value =
-            repo
-                .provideNote(noteId)
+                notesManager
+                    .provideNote(noteId)
         }
-
-    }
+     }
 
     fun onDismissDialog() {
         _currentNoteState.value = null

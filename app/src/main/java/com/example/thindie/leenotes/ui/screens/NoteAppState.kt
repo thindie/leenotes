@@ -29,7 +29,9 @@ fun NoteAppState(viewModel: MainViewModel = hiltViewModel(), appState: NoteAppSt
             viewModel.onClickConcreteNote(it)
             appState.navigateDetailScreen()
         })
-        concreteNote { idState.value }
+        concreteNote(id = { idState.value }, onClickBack = {
+            appState.navigateHomeScreen()
+        })
     }
 }
 

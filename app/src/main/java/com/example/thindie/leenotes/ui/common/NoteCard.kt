@@ -193,7 +193,7 @@ fun rememberNoteCardState(): NoteCardState {
 @Stable
 class NoteCardState(private val scope: CoroutineScope) {
     val isExpanded = mutableStateOf(false)
-    val expandedSize = 350.dp
+    val expandedSize = 300.dp
     val normalSize = 80.dp
     val expandToggler: Painter
         @Composable get() = painterResource(

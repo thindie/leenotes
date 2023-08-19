@@ -2,7 +2,6 @@ package com.example.thindie.leenotes.ui.screens.concretenotescreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.thindie.leenotes.domain.FakeRepo
 import com.example.thindie.leenotes.domain.Note
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -20,4 +19,13 @@ class ConcreteNoteScreenViewModel @Inject constructor(private val repo: FakeRepo
            _concreteNoteScreenState.value = repo.provideNote(id)
        }
    }
+
+    fun onConfirmUpdateNote(newNote: Note?) {
+        viewModelScope.launch {
+            if(newNote != null){
+
+            }
+        }
+    }
+
 }

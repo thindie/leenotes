@@ -58,7 +58,7 @@ fun ConcreteNoteScreen(
     ),
     currencyInputFieldState: DigitInputState = rememberDigitInputState(isSingleLine = true),
     onClickDismiss: () -> Unit,
-    onClickConfirm: (Note) -> Unit,
+    onClickConfirm: () -> Unit,
 ) {
     val shouldShowCoastalDialog = remember { mutableStateOf(false) }
 
@@ -68,7 +68,7 @@ fun ConcreteNoteScreen(
         concreteNoteScreenViewModel.concreteNoteScreenState.collectAsStateWithLifecycle(
             minActiveState = Lifecycle.State.RESUMED
         )
-    currencyInputFieldState.onValueChange(concreteNoteState.value?.cost.toString())
+    currencyInputFieldState.onValueChange("")
     body.onValueChange(concreteNoteState.value?.body.toString())
 
     Scaffold(
@@ -150,7 +150,8 @@ fun ConcreteNoteScreen(
                             tagShadow = attachLink.fieldState.value,
                             hyperLink = attachLink.fieldState.value,
                         )
-                        onClickConfirm(requireNotNull(newNote))
+                        concreteNoteScreenViewModel.onConfirmUpdateNote(newNote)
+                        onClickConfirm()
                     }
                 }
             }
