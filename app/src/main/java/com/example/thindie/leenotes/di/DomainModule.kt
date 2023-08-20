@@ -6,9 +6,11 @@ import com.example.thindie.leenotes.domain.NoteManager
 import com.example.thindie.leenotes.domain.NotesObserver
 import com.example.thindie.leenotes.domain.NotesRepository
 import dagger.Binds
+import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
+@Module
 @InstallIn(SingletonComponent::class)
 interface DomainModule {
      @Binds

@@ -87,7 +87,7 @@ fun ConcreteNoteScreen(
                     Text(
                         modifier = Modifier
                             .padding(start = 20.dp, top = 40.dp),
-                        text = stringResource(id = R.string.text_field_created, concreteNoteState.value?.noteCreateAt.toString()),
+                        text = stringResource(id = R.string.text_field_created, concreteNoteState.value?.createdAt.toString()),
                         style = typo.labelLarge, color = colors.onSecondaryContainer
                     )
                 }
@@ -142,13 +142,11 @@ fun ConcreteNoteScreen(
                         onClickDismiss()
                     }
                     NotesButton(title = R.string.button_label_good, isOutlined = false) {
-                        val newNote = concreteNoteState.value?.copy(
-                            instant = concreteNoteState.value?.instant ?: Instant.now(),
-                            title = concreteNoteState.value?.title.toString(),
+                        val newNote = concreteNoteState.value?.noteUpdater(
                             body = body.fieldState.value,
-                            cost = currencyInputFieldState.value,
-                            tagShadow = attachLink.fieldState.value,
-                            hyperLink = attachLink.fieldState.value,
+                            cost = currencyInputFieldState.fieldState.value.toInt(),
+                            tagShadow = tagShadow.fieldState.value,
+                            hyperLink = attachLink.fieldState.value
                         )
                         concreteNoteScreenViewModel.onConfirmUpdateNote(newNote)
                         onClickConfirm()

@@ -1,5 +1,6 @@
 package com.example.thindie.leenotes.data
 
+import com.example.thindie.leenotes.data.database.NotesDao
 import com.example.thindie.leenotes.domain.Note
 import com.example.thindie.leenotes.domain.NotesRepository
 import javax.inject.Inject
@@ -7,7 +8,7 @@ import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 
 @Singleton
-class RepositoryImpl @Inject constructor() : NotesRepository {
+class RepositoryImpl @Inject constructor(private val dao: NotesDao) : NotesRepository {
     override suspend fun provideNote(id: Long): Note {
         TODO("Not yet implemented")
     }
