@@ -10,39 +10,44 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = Color(0xFF1A0909),
+    onPrimary = Color(0xFFEBC9C9),
+    onPrimaryContainer = Color(0xFF704F4F),
+    secondary = Color(0xFF411818),
+    onSecondary = Color(0xFF704F4F),
+    onSecondaryContainer = Color(0xFFA37C7C),
+    tertiary = Color(0xFF542828),
+    onTertiary = Color(0xFFCC6114),
+    primaryContainer = Color(0xFF155F89)
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = Color(0xFFFFFFFF),
+    onPrimary = Color(0xFF000000),
+    onPrimaryContainer = Color(0xFF704F4F),
+    secondary = Color(0xFFFCE6E6),
+    onSecondary = Color(0xFFEBC9C9),
+    onSecondaryContainer = Color(0xFFA37C7C),
+    tertiary = Color(0xFFE7FFF9),
+    onTertiary = Color(0xFF1474CC),
+    primaryContainer = Color(0xFF389CD4),
 )
+
+val seedColor = Color(0xFF389CD4)
 
 @Composable
 fun LeenotesTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
-    content: @Composable () -> Unit
+    dynamicColor: Boolean = false,
+    content: @Composable () -> Unit,
 ) {
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
@@ -68,3 +73,9 @@ fun LeenotesTheme(
         content = content
     )
 }
+
+val colors
+    @Composable get() = MaterialTheme.colorScheme
+
+val typo
+    @Composable get() = MaterialTheme.typography

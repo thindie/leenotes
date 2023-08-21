@@ -40,6 +40,7 @@ android {
         }
     }
     compileOptions {
+        //isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -60,11 +61,13 @@ android {
 }
 
 dependencies {
-
+    // Java 8+
+   // implementation(Dependencies.Utils.desugaring)
     // Lifecycle
     implementation(Dependencies.Lifecycle.core)
     implementation(Dependencies.Lifecycle.lifecycleRuntime)
     implementation(Dependencies.Lifecycle.activityCompose)
+    implementation(Dependencies.Lifecycle.сomposeLifecycle)
 
 
     // Compose
@@ -92,6 +95,7 @@ dependencies {
     implementation(Dependencies.Room.roomRuntime)
     kapt(Dependencies.Room.roomCompiler)
     implementation(Dependencies.Room.roomPaging)
+    implementation(Dependencies.Room.roomCoroutines)
 
 
     // Gson
