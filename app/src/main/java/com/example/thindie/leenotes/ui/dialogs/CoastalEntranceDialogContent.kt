@@ -60,9 +60,8 @@ fun CoastalEntranceDialogContent(
             onClickDismiss()
         }
         NotesButton(title = confirmButtonTitle, isOutlined = false) {
-            currencyInputField.validate()
             if (!currencyInputField.isError.value) {
-                onClickConfirm(currencyInputField.fieldState.value)
+                onClickConfirm(currencyInputField.digitValue().toString())
             } else Toast.makeText(context, R.string.app_name, Toast.LENGTH_SHORT).show()
         }
      }

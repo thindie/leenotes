@@ -143,7 +143,8 @@ private fun NoteFloatingButton(
                 headLine = headlineState,
                 body = bodyState,
                 onClickPlan = { headLine, body ->
-                    onClickAdd(Note(title = headLine, body = body))
+                    val note = Note.getInstance(title = headLine, body = body)
+                    onClickAdd(note)
                     shouldShowAddingDialog.value = false
                     headlineState.clearField()
                     bodyState.clearField()
@@ -170,13 +171,13 @@ private fun NotesList(
             .padding(start = 8.dp, end = 8.dp, top = 18.dp, bottom = 4.dp),
         contentPadding = PaddingValues(top = 2.dp, bottom = 2.dp)
     ) {
-        items(notes, key = { note -> note.getTimeStamp() }) { item: Note ->
+        items(notes, key = { note -> note.timeStamp }) { item: Note ->
             NoteCard(
                 state = rememberNoteCardState(),
                 title = item.title,
                 time = item.createdAt,
                 body = item.body,
-                noteId = item.getTimeStamp(),
+                noteId = item.timeStamp,
                 onClickDetails = onClickDetails,
                 onClickRemove = onClickRemove,
             )

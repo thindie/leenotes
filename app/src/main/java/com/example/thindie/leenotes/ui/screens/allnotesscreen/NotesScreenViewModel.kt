@@ -7,6 +7,7 @@ import com.example.thindie.leenotes.domain.NoteManager
 import com.example.thindie.leenotes.domain.NotesObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -43,7 +44,7 @@ class NotesScreenViewModel @Inject constructor(
 
     @Inject
     fun onStart() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             notesObserver
                 .observeNotes()
                 .onEach {
@@ -54,7 +55,7 @@ class NotesScreenViewModel @Inject constructor(
     }
 
     fun onClickedActionButtonForResult(note: Note) {
-         viewModelScope.launch {
+         viewModelScope.launch(Dispatchers.IO) {
             notesManager
                 .addNote(note)
         }
@@ -69,7 +70,7 @@ class NotesScreenViewModel @Inject constructor(
     }
 
     fun onSummonRemoveDialog(noteId: Long) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _currentNoteState.value =
                 notesManager
                     .provideNote(noteId)

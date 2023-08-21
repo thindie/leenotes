@@ -1,5 +1,6 @@
 package com.example.thindie.leenotes.ui.common.inputfields
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.core.animateFloatAsState
@@ -26,9 +27,10 @@ fun rememberInputState(
     @DrawableRes leadingIcon: Int = 0,
     @StringRes hint: Int = 0,
     @StringRes supportingText: Int = 0,
+    initialValue: String = "",
 ): NotesInputFieldState {
     return remember(isSingleLine) {
-        NotesInputFieldState(isSingleLine, leadingIcon, hint, supportingText)
+        NotesInputFieldState(isSingleLine, leadingIcon, hint, supportingText, initialValue)
     }
 }
 
@@ -38,9 +40,10 @@ fun rememberDigitInputState(
     @DrawableRes leadingIcon: Int = 0,
     @StringRes hint: Int = 0,
     @StringRes supportingText: Int = 0,
+    initialValue: String = "",
 ): DigitInputState {
     return remember(isSingleLine) {
-        DigitInputState(isSingleLine, leadingIcon, hint, supportingText)
+        DigitInputState(isSingleLine, leadingIcon, hint, supportingText, initialValue)
     }
 }
 
@@ -51,6 +54,7 @@ open class NotesInputFieldState(
     @DrawableRes private val leadingIcon: Int,
     @StringRes private val hint: Int,
     @StringRes private val supportingText: Int,
+    val initialValue: String,
     val fullSizeField: Float = 1f,
     val halvedSizeField: Float = 0.6f,
 ) {
@@ -61,9 +65,7 @@ open class NotesInputFieldState(
 
     val width
         @Composable get() = animateFloatAsState(
-            targetValue = fieldWidthState.value,
-            animationSpec = tween(),
-            label = ""
+            targetValue = fieldWidthState.value, animationSpec = tween(), label = ""
         )
     val textFieldColors
         @Composable get() = OutlinedTextFieldDefaults.colors(
@@ -101,26 +103,22 @@ open class NotesInputFieldState(
 
             )
     val fieldHint
-        @Composable get() =
-            if (hint != 0 && width.value == fullSizeField)
-                Text(
-                    text = stringResource(
-                        id = hint
-                    )
-                ) else Text(text = "")
+        @Composable get() = if (hint != 0 && width.value == fullSizeField) Text(
+            text = stringResource(
+                id = hint
+            )
+        ) else Text(text = "")
     val fieldSupportingText
-        @Composable get() = if (supportingText != 0 && width.value == fullSizeField)
-            Text(
-                text = stringResource(
-                    id = supportingText
-                )
-            ) else Text(text = "")
+        @Composable get() = if (supportingText != 0 && width.value == fullSizeField) Text(
+            text = stringResource(
+                id = supportingText
+            )
+        ) else Text(text = "")
 
     val Icon
-        @Composable get() =
-            if (leadingIcon != 0) {
-                Icon(painter = painterResource(id = leadingIcon), contentDescription = "")
-            } else null
+        @Composable get() = if (leadingIcon != 0) {
+            Icon(painter = painterResource(id = leadingIcon), contentDescription = "")
+        } else null
 
     protected val _isError = mutableStateOf(false)
 
@@ -128,11 +126,12 @@ open class NotesInputFieldState(
     val isError: State<Boolean>
         get() = _isError
 
-    protected val _fieldValue = mutableStateOf("")
+    protected val _fieldValue = mutableStateOf(initialValue)
     val fieldState: State<String>
         get() = _fieldValue
 
     fun onValueChange(value: String) {
+        Log.d("SERVICE_TAG", value)
         _isError.value = false
         _fieldValue.value = value
     }
@@ -171,6 +170,7 @@ class DigitInputState(
     @DrawableRes private val leadingIcon: Int,
     @StringRes private val hint: Int,
     @StringRes private val supportingText: Int,
+    initialValue: String = "",
     fullSize: Float = 1f,
     halvedSize: Float = 0.6f,
 ) : NotesInputFieldState(
@@ -178,17 +178,19 @@ class DigitInputState(
     leadingIcon = leadingIcon,
     hint = hint,
     supportingText = supportingText,
+    initialValue = initialValue,
     fullSizeField = fullSize,
     halvedSizeField = halvedSize
 ) {
 
-    val value
-        get() = if (validate()) this.fieldState.value.toInt() else 0
-
-    fun validate(): Boolean {
-        _isError.value = _fieldValue.value.isDigitsOnly().not()
-        return isError.value
+    fun digitValue(): Int {
+        val fieldValue = try {
+            _fieldValue.value.toInt()
+        } catch (e: Exception){
+            _isError.value = true
+            0
+        }
+        return fieldValue
     }
-
 }
 

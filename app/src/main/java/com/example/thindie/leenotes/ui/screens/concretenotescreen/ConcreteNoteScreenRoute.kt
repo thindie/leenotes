@@ -7,7 +7,7 @@ const val concreteNote = "concreteNote"
 
 fun NavGraphBuilder.concreteNote(id: () -> Long, onClickBack: () -> Unit) {
     composable(route = concreteNote) {
-        ConcreteNoteScreen(
+        ConcreteNoteScreenState(
             id = id.invoke(),
             onClickDismiss = onClickBack,
             onClickConfirm =  onClickBack)

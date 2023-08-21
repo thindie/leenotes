@@ -37,39 +37,34 @@ import com.example.thindie.leenotes.ui.theme.LeenotesTheme
 import com.example.thindie.leenotes.ui.theme.colors
 import com.example.thindie.leenotes.ui.theme.seedColor
 import com.example.thindie.leenotes.ui.theme.typo
-import java.time.Instant
 
 @Suppress("LongParameterList")
 @Composable
 fun ConcreteNoteScreen(
     modifier: Modifier = Modifier,
-    id: Long,
-    concreteNoteScreenViewModel: ConcreteNoteScreenViewModel = hiltViewModel(),
+    note: Note,
     body: NotesInputFieldState = rememberInputState(
+        initialValue = note.body,
         isSingleLine = false,
     ),
     attachLink: NotesInputFieldState = rememberInputState(
+        initialValue = note.hyperLink,
         isSingleLine = true,
         supportingText = R.string.text_field_attach_link
     ),
     tagShadow: NotesInputFieldState = rememberInputState(
+        initialValue = note.tagShadow,
         isSingleLine = true,
         supportingText = R.string.text_field_tags_shadow
     ),
-    currencyInputFieldState: DigitInputState = rememberDigitInputState(isSingleLine = true),
+    currencyInputFieldState: DigitInputState = rememberDigitInputState(
+        isSingleLine = true,
+        initialValue = note.cost.toString()
+    ),
+    onConfirmUpdate: (Note) -> Unit,
     onClickDismiss: () -> Unit,
-    onClickConfirm: () -> Unit,
 ) {
     val shouldShowCoastalDialog = remember { mutableStateOf(false) }
-
-    concreteNoteScreenViewModel.onClickDetail(id)
-
-    val concreteNoteState =
-        concreteNoteScreenViewModel.concreteNoteScreenState.collectAsStateWithLifecycle(
-            minActiveState = Lifecycle.State.RESUMED
-        )
-    currencyInputFieldState.onValueChange("")
-    body.onValueChange(concreteNoteState.value?.body.toString())
 
     Scaffold(
         modifier = modifier,
@@ -87,14 +82,17 @@ fun ConcreteNoteScreen(
                     Text(
                         modifier = Modifier
                             .padding(start = 20.dp, top = 40.dp),
-                        text = stringResource(id = R.string.text_field_created, concreteNoteState.value?.createdAt.toString()),
+                        text = stringResource(
+                            id = R.string.text_field_created,
+                            note.createdAt
+                        ),
                         style = typo.labelLarge, color = colors.onSecondaryContainer
                     )
                 }
                 item {
                     Text(
                         modifier = Modifier.padding(start = 20.dp, bottom = 40.dp),
-                        text = concreteNoteState.value?.title.toString(),
+                        text = note.title,
                         style = typo.headlineLarge
                     )
                 }
@@ -142,14 +140,13 @@ fun ConcreteNoteScreen(
                         onClickDismiss()
                     }
                     NotesButton(title = R.string.button_label_good, isOutlined = false) {
-                        val newNote = concreteNoteState.value?.noteUpdater(
+                        val newNote = note.noteUpdater(
                             body = body.fieldState.value,
-                            cost = currencyInputFieldState.fieldState.value.toInt(),
+                            cost = currencyInputFieldState.digitValue(),
                             tagShadow = tagShadow.fieldState.value,
                             hyperLink = attachLink.fieldState.value
                         )
-                        concreteNoteScreenViewModel.onConfirmUpdateNote(newNote)
-                        onClickConfirm()
+                        onConfirmUpdate(newNote)
                     }
                 }
             }
@@ -170,11 +167,37 @@ fun ConcreteNoteScreen(
                     },
                     currencyInputField = currencyInputFieldState,
                     onClickConfirm = {
+                        currencyInputFieldState.onValueChange(it)
                         shouldShowCoastalDialog.value = false
                     }
                 )
             }
         }
+    }
+}
+
+@Suppress("LongParameterList")
+@Composable
+fun ConcreteNoteScreenState(
+    id: Long,
+    concreteNoteScreenViewModel: ConcreteNoteScreenViewModel = hiltViewModel(),
+    onClickDismiss: () -> Unit,
+    onClickConfirm: () -> Unit,
+) {
+    concreteNoteScreenViewModel.onClickDetail(id)
+
+    val concreteNoteState =
+        concreteNoteScreenViewModel.concreteNoteScreenState.collectAsStateWithLifecycle(
+            minActiveState = Lifecycle.State.RESUMED
+        )
+
+    concreteNoteState.value?.let { notNullNote ->
+
+        ConcreteNoteScreen(
+            note = notNullNote,
+            onConfirmUpdate = { concreteNoteScreenViewModel.onConfirmUpdateNote(it); onClickConfirm() },
+            onClickDismiss = onClickDismiss
+        )
     }
 }
 
