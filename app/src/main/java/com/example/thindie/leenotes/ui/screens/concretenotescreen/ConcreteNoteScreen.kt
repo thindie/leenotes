@@ -62,13 +62,14 @@ fun ConcreteNoteScreen(
         initialValue = note.cost.toString()
     ),
     onConfirmUpdate: (Note) -> Unit,
+    onClickMenu: () -> Unit,
     onClickDismiss: () -> Unit,
 ) {
     val shouldShowCoastalDialog = remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = modifier,
-        topBar = { NotesTopAppBar(action = {}) })
+        topBar = { NotesTopAppBar(action = { onClickMenu() }) })
     {
         Column(
             modifier = modifier
@@ -182,6 +183,7 @@ fun ConcreteNoteScreenState(
     id: Long,
     concreteNoteScreenViewModel: ConcreteNoteScreenViewModel = hiltViewModel(),
     onClickDismiss: () -> Unit,
+    onClickMenu:() -> Unit,
     onClickConfirm: () -> Unit,
 ) {
     concreteNoteScreenViewModel.onClickDetail(id)
@@ -196,6 +198,7 @@ fun ConcreteNoteScreenState(
         ConcreteNoteScreen(
             note = notNullNote,
             onConfirmUpdate = { concreteNoteScreenViewModel.onConfirmUpdateNote(it); onClickConfirm() },
+            onClickMenu = onClickMenu,
             onClickDismiss = onClickDismiss
         )
     }

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 const val notesTable = "tableNotes"
 
 @Entity(tableName = notesTable)
-data class NotesEntity(
+data class NoteDbModel(
     val title: String,
     val body: String,
     val cost: Int,

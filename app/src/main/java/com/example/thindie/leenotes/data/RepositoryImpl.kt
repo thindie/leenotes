@@ -2,7 +2,7 @@ package com.example.thindie.leenotes.data
 
 import android.util.Log
 import com.example.thindie.leenotes.data.database.NotesDao
-import com.example.thindie.leenotes.data.database.NotesEntity
+import com.example.thindie.leenotes.data.database.NoteDbModel
 import com.example.thindie.leenotes.data.mapper.toNote
 import com.example.thindie.leenotes.data.mapper.toNotesEntity
 import com.example.thindie.leenotes.domain.Note
@@ -10,6 +10,8 @@ import com.example.thindie.leenotes.domain.NotesRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 
 @Singleton
@@ -18,12 +20,7 @@ class RepositoryImpl @Inject constructor(private val dao: NotesDao) : NotesRepos
         return getNoteEntity(id).toNote()
     }
 
-    override suspend fun deleteNoteSaveCost(id: Long) {
-        val note = getNoteEntity(id)
-        dao.deleteNote(note)
-    }
-
-    override suspend fun deleteNoteDeleteCost(id: Long) {
+    override suspend fun deleteNote(id: Long) {
         val note = getNoteEntity(id)
         dao.deleteNote(note)
     }
@@ -36,6 +33,10 @@ class RepositoryImpl @Inject constructor(private val dao: NotesDao) : NotesRepos
         updateNote(note)
     }
 
+    override suspend fun getCurrentNotesCost():  String  {
+        return dao.getNotes().sumOf { it.cost }.toString()
+    }
+
     override fun observeNotes(): Flow<List<Note>> {
         return dao.observeNotes()
             .map { list ->
@@ -43,7 +44,7 @@ class RepositoryImpl @Inject constructor(private val dao: NotesDao) : NotesRepos
             }
     }
 
-    private suspend fun getNoteEntity(id: Long): NotesEntity {
+    private suspend fun getNoteEntity(id: Long): NoteDbModel {
         return dao.getNote(id)
     }
 }

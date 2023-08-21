@@ -3,6 +3,7 @@ package com.example.thindie.leenotes.ui.screens.allnotesscreen
 import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.thindie.leenotes.domain.CostManager
 import com.example.thindie.leenotes.domain.Note
 import com.example.thindie.leenotes.domain.NoteManager
 import com.example.thindie.leenotes.domain.NotesObserver
@@ -22,6 +23,7 @@ import kotlinx.coroutines.launch
 class NotesScreenViewModel @Inject constructor(
     private val notesManager: NoteManager,
     private val notesObserver: NotesObserver,
+    private val costManager: CostManager,
 ) : ViewModel() {
 
     private val _notesListState = MutableStateFlow<List<Note>>(emptyList())
@@ -77,14 +79,21 @@ class NotesScreenViewModel @Inject constructor(
 
     fun onConfirmSaveCosts() {
         viewModelScope.launch(Dispatchers.IO) {
-            notesManager.deleteNoteSaveCost(_currentNoteState.value?.timeStamp ?: 0)
+            notesManager.deleteNote(_currentNoteState.value?.timeStamp ?: 0)
+            if (_currentNoteState.value?.title.toString()
+                    .isNotBlank() && _currentNoteState.value?.isCost == true
+            ) {
+                costManager.addCost(
+                    requireNotNull(_currentNoteState.value)
+                )
+            }
             onDismissDialog()
         }
     }
 
     fun onDismissSaveCosts() {
         viewModelScope.launch(Dispatchers.IO) {
-            notesManager.deleteNoteDeleteCost(_currentNoteState.value?.timeStamp ?: 0)
+            notesManager.deleteNote(_currentNoteState.value?.timeStamp ?: 0)
             onDismissDialog()
         }
     }

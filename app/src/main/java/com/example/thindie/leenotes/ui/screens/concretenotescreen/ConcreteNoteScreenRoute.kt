@@ -5,11 +5,13 @@ import androidx.navigation.compose.composable
 
 const val concreteNote = "concreteNote"
 
-fun NavGraphBuilder.concreteNote(id: () -> Long, onClickBack: () -> Unit) {
+fun NavGraphBuilder.concreteNote(id: () -> Long, onClickMenu: () -> Unit, onClickBack: () -> Unit) {
     composable(route = concreteNote) {
         ConcreteNoteScreenState(
             id = id.invoke(),
             onClickDismiss = onClickBack,
-            onClickConfirm =  onClickBack)
+            onClickMenu = onClickMenu,
+            onClickConfirm = onClickBack
+        )
     }
 }

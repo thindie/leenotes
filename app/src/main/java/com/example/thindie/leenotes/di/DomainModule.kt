@@ -1,6 +1,10 @@
 package com.example.thindie.leenotes.di
 
+import com.example.thindie.leenotes.data.CostRepositoryImpl
 import com.example.thindie.leenotes.data.RepositoryImpl
+import com.example.thindie.leenotes.domain.CostManager
+import com.example.thindie.leenotes.domain.CostRepository
+import com.example.thindie.leenotes.domain.CostsInteractor
 import com.example.thindie.leenotes.domain.LeeNotesInteractor
 import com.example.thindie.leenotes.domain.NoteManager
 import com.example.thindie.leenotes.domain.NotesObserver
@@ -21,4 +25,11 @@ interface DomainModule {
 
     @Binds
     fun bindManager(interactor: LeeNotesInteractor): NoteManager
+
+    @Binds
+    fun bindCostRepository(impl: CostRepositoryImpl): CostRepository
+
+
+    @Binds
+    fun bindCostManager(interactor: CostsInteractor): CostManager
 }

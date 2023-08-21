@@ -11,20 +11,21 @@ class LeeNotesInteractor @Inject constructor(private val repository: NotesReposi
         return repository.provideNote(id)
     }
 
-    override suspend fun deleteNoteSaveCost(id: Long) {
-        repository.deleteNoteSaveCost(id)
+    override suspend fun deleteNote(id: Long) {
+        repository.deleteNote(id)
     }
 
-    override suspend fun deleteNoteDeleteCost(id: Long) {
-        repository.deleteNoteDeleteCost(id)
-    }
 
     override suspend fun updateNote(note: Note) {
-       repository.updateNote(note)
+        repository.updateNote(note)
     }
 
     override suspend fun addNote(note: Note) {
         repository.addNote(note)
+    }
+
+    override suspend fun getCurrentNotesCost():  String {
+       return repository.getCurrentNotesCost()
     }
 
     override fun observeNotes(): Flow<List<Note>> {

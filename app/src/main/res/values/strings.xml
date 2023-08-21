@@ -31,4 +31,6 @@
     <string name="text_field_cancel">отмена</string>
     <string name="text_field_enter_task">Напиши задачу</string>
     <string name="text_field_focus_task">Опиши подробно</string>
+    <string name="text_field_summary">Итого</string>
+    <string name="text_field_arleady_spend">Уже потратила:</string>
 </resources>

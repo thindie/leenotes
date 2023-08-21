@@ -47,6 +47,7 @@ fun AllNotesScreen(
         hint = R.string.text_field_hint_search,
         leadingIcon = R.drawable.icon_search
     ),
+    onClickMenu: () -> Unit,
     onClickDetails: (Long) -> Unit,
 ) {
     notesScreenViewModel.onSearchGoing(searchBarState.fieldState)
@@ -57,7 +58,7 @@ fun AllNotesScreen(
 
     Scaffold(
         modifier = modifier,
-        topBar = { NotesTopAppBar(action = {}) },
+        topBar = { NotesTopAppBar(action = { onClickMenu() }) },
         snackbarHost = {},
         floatingActionButton =
         { NoteFloatingButton(onClickAdd = notesScreenViewModel::onClickedActionButtonForResult) },
@@ -190,6 +191,7 @@ fun AllNotesScreenPreview() {
     LeenotesTheme {
         AllNotesScreen(
             onClickDetails = {},
+            onClickMenu = {}
         )
     }
 }
