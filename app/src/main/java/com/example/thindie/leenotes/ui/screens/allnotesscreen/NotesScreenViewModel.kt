@@ -1,10 +1,12 @@
 package com.example.thindie.leenotes.ui.screens.allnotesscreen
 
+import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.thindie.leenotes.domain.Note
 import com.example.thindie.leenotes.domain.NoteManager
 import com.example.thindie.leenotes.domain.NotesObserver
+import com.example.thindie.leenotes.ui.common.searching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -24,49 +26,67 @@ class NotesScreenViewModel @Inject constructor(
 
     private val _notesListState = MutableStateFlow<List<Note>>(emptyList())
     private val _currentNoteState = MutableStateFlow<Note?>(null)
-    val notesScreenState = combine(_notesListState, _currentNoteState) { list, note ->
-        if (list.isEmpty()) AllNotesScreenState(
-            currentNote = null,
-            shouldShowDialog = false,
-            notesList = list
+
+    private val _currentSearch = MutableStateFlow("")
+
+    val notesScreenState =
+        combine(_notesListState, _currentNoteState, _currentSearch) { list, note, search ->
+            if (list.isEmpty()) AllNotesScreenState(
+                currentNote = null,
+                shouldShowDialog = false,
+                notesList = list
+            )
+            else if (note != null) AllNotesScreenState(
+                currentNote = note,
+                shouldShowDialog = true,
+                notesList = list.searching(search)
+            )
+            else AllNotesScreenState(
+                currentNote = null,
+                shouldShowDialog = false,
+                notesList = list.searching(search)
+            )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000L),
+            initialValue = AllNotesScreenState()
         )
-        else if (note != null) AllNotesScreenState(
-            currentNote = note,
-            shouldShowDialog = true,
-            notesList = list
-        )
-        else AllNotesScreenState(currentNote = null, shouldShowDialog = false, notesList = list)
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000L),
-        initialValue = AllNotesScreenState()
-    )
+
+    fun onSearchGoing(searchField: State<String>) {
+        _currentSearch.value = searchField.value
+    }
 
     @Inject
     fun onStart() {
         viewModelScope.launch(Dispatchers.IO) {
             notesObserver
                 .observeNotes()
-                .onEach {
-                    _notesListState.value = it
+                .onEach { notes ->
+                    _notesListState.value = notes
                 }
                 .launchIn(this)
         }
     }
 
     fun onClickedActionButtonForResult(note: Note) {
-         viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             notesManager
                 .addNote(note)
         }
     }
 
     fun onConfirmSaveCosts() {
-
+        viewModelScope.launch(Dispatchers.IO) {
+            notesManager.deleteNoteSaveCost(_currentNoteState.value?.timeStamp ?: 0)
+            onDismissDialog()
+        }
     }
 
     fun onDismissSaveCosts() {
-
+        viewModelScope.launch(Dispatchers.IO) {
+            notesManager.deleteNoteDeleteCost(_currentNoteState.value?.timeStamp ?: 0)
+            onDismissDialog()
+        }
     }
 
     fun onSummonRemoveDialog(noteId: Long) {
@@ -75,7 +95,7 @@ class NotesScreenViewModel @Inject constructor(
                 notesManager
                     .provideNote(noteId)
         }
-     }
+    }
 
     fun onDismissDialog() {
         _currentNoteState.value = null

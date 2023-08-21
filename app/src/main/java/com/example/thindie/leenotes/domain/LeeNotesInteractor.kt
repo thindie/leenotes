@@ -1,8 +1,10 @@
 package com.example.thindie.leenotes.domain
 
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 
+@Singleton
 class LeeNotesInteractor @Inject constructor(private val repository: NotesRepository) :
     NotesObserver, NoteManager {
     override suspend fun provideNote(id: Long): Note {

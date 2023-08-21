@@ -1,5 +1,6 @@
 package com.example.thindie.leenotes.data
 
+import android.util.Log
 import com.example.thindie.leenotes.data.database.NotesDao
 import com.example.thindie.leenotes.data.database.NotesEntity
 import com.example.thindie.leenotes.data.mapper.toNote

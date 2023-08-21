@@ -49,7 +49,7 @@ fun AllNotesScreen(
     ),
     onClickDetails: (Long) -> Unit,
 ) {
-
+    notesScreenViewModel.onSearchGoing(searchBarState.fieldState)
     val screenState =
         notesScreenViewModel
             .notesScreenState
@@ -94,9 +94,7 @@ fun AllNotesScreen(
                 representValue = "",
                 onClickConfirm = {
                     notesScreenViewModel.onConfirmSaveCosts()
-                    notesScreenViewModel.onDismissDialog()
                 }) {
-                notesScreenViewModel.onDismissDialog()
                 notesScreenViewModel.onDismissSaveCosts()
             }
         }

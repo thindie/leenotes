@@ -12,7 +12,7 @@ data class NotesEntity(
     val cost: Int,
     val tagShadow: String,
     val hyperLink: String,
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = false)
     val timestamp: Long,
     val createdAt: String
 )
