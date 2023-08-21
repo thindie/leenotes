@@ -95,6 +95,7 @@ dependencies {
     implementation(Dependencies.Room.roomRuntime)
     kapt(Dependencies.Room.roomCompiler)
     implementation(Dependencies.Room.roomPaging)
+    implementation(Dependencies.Room.roomCoroutines)
 
 
     // Gson

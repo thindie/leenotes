@@ -8,16 +8,16 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NotesDao {
-    @Query("SELECT * FROM $notesTable SORT ")
+    @Query("SELECT * FROM $notesTable")
     fun observeNotes(): Flow<List<NotesEntity>>
 
     @Upsert
-    fun upsertNote(notesEntity: NotesEntity)
+    suspend fun upsertNote(notesEntity: NotesEntity)
 
     @Query("SELECT * FROM $notesTable WHERE timestamp = :id LIMIT 1")
-    fun getNote(id: Long)
+    suspend fun getNote(id: Long): NotesEntity
 
     @Delete
-    fun deleteNote(notesEntity: NotesEntity)
+    suspend fun deleteNote(notesEntity: NotesEntity)
 
 }

@@ -6,26 +6,26 @@ import kotlinx.coroutines.flow.Flow
 class LeeNotesInteractor @Inject constructor(private val repository: NotesRepository) :
     NotesObserver, NoteManager {
     override suspend fun provideNote(id: Long): Note {
-        TODO("Not yet implemented")
+        return repository.provideNote(id)
     }
 
     override suspend fun deleteNoteSaveCost(id: Long) {
-        TODO("Not yet implemented")
+        repository.deleteNoteSaveCost(id)
     }
 
     override suspend fun deleteNoteDeleteCost(id: Long) {
-        TODO("Not yet implemented")
+        repository.deleteNoteDeleteCost(id)
     }
 
     override suspend fun updateNote(note: Note) {
-        TODO("Not yet implemented")
+       repository.updateNote(note)
     }
 
     override suspend fun addNote(note: Note) {
-        TODO("Not yet implemented")
+        repository.addNote(note)
     }
 
     override fun observeNotes(): Flow<List<Note>> {
-        TODO("Not yet implemented")
+        return repository.observeNotes()
     }
 }

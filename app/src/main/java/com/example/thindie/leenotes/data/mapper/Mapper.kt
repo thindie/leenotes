@@ -10,18 +10,19 @@ fun Note.toNotesEntity(): NotesEntity {
         cost = cost,
         tagShadow = tagShadow,
         hyperLink = hyperLink,
-        timestamp = getTimeStamp(),
+        timestamp = timeStamp,
         createdAt = createdAt
     )
 }
 
 fun NotesEntity.toNote(): Note {
-    return Note(
+    return Note.getRefurbish(
         title = title,
         body = body,
         cost = cost,
         tagShadow = tagShadow,
         hyperLink = hyperLink,
-        createdAt = createdAt
+        createdAt = createdAt,
+        timeStamp = timestamp,
     )
 }

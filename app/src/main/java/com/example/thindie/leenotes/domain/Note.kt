@@ -5,77 +5,77 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-
-data class Note(
+@Suppress("LongParameterList")
+class Note private constructor(
     val title: String,
     val body: String = DEFAULT_STRING_FIELD,
     val isHasBody: Boolean = body.isNotBlank(),
     val cost: Int = 0,
+    val timeStamp: Long,
     val isCost: Boolean = cost != 0,
     val tagShadow: String = DEFAULT_STRING_FIELD,
     val isSearchAdapted: Boolean = tagShadow.isNotBlank(),
     val hyperLink: String = DEFAULT_STRING_FIELD,
     val isHasLink: Boolean = tagShadow.isNotBlank(),
-    val createdAt: String = DEFAULT_STRING_FIELD,
+    val createdAt: String,
 ) {
-    private var instant: Instant? = null
-    private var timestamp: Long? = instant?.epochSecond
-    private var localDateTime: LocalDateTime? = null
-    private var noteCreateAt: String? = null
-    fun getInstant() = this.instant
-    fun getTimeStamp() = this.timestamp ?: 0L
-
-    fun setTimeStamp(timeStamp: Long) {
-        if (timestamp == 0L){
-           this.timestamp = timeStamp
-        }
-    }
-
-    fun setCreatedDate(instant: Instant?): Note {
-        if (this.instant == null && instant == null && createdAt.isBlank()) {
-            this.instant = Instant.now()
-            this.timestamp = this.instant?.epochSecond
-            this.localDateTime = LocalDateTime
-                .ofInstant(this.instant, ZoneOffset.UTC)
-            this.noteCreateAt = DateTimeFormatter.ofPattern(TIME_PATTERN).format(localDateTime)
-        } else if (this.instant == null && instant != null && createdAt.isBlank()) {
-            this.instant = instant
-            this.timestamp = this.instant?.epochSecond
-            this.localDateTime = LocalDateTime
-                .ofInstant(this.instant, ZoneOffset.UTC)
-            this.noteCreateAt = DateTimeFormatter.ofPattern(TIME_PATTERN).format(localDateTime)
-        }
-        return Note(
-            title = this.title,
-            body = this.body,
-            cost = this.cost,
-            tagShadow = this.tagShadow,
-            hyperLink = this.hyperLink,
-            createdAt = this.createdAt.ifBlank { this.noteCreateAt!! }
-        )
-    }
 
 
     fun noteUpdater(body: String, cost: Int, tagShadow: String, hyperLink: String): Note {
         return Note(
             title = this.title,
-            body = body,
-            cost = cost,
-            isCost = false,
-            tagShadow = tagShadow,
-            hyperLink = hyperLink,
+            body = body.ifBlank { this.body },
+            cost = cost.ifZero { this.cost },
+            tagShadow = tagShadow.ifBlank { this.tagShadow },
+            hyperLink = hyperLink.ifBlank { this.hyperLink },
+            timeStamp = this.timeStamp,
             createdAt = this.createdAt
-        ).setCreatedDate(this.instant)
+        )
     }
 
+    private fun Int.ifZero(defaultValue: () -> Int): Int {
+        return if (this == 0) {
+            if (defaultValue.invoke() > 0) {
+                defaultValue.invoke()
+            } else 0
+        } else this
+    }
 
     companion object {
         private const val TIME_PATTERN = "d MMM yyyy"
         private const val DEFAULT_STRING_FIELD = ""
 
         fun getInstance(title: String, body: String = DEFAULT_STRING_FIELD): Note {
-            val note = Note(title = title, body = body)
-            return note.setCreatedDate(null)
+            val instant = Instant.now()
+            val timeStamp = instant.epochSecond
+            val localDateTime = LocalDateTime.ofInstant(instant, ZoneOffset.UTC)
+            val createdAt = DateTimeFormatter.ofPattern(TIME_PATTERN).format(localDateTime)
+            return Note(
+                title = title,
+                body = body,
+                timeStamp = timeStamp,
+                createdAt = createdAt
+            )
+        }
+
+        fun getRefurbish(
+            title: String,
+            body: String,
+            cost: Int,
+            tagShadow: String,
+            hyperLink: String,
+            createdAt: String,
+            timeStamp: Long,
+        ): Note {
+            return Note(
+                title = title,
+                body = body,
+                cost = cost,
+                timeStamp = timeStamp,
+                tagShadow = tagShadow,
+                hyperLink = hyperLink,
+                createdAt = createdAt
+            )
         }
     }
 }

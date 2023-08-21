@@ -62,11 +62,12 @@ object Dependencies {
 
 
     object Room {
-        private const val roomVersion = "2.5.2"
+        private const val roomVersion = "2.6.0-alpha03"
 
         const val roomRuntime = "androidx.room:room-runtime:$roomVersion"
         const val roomCompiler = "androidx.room:room-compiler:$roomVersion"
         const val roomPaging = "androidx.room:room-paging:$roomVersion"
+        const val roomCoroutines = "androidx.room:room-ktx:$roomVersion"
     }
 
     object Gson {
