@@ -5,7 +5,7 @@
     <string name="text_field_created">"cоздана: %s"</string>
     <string name="text_field_attach_link">прикрепи ссылку:</string>
     <string name="text_field_tags_shadow">облако тегов:</string>
-    <string name="text_field_will_spend">Потрачу:</string>
+    <string name="text_field_will_spend">"Потрачу:     "</string>
     <string name="text_field_rubles">рублей</string>
     <string name="text_field_task">Срочненько!</string>
     <string name="text_field_remember_costs">и запомнить траты</string>
@@ -32,5 +32,8 @@
     <string name="text_field_enter_task">Напиши задачу</string>
     <string name="text_field_focus_task">Опиши подробно</string>
     <string name="text_field_summary">Итого</string>
-    <string name="text_field_arleady_spend">Уже потратила:</string>
+    <string name="text_field_arleady_spend">Потратила:</string>
+    <string name="text_field_costs_now">этот месяц</string>
+    <string name="text_field_costs_last">прошлый</string>
+    <string name="text_field_costs_total">за год</string>
 </resources>

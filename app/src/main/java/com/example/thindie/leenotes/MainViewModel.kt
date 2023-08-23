@@ -1,6 +1,5 @@
 package com.example.thindie.leenotes
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.thindie.leenotes.domain.CostManager
@@ -9,10 +8,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -41,19 +38,25 @@ class MainViewModel @Inject constructor(
     }
 
     fun onExpandMenu() {
-        Log.d("SERVICE_TAG_VALUE", _summary.value.toString())
         viewModelScope.launch {
-            val notesSum =   noteManager.getCurrentNotesCost()
-            val costsSum =  costManager.getCostSum()
+            val notesSum = noteManager.getCurrentNotesCost()
+            val costsSum = costManager.getCostSum()
             _summary.value = ExpandableMenuState(sumNotes = notesSum, sumCosts = costsSum)
-
         }
+    }
+
+    fun onSelectedFiltering(filter: MainViewModel.Filter) {
+
     }
 
     data class ExpandableMenuState(
         val sumNotes: String = "",
         val sumCosts: String = "",
     )
+
+    enum class Filter {
+        CURRENT, LAST, ALL
+    }
 
 
 }

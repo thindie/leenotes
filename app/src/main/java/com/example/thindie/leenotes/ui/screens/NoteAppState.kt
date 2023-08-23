@@ -55,8 +55,14 @@ fun NoteAppState(
         willSpend = R.string.text_field_will_spend,
         state = bottomSheetState,
         sumNotes = spentState.value.sumNotes,
-        sumCosts = spentState.value.sumCosts
-    )
+        sumCosts = spentState.value.sumCosts,
+        navigationButtonTitle = R.string.button_label_details,
+        onClickedGroupChip = {
+            viewModel.onSelectedFiltering(it)
+        }
+    ) {
+
+    }
 }
 
 
