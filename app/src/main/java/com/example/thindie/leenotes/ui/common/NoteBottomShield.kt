@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
@@ -25,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.thindie.leenotes.MainViewModel
 import com.example.thindie.leenotes.R
@@ -85,92 +83,95 @@ fun NoteBottomSheet(
                 state.hideList()
             },
         ) {
+            val localRowContentPadding = PaddingValues(horizontal = 20.dp, vertical = 5.dp)
             Row(
                 modifier = Modifier
-                    .padding(vertical = 20.dp)
+                    .padding(localRowContentPadding)
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_will_spend),
+                    contentDescription = "",
+                    tint = colors.onSecondary
+                )
+                Text(
+                    modifier = Modifier.padding(localRowContentPadding),
+                    text = stringResource(id = willSpend),
+                    style = typo.titleLarge,
+                    color = colors.onPrimary
+                )
+                Text(
+                    modifier = Modifier.padding(localRowContentPadding),
+                    text = sumNotes,
+                    style = typo.titleLarge,
+                    color = colors.onPrimary
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .padding(localRowContentPadding)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_archived),
+                    contentDescription = "",
+                    tint = colors.onSecondary
+                )
+                Text(
+                    modifier = Modifier.padding(localRowContentPadding),
+                    text = stringResource(id = alreadySpent),
+                    style = typo.titleLarge,
+                    color = colors.onPrimary
+                )
 
-                NotesRadioSection(onClick = {
-                    onClickedGroupChip(it.filterState)
-                }, state = radioSectionState)
-
+                Text(
+                    modifier = Modifier.padding(localRowContentPadding),
+                    text = sumCosts,
+                    style = typo.titleLarge,
+                    color = colors.onPrimary
+                )
             }
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
+                    .padding(horizontal = 20.dp)
+                    .fillMaxWidth(),
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.Start
             ) {
-                val localRowContentPadding = PaddingValues(horizontal = 20.dp, vertical = 5.dp)
 
 
                 Row(
                     modifier = Modifier
+                        .padding(vertical = 20.dp)
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_archived),
-                        contentDescription = "",
-                        tint = colors.onSecondary
-                    )
-                    Text(
-                        modifier = Modifier.padding(localRowContentPadding),
-                        text = stringResource(id = alreadySpent),
-                        style = typo.titleLarge,
-                        color = colors.onPrimary
-                    )
-                    Text(
-                        modifier = Modifier.padding(localRowContentPadding),
-                        text = sumCosts,
-                        style = typo.titleLarge,
-                        color = colors.onPrimary
-                    )
-                    NotesButton(
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(40.dp),
-                        title = navigationButtonTitle,
-                        isOutlined = true,
-                        isMinorButton = true
-                    ) {
-                        onClickedNavigationButton()
-                    }
+                    NotesRadioSection(onClick = {
+                        onClickedGroupChip(it.filterState)
+                    }, state = radioSectionState)
                 }
 
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
+                NotesButton(
+                    modifier = Modifier
+                        .padding(localRowContentPadding)
+                        .fillMaxWidth()
+                        .height(40.dp),
+                    title = navigationButtonTitle,
+                    isOutlined = true,
+                    isMinorButton = true
                 ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_will_spend),
-                        contentDescription = "",
-                        tint = colors.onSecondary
-                    )
-                    Text(
-                        modifier = Modifier.padding(localRowContentPadding),
-                        text = stringResource(id = willSpend),
-                        style = typo.titleLarge,
-                        color = colors.onPrimary
-                    )
-                    Text(
-                        modifier = Modifier.padding(localRowContentPadding),
-                        text = sumNotes,
-                        style = typo.titleLarge,
-                        color = colors.onPrimary
-                    )
+                    onClickedNavigationButton()
                 }
             }
         }
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
