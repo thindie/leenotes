@@ -37,4 +37,5 @@
     <string name="text_field_costs_last">прошлый</string>
     <string name="text_field_costs_total">за год</string>
     <string name="text_field_cost_rub">%d rub</string>
+    <string name="text_field_hint_attach_link">вставь сюда ссылку, если она есть</string>
 </resources>

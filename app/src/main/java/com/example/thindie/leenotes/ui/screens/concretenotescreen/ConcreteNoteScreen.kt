@@ -5,9 +5,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -58,36 +61,30 @@ fun ConcreteNoteScreen(
         supportingText = R.string.text_field_tags_shadow
     ),
     currencyInputFieldState: DigitInputState = rememberDigitInputState(
-        isSingleLine = true,
-        initialValue = note.cost.toString()
+        isSingleLine = true, initialValue = note.cost.toString()
     ),
+    onClickBrowse: (String) -> Unit,
     onConfirmUpdate: (Note) -> Unit,
     onClickMenu: () -> Unit,
     onClickDismiss: () -> Unit,
 ) {
     val shouldShowCoastalDialog = remember { mutableStateOf(false) }
 
-    Scaffold(
-        modifier = modifier,
-        topBar = { NotesTopAppBar(action = { onClickMenu() }) })
-    {
+    Scaffold(modifier = modifier, topBar = { NotesTopAppBar(action = { onClickMenu() }) }) {
         Column(
-            modifier = modifier
-                .padding(it)
+            modifier = modifier.padding(it)
         ) {
             LazyColumn(
-                modifier = modifier
-                    .padding(horizontal = 8.dp)
+                modifier = modifier.padding(horizontal = 8.dp)
             ) {
                 item {
                     Text(
-                        modifier = Modifier
-                            .padding(start = 20.dp, top = 40.dp),
+                        modifier = Modifier.padding(start = 20.dp, top = 40.dp),
                         text = stringResource(
-                            id = R.string.text_field_created,
-                            note.createdAt
+                            id = R.string.text_field_created, note.createdAt
                         ),
-                        style = typo.labelLarge, color = colors.onSecondaryContainer
+                        style = typo.labelLarge,
+                        color = colors.onSecondaryContainer
                     )
                 }
                 item {
@@ -103,7 +100,24 @@ fun ConcreteNoteScreen(
                 }
 
                 item {
-                    NotesInputField(state = attachLink)
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        NotesInputField(modifier = Modifier.weight(0.8f), state = attachLink)
+                        IconButton(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .weight(0.2f),
+                            onClick = { onClickBrowse(attachLink.fieldState.value) }) {
+                            Icon(
+                                painterResource(id = R.drawable.icon_web),
+                                contentDescription = null,
+                                tint = colors.onTertiary
+                            )
+                        }
+                    }
+
                 }
 
                 item {
@@ -157,8 +171,7 @@ fun ConcreteNoteScreen(
                 currencyInputFieldState.onResetWidthAndState()
                 shouldShowCoastalDialog.value = false
             }) {
-                CoastalEntranceDialogContent(
-                    dialogTitle = R.string.text_field_will_spend,
+                CoastalEntranceDialogContent(dialogTitle = R.string.text_field_will_spend,
                     dismissButtonTitle = R.string.button_label_oh_no,
                     confirmButtonTitle = R.string.button_label_cacheen,
                     currency = R.string.text_field_rubles,
@@ -170,8 +183,7 @@ fun ConcreteNoteScreen(
                     onClickConfirm = {
                         currencyInputFieldState.onValueChange(it)
                         shouldShowCoastalDialog.value = false
-                    }
-                )
+                    })
             }
         }
     }
@@ -182,8 +194,9 @@ fun ConcreteNoteScreen(
 fun ConcreteNoteScreenState(
     id: Long,
     concreteNoteScreenViewModel: ConcreteNoteScreenViewModel = hiltViewModel(),
+    onClickBrowse: (String) -> Unit,
     onClickDismiss: () -> Unit,
-    onClickMenu:() -> Unit,
+    onClickMenu: () -> Unit,
     onClickConfirm: () -> Unit,
 ) {
     concreteNoteScreenViewModel.onClickDetail(id)
@@ -199,7 +212,8 @@ fun ConcreteNoteScreenState(
             note = notNullNote,
             onConfirmUpdate = { concreteNoteScreenViewModel.onConfirmUpdateNote(it); onClickConfirm() },
             onClickMenu = onClickMenu,
-            onClickDismiss = onClickDismiss
+            onClickDismiss = onClickDismiss,
+            onClickBrowse = onClickBrowse
         )
     }
 }

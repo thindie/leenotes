@@ -36,6 +36,7 @@ fun NoteAppState(
     showBottomSheet: () -> Unit = {
         viewModel.onExpandMenu(); bottomSheetState.showList()
     },
+    onClickBrowse: (String) -> Unit,
 ) {
 
     val idState = viewModel.idState.collectAsState()
@@ -53,7 +54,7 @@ fun NoteAppState(
         }, onClickMenu = showBottomSheet)
         concreteNote(id = { idState.value }, onClickBack = {
             appState.navigateHomeScreen()
-        }, onClickMenu = showBottomSheet)
+        }, onClickMenu = showBottomSheet, onClickBrowse = onClickBrowse)
 
         notesCostsScreen(onClickMenu = showBottomSheet) {
             appState.navigateHomeScreen()
