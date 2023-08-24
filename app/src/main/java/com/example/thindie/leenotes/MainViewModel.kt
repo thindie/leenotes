@@ -17,6 +17,7 @@ class MainViewModel @Inject constructor(
     private val noteManager: NoteManager,
 ) : ViewModel() {
 
+
     private val _id = MutableStateFlow(0L)
     val idState = _id.stateIn(
         viewModelScope,
@@ -45,8 +46,27 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun onSelectedFiltering(filter: MainViewModel.Filter) {
+    fun onSelectedFiltering(filter: Filter) {
+        when(filter){
+            Filter.CURRENT -> {
+                viewModelScope.launch {
+                    val notesSum = noteManager.getCurrentNotesCost()
+                    val costsSum = costManager.getCostSumCurrentMonth()
+                    _summary.value = ExpandableMenuState(sumNotes = notesSum, sumCosts = costsSum)
+                }
+            }
+            Filter.LAST -> {
+                viewModelScope.launch {
+                    val notesSum = noteManager.getCurrentNotesCost()
+                    val costsSum = costManager.getCostSumPreviousMonth()
+                    _summary.value = ExpandableMenuState(sumNotes = notesSum, sumCosts = costsSum)
+                }
 
+            }
+            Filter.ALL -> {
+                onExpandMenu()
+            }
+        }
     }
 
     data class ExpandableMenuState(

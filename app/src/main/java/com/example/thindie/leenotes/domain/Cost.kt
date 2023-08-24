@@ -6,6 +6,9 @@ data class Cost(
     val day: String,
     val month: String,
     val year: String,
-    val cost: Int
+    val cost: Int,
 ) {
+    fun getDate(): String {
+        return day.plus(" $month").plus(" $year")
+    }
 }

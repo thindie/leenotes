@@ -36,4 +36,5 @@
     <string name="text_field_costs_now">этот месяц</string>
     <string name="text_field_costs_last">прошлый</string>
     <string name="text_field_costs_total">за год</string>
+    <string name="text_field_cost_rub">%d rub</string>
 </resources>
