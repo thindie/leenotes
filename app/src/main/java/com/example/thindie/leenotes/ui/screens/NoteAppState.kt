@@ -23,6 +23,8 @@ import com.example.thindie.leenotes.ui.common.rememberNoteBottomSheetState
 import com.example.thindie.leenotes.ui.screens.allnotesscreen.allNotesScreen
 import com.example.thindie.leenotes.ui.screens.allnotesscreen.routeAllNotes
 import com.example.thindie.leenotes.ui.screens.concretenotescreen.concreteNote
+import com.example.thindie.leenotes.ui.screens.detailpaidcostscreen.noteCostScreen
+import com.example.thindie.leenotes.ui.screens.detailpaidcostscreen.notesCostsScreen
 import com.example.thindie.leenotes.ui.theme.LeenotesTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,7 +33,12 @@ fun NoteAppState(
     viewModel: MainViewModel = hiltViewModel(),
     bottomSheetState: NoteBottomSheetState = rememberNoteBottomSheetState(),
     appState: NoteAppState,
+    showBottomSheet: () -> Unit = {
+        viewModel.onExpandMenu(); bottomSheetState.showList()
+    },
+    onClickBrowse: (String) -> Unit,
 ) {
+
     val idState = viewModel.idState.collectAsState()
 
     val spentState =
@@ -44,10 +51,14 @@ fun NoteAppState(
         allNotesScreen(onClickConcreteNote = {
             viewModel.onClickConcreteNote(it)
             appState.navigateDetailScreen()
-        }, onClickMenu = { viewModel.onExpandMenu(); bottomSheetState.showList() })
+        }, onClickMenu = showBottomSheet)
         concreteNote(id = { idState.value }, onClickBack = {
             appState.navigateHomeScreen()
-        }, onClickMenu = { viewModel.onExpandMenu(); bottomSheetState.showList() })
+        }, onClickMenu = showBottomSheet, onClickBrowse = onClickBrowse)
+
+        notesCostsScreen(onClickMenu = showBottomSheet) {
+            appState.navigateHomeScreen()
+        }
     }
     NoteBottomSheet(
         title = R.string.text_field_summary,
@@ -55,10 +66,16 @@ fun NoteAppState(
         willSpend = R.string.text_field_will_spend,
         state = bottomSheetState,
         sumNotes = spentState.value.sumNotes,
-        sumCosts = spentState.value.sumCosts
-    )
+        sumCosts = spentState.value.sumCosts,
+        navigationButtonTitle = R.string.button_label_details,
+        onClickedGroupChip = {
+            viewModel.onSelectedFiltering(it)
+        }
+    ) {
+        appState.navigateCostsScreen()
+        bottomSheetState.hideList()
+    }
 }
-
 
 @Preview(showBackground = true)
 @Composable
@@ -100,11 +117,20 @@ class NoteAppState(val navHostController: NavHostController) {
         navigate(concreteNote)
     }
 
+    fun navigateCostsScreen() {
+        navigate(noteCostScreen)
+    }
+
     private fun navigate(route: String) {
-        navHostController
-            .navigate(route = route) {
-                launchSingleTop = true
-                restoreState = true
-            }
+        try {
+            navHostController
+                .navigate(route = route) {
+                    launchSingleTop = true
+                    restoreState = true
+                }
+        } catch (e: java.util.NoSuchElementException) {
+            navigateHomeScreen()
+        }
+
     }
 }
