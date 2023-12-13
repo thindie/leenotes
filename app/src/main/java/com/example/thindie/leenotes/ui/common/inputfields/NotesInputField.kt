@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,7 +12,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.ui.theme.LeenotesTheme
-import com.example.thindie.leenotes.ui.theme.typo
 
 @Composable
 fun NotesInputField(modifier: Modifier = Modifier, state: NotesInputFieldState) {
@@ -21,7 +21,7 @@ fun NotesInputField(modifier: Modifier = Modifier, state: NotesInputFieldState) 
             .height(state.height)
             .padding(start = 8.dp, end = 8.dp, top = 1.dp, bottom = 6.dp),
         value = state.fieldState.value,
-        textStyle = typo.bodyLarge,
+        textStyle = MaterialTheme.typography.bodyLarge,
         colors = state.textFieldColors,
         shape = if (!state.isSingleLine) RoundedCornerShape(30.dp) else RoundedCornerShape(52.dp),
         singleLine = state.isSingleLine,
@@ -40,8 +40,7 @@ fun NotesInputFieldsPreview() {
     LeenotesTheme(darkTheme = false) {
         NotesInputField(
             state = rememberInputState(
-                isSingleLine = true,
-                hint = R.string.text_field_hint_search
+                isSingleLine = true, hint = R.string.text_field_hint_search
             )
         )
     }
@@ -55,8 +54,7 @@ fun NotesInputFieldsPreviewDark() {
     LeenotesTheme(darkTheme = true) {
         NotesInputField(
             state = rememberInputState(
-                isSingleLine = true,
-                hint = R.string.text_field_hint_search
+                isSingleLine = true, hint = R.string.text_field_hint_search
             )
         )
     }

@@ -4,6 +4,8 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
+import com.example.thindie.leenotes.data.database.DataBaseContract.notesTable
+import com.example.thindie.leenotes.data.database.entities.NoteDbModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao

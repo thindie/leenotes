@@ -1,9 +1,9 @@
-package com.example.thindie.leenotes.data.database
+package com.example.thindie.leenotes.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.thindie.leenotes.data.database.DataBaseContract.notesTable
 
-const val notesTable = "tableNotes"
 
 @Entity(tableName = notesTable)
 data class NoteDbModel(

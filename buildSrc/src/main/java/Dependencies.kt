@@ -1,7 +1,3 @@
-import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.gradle.kotlin.dsl.DependencyHandlerScope
-import org.gradle.kotlin.dsl.accessors.runtime.addDependencyTo
-
 object Dependencies {
 
     object Compose {
@@ -39,15 +35,13 @@ object Dependencies {
         const val composeJunit = "androidx.compose.ui:ui-test-junit4"
     }
 
-    object Hilt {
-        private const val hiltVersion = "2.47"
+    object Dagger {
+        private const val daggerVersion = "2.48"
 
-        const val daggerHiltProject = "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
-
-        const val hilt = "com.google.dagger:hilt-android:$hiltVersion"
-        const val hiltAndroidCompiler = "com.google.dagger:hilt-android-compiler:$hiltVersion"
-        const val hiltCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
-        const val hiltCompiler = "androidx.hilt:hilt-compiler:1.0.0"
+        const val dagger  = "com.google.dagger:dagger-android:$daggerVersion"
+        const val annotationProcessor = "com.google.dagger:dagger-android-processor:$daggerVersion"
+        const val annotationProcessorCompiler = "com.google.dagger:dagger-compiler:$daggerVersion"
+        const val hiltNavigation = "androidx.hilt:hilt-navigation-compose:1.0.0"
     }
 
     object Accompanist {

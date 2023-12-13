@@ -2,10 +2,5 @@
 plugins {
     id(Plugins.androidApplication) version Plugins.androidApplicationVersion apply false
     id(Plugins.kotlinAndroid) version Plugins.kotlinAndroidVersion apply false
-}
-
-buildscript {
-    dependencies {
-        classpath(Dependencies.Hilt.daggerHiltProject)
-    }
+    id(Plugins.kotlinKapt) version Plugins.kotlinAndroidVersion apply false
 }

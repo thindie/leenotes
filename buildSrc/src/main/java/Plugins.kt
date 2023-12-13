@@ -3,9 +3,8 @@ object Plugins {
     const val androidApplicationVersion = "8.1.0"
 
     const val kotlinAndroid = "org.jetbrains.kotlin.android"
+    const val kotlinKapt = "org.jetbrains.kotlin.kapt"
     const val kotlinAndroidVersion = "1.9.0"
-
+    const val kaptVersion = kotlinAndroidVersion
     const val kapt = "kotlin-kapt"
-
-    const val daggerHilt = "dagger.hilt.android.plugin"
 }

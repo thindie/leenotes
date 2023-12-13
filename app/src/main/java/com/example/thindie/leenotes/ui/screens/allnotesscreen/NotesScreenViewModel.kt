@@ -3,12 +3,7 @@ package com.example.thindie.leenotes.ui.screens.allnotesscreen
 import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.thindie.leenotes.domain.CostManager
-import com.example.thindie.leenotes.domain.Note
-import com.example.thindie.leenotes.domain.NoteManager
-import com.example.thindie.leenotes.domain.NotesObserver
 import com.example.thindie.leenotes.ui.common.searching
-import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +14,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-@HiltViewModel
+
 class NotesScreenViewModel @Inject constructor(
     private val notesManager: NoteManager,
     private val notesObserver: NotesObserver,

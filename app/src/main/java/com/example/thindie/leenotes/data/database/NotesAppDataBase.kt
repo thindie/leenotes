@@ -2,6 +2,8 @@ package com.example.thindie.leenotes.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.example.thindie.leenotes.data.database.entities.CostDbModel
+import com.example.thindie.leenotes.data.database.entities.NoteDbModel
 import javax.inject.Singleton
 
 @Singleton

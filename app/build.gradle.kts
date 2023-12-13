@@ -2,11 +2,10 @@ plugins {
     id(Plugins.androidApplication)
     id(Plugins.kotlinAndroid)
     id(Plugins.kapt)
-    id(Plugins.daggerHilt)
 }
 
 android {
-    namespace = "com.example.thindie.leenotes"
+    namespace = Project.nameSpace
     compileSdk = Config.compileSdk
 
     defaultConfig {
@@ -40,7 +39,6 @@ android {
         }
     }
     compileOptions {
-        //isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -79,11 +77,11 @@ dependencies {
     implementation(Dependencies.Compose.navigation)
     implementation(Dependencies.Compose.constraintLayout)
 
-    // Hilt
-    implementation(Dependencies.Hilt.hilt)
-    implementation(Dependencies.Hilt.hiltCompose)
-    kapt(Dependencies.Hilt.hiltAndroidCompiler)
-    kapt(Dependencies.Hilt.hiltCompiler)
+    // Dagger
+    implementation(Dependencies.Dagger.dagger)
+    implementation(Dependencies.Dagger.hiltNavigation)
+    kapt(Dependencies.Dagger.annotationProcessor)
+    kapt(Dependencies.Dagger.annotationProcessorCompiler)
 
     // Accompanist
     implementation(Dependencies.Accompanist.animationNavigation)

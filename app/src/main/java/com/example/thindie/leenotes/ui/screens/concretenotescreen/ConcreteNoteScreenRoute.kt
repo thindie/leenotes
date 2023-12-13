@@ -12,12 +12,6 @@ fun NavGraphBuilder.concreteNote(
     onClickBack: () -> Unit,
 ) {
     composable(route = concreteNote) {
-        ConcreteNoteScreenState(
-            id = id.invoke(),
-            onClickDismiss = onClickBack,
-            onClickMenu = onClickMenu,
-            onClickConfirm = onClickBack,
-            onClickBrowse = onClickBrowse
-        )
+
     }
 }

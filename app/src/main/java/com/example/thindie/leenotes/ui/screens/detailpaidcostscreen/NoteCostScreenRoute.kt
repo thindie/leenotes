@@ -7,8 +7,6 @@ const val noteCostScreen = "costs"
 
 fun NavGraphBuilder.notesCostsScreen(onClickMenu: () -> Unit, onClickBack: () -> Unit) {
     composable(noteCostScreen) {
-        NoteCostScreen(onClickMenu = { onClickMenu() }) {
-            onClickBack()
-        }
+
     }
 }

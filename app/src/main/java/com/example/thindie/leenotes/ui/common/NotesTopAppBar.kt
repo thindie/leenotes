@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -19,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.ui.theme.LeenotesTheme
 import com.example.thindie.leenotes.ui.theme.seedColor
-import com.example.thindie.leenotes.ui.theme.typo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -39,7 +39,7 @@ fun NotesTopAppBar(
     ) {
         Text(
             text = stringResource(id = title),
-            style = typo.displaySmall,
+            style = MaterialTheme.typography.displaySmall,
             color = seedColor
         )
         IconButton(onClick = { scope.launch { action() } }) {
@@ -57,14 +57,6 @@ fun NotesTopAppBar(
 @Composable
 fun NotesTopAppBarPreview() {
     LeenotesTheme {
-        NotesTopAppBar(action = {})
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun NotesTopAppBarPreviewDark() {
-    LeenotesTheme(darkTheme = true) {
         NotesTopAppBar(action = {})
     }
 }

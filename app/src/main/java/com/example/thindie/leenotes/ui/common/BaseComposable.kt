@@ -19,11 +19,3 @@ fun QwertyPreview() {
 
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun QwertyPreviewDark() {
-    LeenotesTheme(darkTheme = true) {
-
-    }
-}

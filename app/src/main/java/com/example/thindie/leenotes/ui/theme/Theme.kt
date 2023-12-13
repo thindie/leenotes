@@ -73,9 +73,3 @@ fun LeenotesTheme(
         content = content
     )
 }
-
-val colors
-    @Composable get() = MaterialTheme.colorScheme
-
-val typo
-    @Composable get() = MaterialTheme.typography

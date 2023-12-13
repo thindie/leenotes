@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,8 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.text.isDigitsOnly
-import com.example.thindie.leenotes.ui.theme.colors
 
 @Composable
 fun rememberInputState(
@@ -69,37 +68,37 @@ open class NotesInputFieldState(
         )
     val textFieldColors
         @Composable get() = OutlinedTextFieldDefaults.colors(
-            focusedTextColor = colors.onTertiary,
-            unfocusedTextColor = colors.onTertiary,
-            disabledTextColor = colors.onTertiary,
-            errorTextColor = colors.onTertiary,
-            focusedContainerColor = colors.secondary,
-            unfocusedContainerColor = colors.secondary,
-            disabledContainerColor = colors.secondary,
-            errorContainerColor = colors.secondary,
-            cursorColor = colors.onTertiary,
-            errorCursorColor = colors.onTertiary,
+            focusedTextColor = MaterialTheme.colorScheme.onTertiary,
+            unfocusedTextColor = MaterialTheme.colorScheme.onTertiary,
+            disabledTextColor = MaterialTheme.colorScheme.onTertiary,
+            errorTextColor = MaterialTheme.colorScheme.onTertiary,
+            focusedContainerColor = MaterialTheme.colorScheme.secondary,
+            unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+            disabledContainerColor = MaterialTheme.colorScheme.secondary,
+            errorContainerColor = MaterialTheme.colorScheme.secondary,
+            cursorColor = MaterialTheme.colorScheme.onTertiary,
+            errorCursorColor = MaterialTheme.colorScheme.onTertiary,
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,
             disabledBorderColor = Color.Transparent,
             errorBorderColor = Color.Transparent,
-            focusedLeadingIconColor = colors.onSecondaryContainer,
-            unfocusedLeadingIconColor = colors.onSecondaryContainer,
-            disabledLeadingIconColor = colors.onSecondaryContainer,
-            errorLeadingIconColor = colors.onSecondaryContainer,
-            focusedTrailingIconColor = colors.onSecondaryContainer,
-            unfocusedTrailingIconColor = colors.onSecondaryContainer,
-            disabledTrailingIconColor = colors.onSecondaryContainer,
-            errorTrailingIconColor = colors.onSecondaryContainer,
-            focusedLabelColor = colors.onPrimaryContainer,
-            unfocusedLabelColor = colors.onPrimaryContainer,
-            disabledLabelColor = colors.onPrimaryContainer,
-            errorLabelColor = colors.onPrimaryContainer,
+            focusedLeadingIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            unfocusedLeadingIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            disabledLeadingIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            errorLeadingIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            focusedTrailingIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            disabledTrailingIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            errorTrailingIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            focusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            unfocusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            disabledLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            errorLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
 
-            focusedSupportingTextColor = colors.onPrimaryContainer,
-            unfocusedSupportingTextColor = colors.onPrimaryContainer,
-            disabledSupportingTextColor = colors.onPrimaryContainer,
-            errorSupportingTextColor = colors.onPrimaryContainer,
+            focusedSupportingTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            unfocusedSupportingTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            disabledSupportingTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            errorSupportingTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
 
             )
     val fieldHint
@@ -186,7 +185,7 @@ class DigitInputState(
     fun digitValue(): Int {
         val fieldValue = try {
             _fieldValue.value.toInt()
-        } catch (e: Exception){
+        } catch (e: Exception) {
             _isError.value = true
             0
         }
