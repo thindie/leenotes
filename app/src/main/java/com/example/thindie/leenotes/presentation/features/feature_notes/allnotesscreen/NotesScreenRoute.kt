@@ -1,4 +1,4 @@
-package com.example.thindie.leenotes.ui.screens.allnotesscreen
+package com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable

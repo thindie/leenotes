@@ -1,4 +1,4 @@
-package com.example.thindie.leenotes.ui.common
+package com.example.thindie.leenotes.presentation.common
 
 fun String.matchCriteria(criteria: String): Boolean {
     if (this.isBlank() && criteria.isNotBlank()) return false

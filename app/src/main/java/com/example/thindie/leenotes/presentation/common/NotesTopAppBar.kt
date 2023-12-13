@@ -1,4 +1,4 @@
-package com.example.thindie.leenotes.ui.common
+package com.example.thindie.leenotes.presentation.common
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
@@ -18,8 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.thindie.leenotes.R
-import com.example.thindie.leenotes.ui.theme.LeenotesTheme
-import com.example.thindie.leenotes.ui.theme.seedColor
+import com.example.thindie.leenotes.presentation.common.theme.LeenotesTheme
+import com.example.thindie.leenotes.presentation.common.theme.seedColor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

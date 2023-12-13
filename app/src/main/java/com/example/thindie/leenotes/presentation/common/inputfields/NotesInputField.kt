@@ -1,4 +1,4 @@
-package com.example.thindie.leenotes.ui.common.inputfields
+package com.example.thindie.leenotes.presentation.common.inputfields
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.thindie.leenotes.R
-import com.example.thindie.leenotes.ui.theme.LeenotesTheme
+import com.example.thindie.leenotes.presentation.common.theme.LeenotesTheme
 
 @Composable
 fun NotesInputField(modifier: Modifier = Modifier, state: NotesInputFieldState) {

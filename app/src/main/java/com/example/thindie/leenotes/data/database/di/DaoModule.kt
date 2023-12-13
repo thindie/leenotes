@@ -1,4 +1,4 @@
-package com.example.thindie.leenotes.data.di
+package com.example.thindie.leenotes.data.database.di
 
 import com.example.thindie.leenotes.data.database.CostsDao
 import com.example.thindie.leenotes.data.database.NotesAppDataBase

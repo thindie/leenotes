@@ -1,4 +1,4 @@
-package com.example.thindie.leenotes.ui.theme
+package com.example.thindie.leenotes.presentation.common.theme
 
 import android.app.Activity
 import android.os.Build

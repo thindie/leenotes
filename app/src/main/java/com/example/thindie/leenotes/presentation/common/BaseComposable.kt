@@ -1,9 +1,9 @@
-package com.example.thindie.leenotes.ui.common
+package com.example.thindie.leenotes.presentation.common
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.thindie.leenotes.ui.theme.LeenotesTheme
+import com.example.thindie.leenotes.presentation.common.theme.LeenotesTheme
 
 
 @Composable
