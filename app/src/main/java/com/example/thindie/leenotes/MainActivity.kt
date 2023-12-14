@@ -14,8 +14,7 @@ import kotlinx.coroutines.launch
 
 
 class MainActivity : ComponentActivity(), ComponentReceiver {
-    @Inject
-    lateinit var dao: NotesDao
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

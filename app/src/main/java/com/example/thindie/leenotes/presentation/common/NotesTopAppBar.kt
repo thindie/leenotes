@@ -27,8 +27,7 @@ import kotlinx.coroutines.launch
 fun NotesTopAppBar(
     modifier: Modifier = Modifier,
     @StringRes title: Int = R.string.app_name,
-    scope: CoroutineScope = rememberCoroutineScope(),
-    action: suspend () -> Unit,
+    action: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -42,7 +41,7 @@ fun NotesTopAppBar(
             style = MaterialTheme.typography.displaySmall,
             color = seedColor
         )
-        IconButton(onClick = { scope.launch { action() } }) {
+        IconButton(onClick = action) {
             Icon(
                 painter = painterResource(id = R.drawable.icon_menu),
                 contentDescription = "",
