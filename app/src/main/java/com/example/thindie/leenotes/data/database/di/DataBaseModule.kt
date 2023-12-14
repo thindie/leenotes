@@ -14,8 +14,10 @@ object DataBaseModule {
     @Provides
     @Singleton
     fun provideDataBase(context: Context): NotesAppDataBase {
-        return Room.databaseBuilder(
-            context = context, klass = NotesAppDataBase::class.java, name = DB_NAME
-        ).build()
+        return Room
+            .databaseBuilder(
+                context = context, klass = NotesAppDataBase::class.java, name = DB_NAME
+            ).fallbackToDestructiveMigration()
+            .build()
     }
 }
