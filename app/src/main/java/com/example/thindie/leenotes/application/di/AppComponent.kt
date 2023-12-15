@@ -1,29 +1,27 @@
 package com.example.thindie.leenotes.application.di
 
 import android.content.Context
-import com.example.thindie.leenotes.MainActivity
+import com.example.thindie.leenotes.common.di.DependenciesProvider
 import com.example.thindie.leenotes.data.database.di.LocalSourceComponent
 import com.example.thindie.leenotes.data.database.di.LocalSourceProvider
-import com.example.thindie.leenotes.presentation.features.feature_notes.di.NotesFeatureProvider
-import com.example.thindie.leenotes.presentation.features.feature_notes.di.NotesScreenComponent
 import dagger.Component
+import javax.inject.Singleton
 
-@Component(dependencies = [NotesFeatureProvider::class])
-interface AppComponent {
+@Singleton
+@Component(dependencies = [LocalSourceProvider::class])
+interface AppComponent: DependenciesProvider {
 
     companion object{
         fun init(context: Context): AppComponent {
             val localSource = LocalSourceComponent.init(context)
-            val notesFeature = NotesScreenComponent.init(localSource)
             return DaggerAppComponent
                 .factory()
-                .create(notesFeature)
+                .create(localSource)
         }
     }
     @Component.Factory
     interface  Factory{
-        fun create(notesFeatureProvider: NotesFeatureProvider): AppComponent
+        fun create(localSourceProvider: LocalSourceProvider): AppComponent
     }
 
-    fun inject(activity: MainActivity)
 }
