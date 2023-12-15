@@ -6,6 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.thindie.leenotes.common.di.App
 import com.example.thindie.leenotes.common.di.DependenciesProvider
+import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.viewodel.NotesScreenViewModel
 import com.example.thindie.leenotes.presentation.features.feature_notes.di.NotesScreenComponent
 
 const val routeAllNotes = "allNotes"

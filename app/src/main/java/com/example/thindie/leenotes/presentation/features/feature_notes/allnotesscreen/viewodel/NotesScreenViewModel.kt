@@ -1,4 +1,4 @@
-package com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen
+package com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.viewodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
