@@ -1,4 +1,4 @@
-package com.example.thindie.leenotes.common.di
+package com.example.thindie.leenotes.common.di.viewmodels_factory
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey
