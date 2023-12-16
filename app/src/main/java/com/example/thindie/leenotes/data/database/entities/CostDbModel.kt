@@ -8,6 +8,6 @@ import com.example.thindie.leenotes.data.database.DataBaseContract.costsTable
 @Entity(tableName = costsTable)
 data class CostDbModel(
     @PrimaryKey (autoGenerate = true)
-    val id: Int,
+    val id: Int = 0,
     val price: Double
 )

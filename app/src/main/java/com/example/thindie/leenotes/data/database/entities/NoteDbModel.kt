@@ -10,7 +10,7 @@ import com.example.thindie.leenotes.domain.entities.NoteBindings
 @Entity(tableName = notesTable)
 data class NoteDbModel(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int = 0,
     val title: String,
     val description: String,
     val creationTimeInMillis: Long,

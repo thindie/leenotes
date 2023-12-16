@@ -12,7 +12,7 @@ interface BindingsDao {
     suspend fun getBinding(id: Int): BindingsDbModel
 
     @Upsert
-    suspend fun addBinding(bindingsDbModel: BindingsDbModel)
+    suspend fun addBinding(bindingsDbModel: BindingsDbModel): Long
 
     @Query("DELETE FROM $bindingsTable WHERE id =:id")
     suspend fun deleteBinding(id: Int)

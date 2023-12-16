@@ -13,7 +13,7 @@ interface NotesDao {
     fun observeNotes(): Flow<List<NoteDbModel>>
 
     @Upsert
-    suspend fun upsertNote(noteDbModel: NoteDbModel)
+    suspend fun upsertNote(noteDbModel: NoteDbModel): Long
 
     @Query("SELECT * FROM $notesTable WHERE id = :id LIMIT 1")
     suspend fun getNote(id: Int): NoteDbModel

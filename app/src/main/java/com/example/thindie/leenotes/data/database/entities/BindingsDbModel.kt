@@ -9,6 +9,6 @@ import com.example.thindie.leenotes.data.database.DataBaseContract.costsTable
 @Entity(tableName = bindingsTable)
 data class BindingsDbModel(
     @PrimaryKey (autoGenerate = true)
-    val id: Int,
+    val id: Int = 0,
     val properties: String
 )

@@ -13,7 +13,7 @@ interface CostsDao {
     suspend fun getCost(id: Int): CostDbModel
 
     @Upsert
-    suspend fun addCost(costDbModel: CostDbModel)
+    suspend fun addCost(costDbModel: CostDbModel): Long
 
     @Query("DELETE FROM $costsTable WHERE id =:id")
     suspend fun deleteCost(id: Int)
