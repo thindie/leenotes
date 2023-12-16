@@ -14,7 +14,8 @@ suspend fun NoteDbModel
         title = title,
         description = description,
         creationTimeInMillis = creationTimeInMillis,
-        bindings = bindingGet(bindingsId)?.toNoteBindings()
+        bindings = bindingGet(bindingsId)?.toNoteBindings(),
+        cost = costGet(costId)?.toCost()
     )
 }
 

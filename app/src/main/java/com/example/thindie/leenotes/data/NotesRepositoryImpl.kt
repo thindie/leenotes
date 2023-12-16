@@ -5,6 +5,7 @@ import com.example.thindie.leenotes.data.database.CostsDao
 import com.example.thindie.leenotes.data.database.NotesDao
 import com.example.thindie.leenotes.data.database.entities.BindingsDbModel
 import com.example.thindie.leenotes.data.database.entities.CostDbModel
+import com.example.thindie.leenotes.data.database.entities.NoteDbModel
 import com.example.thindie.leenotes.data.mapper.map
 import com.example.thindie.leenotes.data.mapper.toBindingsDbModel
 import com.example.thindie.leenotes.data.mapper.toCostDbModel
@@ -44,9 +45,7 @@ class NotesRepositoryImpl @Inject constructor(
     override fun observeNotes(): Flow<List<Note>> {
         return dao
             .observeNotes()
-            .mapCollection {
-                it.map(bindingGet = ::getBindingDbModel, costGet = ::getCostDbModel)
-            }
+            .mapCollection{ dbModel ->  dbModel.mapToNote() }
     }
 
     private suspend fun getBindingDbModel(id: Int?): BindingsDbModel? {
@@ -54,12 +53,18 @@ class NotesRepositoryImpl @Inject constructor(
             bindingsDao.getBinding(id)
         } else null
     }
+    private suspend fun NoteDbModel.mapToNote(): Note{
+        return map(::getBindingDbModel, ::getCostDbModel)
+    }
+
 
     private suspend fun getCostDbModel(id: Int?): CostDbModel? {
         return if (id != null) {
             costsDao.getCost(id)
         } else null
     }
+
+
 
     private suspend fun Note.rememberNote(
         dao: NotesDao,
