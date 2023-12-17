@@ -16,9 +16,9 @@ fun NavGraphBuilder.allNotesScreen(onClickMenu: () -> Unit, onClickConcreteNote:
         val app: App? = LocalContext.current as? App
         if (app != null){
             val dependenciesProvider = DependenciesProvider.get(app)
-            val factory = provideFactoryFromDaggerComponent(dependenciesProvider)
-
-            val viewModel: NotesScreenViewModel = viewModel(factory = factory)
+            val viewModelFactory = provideFactoryFromDaggerComponent(dependenciesProvider)
+            val viewModel: NotesScreenViewModel = viewModel(factory = viewModelFactory)
+            NotesScreen(viewModel = viewModel)
         }
 
     }

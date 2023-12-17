@@ -18,7 +18,6 @@ import com.example.thindie.leenotes.domain.mapCollection
 import com.example.thindie.leenotes.presentation.features.feature_notes.di.NoteFeatureScope
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 @NoteFeatureScope
 class NotesRepositoryImpl @Inject constructor(
@@ -45,7 +44,7 @@ class NotesRepositoryImpl @Inject constructor(
     override fun observeNotes(): Flow<List<Note>> {
         return dao
             .observeNotes()
-            .mapCollection{ dbModel ->  dbModel.mapToNote() }
+            .mapCollection { dbModel -> dbModel.mapToNote() }
     }
 
     private suspend fun getBindingDbModel(id: Int?): BindingsDbModel? {
@@ -53,7 +52,8 @@ class NotesRepositoryImpl @Inject constructor(
             bindingsDao.getBinding(id)
         } else null
     }
-    private suspend fun NoteDbModel.mapToNote(): Note{
+
+    private suspend fun NoteDbModel.mapToNote(): Note {
         return map(::getBindingDbModel, ::getCostDbModel)
     }
 
@@ -63,7 +63,6 @@ class NotesRepositoryImpl @Inject constructor(
             costsDao.getCost(id)
         } else null
     }
-
 
 
     private suspend fun Note.rememberNote(
