@@ -10,6 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.thindie.leenotes.presentation.common.theme.LeenotesTheme
+import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.composables.NoteActionsHub
 import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.viewodel.NotesScreenViewModel
 
 @Composable
@@ -25,6 +26,7 @@ fun NotesScreen(modifier: Modifier = Modifier, viewModel: NotesScreenViewModel) 
             .forEach {
                 Text(text = it.title)
             }
+        NoteActionsHub(onEvent = viewModel::onNoteScreenEvent)
     }
 }
 

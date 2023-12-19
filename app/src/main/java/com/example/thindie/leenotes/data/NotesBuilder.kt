@@ -1,5 +1,6 @@
 package com.example.thindie.leenotes.data
 
+import androidx.core.text.isDigitsOnly
 import com.example.thindie.leenotes.domain.entities.Cost
 import com.example.thindie.leenotes.domain.entities.Note
 import com.example.thindie.leenotes.domain.entities.NoteBindings
@@ -11,9 +12,11 @@ class NotesBuilder private constructor() {
         return this
     }
 
+
+
     fun build(): Note {
         val builtNote = Note(
-            cost = cost,
+            cost = tryFindCosts(stringsSplit),
             bindings = binding,
             title = title,
             id = 0,
@@ -23,6 +26,20 @@ class NotesBuilder private constructor() {
         resetInitialValues()
 
         return builtNote
+    }
+
+
+    private  fun tryFindCosts(list: List<String>): Cost? {
+        return list.associateWith{ it.isDigitsOnly() }
+            .firstNotNullOf { it.key.toDouble() }
+            .toRawCost()
+    }
+
+    private fun Double?.toRawCost(): Cost?{
+        return if (this != null){
+            Cost(price = this)
+        }
+        else null
     }
 
     companion object {

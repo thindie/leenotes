@@ -2,10 +2,11 @@ package com.example.thindie.leenotes.presentation.features.feature_notes.allnote
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.state.NoteScreenEvent
 
 @Composable
-fun rememberNoteActionsHubState(): NoteActionsHubState {
+fun rememberNoteActionsHubState(onEvent: (NoteScreenEvent) -> Unit): NoteActionsHubState {
     return remember{
-        NoteActionsHubState()
+        NoteActionsHubState(onEvent)
     }
 }
