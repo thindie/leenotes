@@ -17,10 +17,30 @@ class NoteActionsHubState(val onEvent: (NoteScreenEvent) -> Unit) {
     var shouldShowSendAction by mutableStateOf(false)
         private set
 
-   fun onInput(input: String){}
-   fun onClearInput(){}
+    fun onInput(input: String) {
+        if (input.isEmpty()){
+            isInputFieldEmpty = true
+            shouldShowSendAction = false
 
-    fun onSend(){}
+        }
+        else{
+            isInputFieldEmpty = false
+            shouldShowSendAction = true
+        }
+        inputFieldStringState = input
+    }
 
-    fun onFilter(type: NoteType){}
+    fun onClearOutput(){
+        onInput("")
+    }
+
+
+    fun onSend(){
+        onEvent(NoteScreenEvent.CreateNote(inputFieldStringState ))
+        onClearOutput()
+    }
+
+    fun onFilter(type: NoteType){
+        onEvent(NoteScreenEvent.Filter(type))
+    }
 }

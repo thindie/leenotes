@@ -32,19 +32,31 @@ class HandleShareIntentActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val invokedIntent = handleIntent(intent = intent)
         if (invokedIntent != null){
-            val dependenciesProvider = (application as? App)?.getAppComponent()
-            initDaggerComponent(dependenciesProvider)
-            viewModel
-            handleSendText(invokedIntent)
-            setContent {
-                LeenotesTheme {
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        Text(text = incomingString, modifier = Modifier.align(Alignment.Center))
-                    }
+            onValidIntent(invokedIntent)
+            renderScreen()
+         }
+    }
+
+    private fun onValidIntent(intent: Intent){
+        dependencyInjection()
+        handleSendText(intent)
+    }
+
+    private fun renderScreen(){
+        setContent {
+            LeenotesTheme {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Text(text = incomingString, modifier = Modifier.align(Alignment.Center))
                 }
             }
         }
     }
+
+    private fun dependencyInjection(){
+        val dependenciesProvider = (application as? App)?.getAppComponent()
+        initDaggerComponent(dependenciesProvider)
+    }
+
 
     private fun initDaggerComponent(dependenciesProvider: DependenciesProvider?) {
         if (dependenciesProvider != null) {
