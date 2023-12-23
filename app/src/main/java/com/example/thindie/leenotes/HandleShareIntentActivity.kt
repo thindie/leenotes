@@ -8,15 +8,18 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.example.thindie.leenotes.common.di.App
 import com.example.thindie.leenotes.common.di.DependenciesProvider
 import com.example.thindie.leenotes.common.di.viewmodels_factory.ViewModelFactory
 import com.example.thindie.leenotes.presentation.common.theme.LeenotesTheme
+import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.composables.HandleIntentScreen
 import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.di.HandleFeatureComponent
 import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.viewmodel.HandleShareViewModel
 import javax.inject.Inject
@@ -27,32 +30,38 @@ class HandleShareIntentActivity : ComponentActivity() {
     lateinit var viewModelFactory: ViewModelFactory
     val viewModel: HandleShareViewModel by viewModels(factoryProducer = { viewModelFactory })
 
-    private var incomingString by mutableStateOf("")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val invokedIntent = handleIntent(intent = intent)
-        if (invokedIntent != null){
+        if (invokedIntent != null) {
             onValidIntent(invokedIntent)
             renderScreen()
-         }
+        }
     }
 
-    private fun onValidIntent(intent: Intent){
+    private fun onValidIntent(intent: Intent) {
         dependencyInjection()
         handleSendText(intent)
     }
 
-    private fun renderScreen(){
+    @Composable
+    fun listenFinish(viewModel: HandleShareViewModel) {
+        if (viewModel.isFinished) {
+            val activity = LocalContext.current as? HandleShareIntentActivity
+            activity?.finish()
+        }
+    }
+
+    private fun renderScreen() {
         setContent {
             LeenotesTheme {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    Text(text = incomingString, modifier = Modifier.align(Alignment.Center))
-                }
+                listenFinish(viewModel = viewModel)
+                HandleIntentScreen(viewModel = viewModel)
             }
         }
     }
 
-    private fun dependencyInjection(){
+    private fun dependencyInjection() {
         val dependenciesProvider = (application as? App)?.getAppComponent()
         initDaggerComponent(dependenciesProvider)
     }
@@ -67,9 +76,7 @@ class HandleShareIntentActivity : ComponentActivity() {
 
     private fun handleSendText(intent: Intent?) {
         if (intent != null) {
-            intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-                incomingString = it
-            }
+            intent.getStringExtra(Intent.EXTRA_TEXT)?.let { viewModel.onHandleRawString(it) }
         }
     }
 
