@@ -80,7 +80,6 @@ dependencies {
     // Dagger
     implementation(Dependencies.Dagger.dagger)
     implementation(Dependencies.Dagger.hiltNavigation)
-    kapt(Dependencies.Dagger.annotationProcessor)
     kapt(Dependencies.Dagger.annotationProcessorCompiler)
 
     // Accompanist

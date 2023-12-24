@@ -3,16 +3,17 @@ package com.example.thindie.leenotes.data.database.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.thindie.leenotes.data.database.DataBaseContract.notesTable
+import com.example.thindie.leenotes.domain.entities.Cost
+import com.example.thindie.leenotes.domain.entities.NoteBindings
 
 
 @Entity(tableName = notesTable)
 data class NoteDbModel(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val title: String,
-    val body: String,
-    val cost: Int,
-    val tagShadow: String,
-    val hyperLink: String,
-    @PrimaryKey(autoGenerate = false)
-    val timestamp: Long,
-    val createdAt: String
+    val description: String,
+    val creationTimeInMillis: Long,
+    val costId: Int? = null,
+    val bindingsId: Int? = null,
 )

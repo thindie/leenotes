@@ -1,7 +1,6 @@
 package com.example.thindie.leenotes.data.database
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 import com.example.thindie.leenotes.data.database.DataBaseContract.notesTable
@@ -13,16 +12,13 @@ interface NotesDao {
     @Query("SELECT * FROM $notesTable")
     fun observeNotes(): Flow<List<NoteDbModel>>
 
-    @Query("SELECT * FROM $notesTable")
-    suspend fun getNotes(): List<NoteDbModel>
-
     @Upsert
-    suspend fun upsertNote(noteDbModel: NoteDbModel)
+    suspend fun upsertNote(noteDbModel: NoteDbModel): Long
 
-    @Query("SELECT * FROM $notesTable WHERE timestamp = :id LIMIT 1")
-    suspend fun getNote(id: Long): NoteDbModel
+    @Query("SELECT * FROM $notesTable WHERE id = :id LIMIT 1")
+    suspend fun getNote(id: Int): NoteDbModel
 
-    @Delete
-    suspend fun deleteNote(noteDbModel: NoteDbModel)
+    @Query("DELETE FROM $notesTable WHERE id = :id")
+    suspend fun deleteNote(id: Int)
 
 }

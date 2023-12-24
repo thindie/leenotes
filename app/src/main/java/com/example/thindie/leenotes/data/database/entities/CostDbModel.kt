@@ -7,11 +7,7 @@ import com.example.thindie.leenotes.data.database.DataBaseContract.costsTable
 
 @Entity(tableName = costsTable)
 data class CostDbModel(
-    @PrimaryKey (autoGenerate = false)
-    val timeStamp: Long,
-    val title: String,
-    val day: String,
-    val month: String,
-    val year: String,
-    val cost: Int
+    @PrimaryKey (autoGenerate = true)
+    val id: Int = 0,
+    val price: Double
 )
