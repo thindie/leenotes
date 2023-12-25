@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,26 +34,25 @@ import com.example.thindie.leenotes.presentation.features.feature_handle_shared_
 @Composable
 fun HandleIntentScreen(modifier: Modifier = Modifier, viewModel: HandleShareViewModel) {
 
-        Column(
-            modifier = modifier
-                .padding(horizontal = 8.dp, vertical = 20.dp)
-                .imePadding()
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            NotesTopAppBar {}
-            Spacer(modifier = modifier.height(8.dp))
-            Title()
-            Body(
-                transferredString = viewModel.currentDescription,
-                onProvideCosts = viewModel::onSelectCost,
-                onProvideTitle = viewModel::onProvideTitle
-            )
-            Spacer(modifier = modifier.weight(1f, true))
-            Controllers(
-                onClickSubmit = viewModel::onClickHandle, onClickCancel = viewModel::onClickCancel
-            )
-        }
+    Column(
+        modifier = modifier
+            .padding(horizontal = 8.dp, vertical = 20.dp)
+            .imePadding()
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        NotesTopAppBar {}
+        Title()
+        Body(
+            transferredString = viewModel.currentDescription,
+            onProvideCosts = viewModel::onSelectCost,
+            onProvideTitle = viewModel::onProvideTitle
+        )
+        Spacer(modifier = modifier.weight(1f, true))
+        Controllers(
+            onClickSubmit = viewModel::onClickHandle, onClickCancel = viewModel::onClickCancel
+        )
+    }
 
 }
 
@@ -88,7 +86,7 @@ private fun Title() {
     Row(
         Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 8.dp),
+            .padding(horizontal = 20.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -98,7 +96,7 @@ private fun Title() {
         )
         Text(
             text = stringResource(R.string.text_label_intent_parse_screen),
-            style = MaterialTheme.typography.headlineSmall,
+            style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center
         )
     }
@@ -127,17 +125,22 @@ private fun Body(
         modifier = modifier
             .padding(horizontal = 10.dp)
             .clip(RoundedCornerShape(10))
-            .background(MaterialTheme.colorScheme.primaryContainer)
-            ,
+            .background(MaterialTheme.colorScheme.primaryContainer),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
-        Column(modifier = modifier
-            .padding(40.dp)) {
-            Text(text = transferredString, style = MaterialTheme.typography.labelSmall)
-            Spacer(modifier = modifier.height(20.dp))
+        Column(
+            modifier = modifier
+                .padding(5.dp)
+        ) {
+            Text(
+                text = transferredString,
+                style = MaterialTheme.typography.labelSmall,
+                modifier = modifier.padding(horizontal = 20.dp)
+            )
+            Spacer(modifier = modifier.height(3.dp))
             InputRow(state = numericInputState)
-            Spacer(modifier = modifier.height(20.dp))
+            Spacer(modifier = modifier.height(3.dp))
             InputRow(state = descriptionInputState)
         }
 
