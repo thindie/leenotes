@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.thindie.leenotes.common.navigation.NavigationEvent
 import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.composables.noteshubstate.NoteActionsHubState
 import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.composables.noteshubstate.rememberNoteActionsHubState
 import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.state.NoteScreenEvent
@@ -27,8 +26,8 @@ fun NoteActionsHub(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(MaterialTheme.colorScheme.primary)
-        , verticalAlignment = Alignment.CenterVertically
+            .background(MaterialTheme.colorScheme.primaryContainer),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         NoteCreationUnit(notesActionsHubState)
         Spacer(modifier = modifier.padding(horizontal = 8.dp))

@@ -1,6 +1,5 @@
 package com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.composables
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -19,18 +18,11 @@ fun NoteInputField(
         value = state.inputFieldStringState,
         onValueChange = state::onInput,
         label = { Label() },
-        placeholder = { Placeholder() }
     )
 }
 
 
-
 @Composable
 private fun Label() {
-    Text(text = stringResource(R.string.text_field_focus_task), style = MaterialTheme.typography.labelSmall)
-}
-
-@Composable
-private fun Placeholder() {
-    Text(text = stringResource(R.string.text_field_enter_task), style = MaterialTheme.typography.labelSmall)
+    Text(text = stringResource(R.string.text_field_enter_task))
 }

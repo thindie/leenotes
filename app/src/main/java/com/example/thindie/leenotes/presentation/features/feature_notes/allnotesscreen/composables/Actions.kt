@@ -8,11 +8,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.thindie.leenotes.domain.NoteType
 import com.example.thindie.leenotes.presentation.IconsHub
-import com.example.thindie.leenotes.presentation.common.IconHolder
+import com.example.thindie.leenotes.common.design_system.IconHolder
 import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.composables.noteshubstate.NoteActionsHubState
 
 @Composable
