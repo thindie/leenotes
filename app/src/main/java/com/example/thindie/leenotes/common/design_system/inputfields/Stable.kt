@@ -1,4 +1,4 @@
-package com.example.thindie.leenotes.presentation.common.inputfields
+package com.example.thindie.leenotes.common.design_system.inputfields
 
 import android.util.Log
 import androidx.annotation.DrawableRes

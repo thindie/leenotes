@@ -1,4 +1,4 @@
-package com.example.thindie.leenotes.presentation.common
+package com.example.thindie.leenotes.common.design_system
 
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
