@@ -12,7 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.thindie.leenotes.application.di.AppComponent
 import com.example.thindie.leenotes.common.di.App
 import com.example.thindie.leenotes.presentation.common.NotesTopAppBar
-import com.example.thindie.leenotes.presentation.common.theme.LeenotesTheme
+import com.example.thindie.leenotes.common.design_system.theme.LeenotesTheme
 import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.allNotesScreen
 
 
