@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.thindie.leenotes.domain.NoteType
@@ -17,7 +18,7 @@ import com.example.thindie.leenotes.presentation.features.feature_notes.allnotes
 @Composable
 fun Actions(state: NoteActionsHubState) {
     if (state.shouldShowSendAction) {
-        ActionSend(onSend = state::onSend)
+        ActionSend(onSend = state::onSend, onClear = state::onClearOutput)
 
     } else {
         ActionsNotesFilter(onClick = state::onFilter)
@@ -26,10 +27,16 @@ fun Actions(state: NoteActionsHubState) {
 
 
 @Composable
-fun ActionSend(onSend: () -> Unit) {
-    IconButton(onSend) {
-        Icon(painter = IconHolder.render(IconsHub.send).getIcon(), contentDescription = null)
+fun ActionSend(onSend: () -> Unit, onClear: () -> Unit) {
+    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly) {
+        IconButton(onSend) {
+            Icon(painter = IconHolder.render(IconsHub.send).getIcon(), contentDescription = null)
+        }
+        IconButton(onClick = onClear) {
+            Icon(painter = IconHolder.render(IconsHub.cancel).getIcon(), contentDescription = null)
+        }
     }
+
 }
 
 @Composable
