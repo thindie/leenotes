@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,36 +43,37 @@ fun HandleIntentScreen(modifier: Modifier = Modifier, viewModel: HandleShareView
     val descriptionInputState =
         rememberInputFieldState(isNumeric = false, label = R.string.text_field_enter_task)
 
+    Scaffold(topBar = { NotesTopAppBar {} }) {
+        Column(
+            modifier = modifier
+                .padding(horizontal = 8.dp, vertical = 20.dp)
+                .padding(it)
+                .imePadding()
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
 
-    Column(
-        modifier = modifier
-            .padding(horizontal = 8.dp, vertical = 20.dp)
-            .imePadding()
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        NotesTopAppBar {}
-        Title()
-        Body(
-            transferredString = viewModel.currentDescription,
-            numericState = numericInputState,
-            stringInputState = descriptionInputState
-        )
-        Spacer(modifier = modifier.weight(1f, true))
-        Controllers(
-            onClickSubmit = {
-                viewModel.onEvent(
-                    HandleShareViewModelEvent.Submit(
-                        description = descriptionInputState.fieldValue,
-                        cost = InputFieldState.parseAndGet(numericInputState.fieldValue)
+            Title()
+            Body(
+                transferredString = viewModel.currentDescription,
+                numericState = numericInputState,
+                stringInputState = descriptionInputState
+            )
+            Spacer(modifier = modifier.weight(1f, true))
+            Controllers(
+                onClickSubmit = {
+                    viewModel.onEvent(
+                        HandleShareViewModelEvent.Submit(
+                            description = descriptionInputState.fieldValue,
+                            cost = InputFieldState.parseAndGet(numericInputState.fieldValue)
+                        )
                     )
-                )
-            }, onClickCancel = {
-                viewModel.onEvent(HandleShareViewModelEvent.Cancel)
-            }
-        )
+                }, onClickCancel = {
+                    viewModel.onEvent(HandleShareViewModelEvent.Cancel)
+                }
+            )
+        }
     }
-
 }
 
 @Composable
