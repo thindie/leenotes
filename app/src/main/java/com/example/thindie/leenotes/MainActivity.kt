@@ -10,10 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.thindie.leenotes.application.di.AppComponent
+import com.example.thindie.leenotes.common.design_system.theme.LeenotesTheme
 import com.example.thindie.leenotes.common.di.App
 import com.example.thindie.leenotes.presentation.common.NotesTopAppBar
-import com.example.thindie.leenotes.common.design_system.theme.LeenotesTheme
-import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.allNotesScreen
+import com.example.thindie.leenotes.presentation.features.feature_note.concrete_note.concreteNote
+import com.example.thindie.leenotes.presentation.features.feature_notes.all_notes.allNotesScreen
 
 
 class MainActivity : ComponentActivity(), App {
@@ -23,6 +24,7 @@ class MainActivity : ComponentActivity(), App {
         super.onCreate(savedInstanceState)
 
         setContent {
+            val navController = rememberNavController()
             LeenotesTheme {
                 Scaffold(topBar = { NotesTopAppBar {} })
                 { padding ->
@@ -30,10 +32,14 @@ class MainActivity : ComponentActivity(), App {
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(padding),
-                        navController = rememberNavController(),
+                        navController = navController,
                         startDestination = "allNotes"
                     ) {
-                        allNotesScreen(onClickMenu = {}, onClickConcreteNote = {})
+                        allNotesScreen(
+                            onClickMenu = {},
+                            onClickConcreteNote = navController::concreteNote
+                        )
+                        concreteNote()
                     }
                 }
 
@@ -47,5 +53,6 @@ class MainActivity : ComponentActivity(), App {
         return application.getAppComponent()
     }
 }
+
 
  

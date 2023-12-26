@@ -1,4 +1,4 @@
-package com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.composables
+package com.example.thindie.leenotes.presentation.features.feature_notes.all_notes.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -11,9 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.composables.noteshubstate.NoteActionsHubState
-import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.composables.noteshubstate.rememberNoteActionsHubState
-import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.state.NoteScreenEvent
+import com.example.thindie.leenotes.presentation.features.feature_notes.all_notes.composables.noteshubstate.NoteActionsHubState
+import com.example.thindie.leenotes.presentation.features.feature_notes.all_notes.composables.noteshubstate.rememberNoteActionsHubState
+import com.example.thindie.leenotes.presentation.features.feature_notes.viewodel.NoteScreenEvent
 
 
 @Composable

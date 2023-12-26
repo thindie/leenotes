@@ -1,4 +1,4 @@
-package com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.composables
+package com.example.thindie.leenotes.presentation.features.feature_notes.all_notes.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.example.thindie.leenotes.domain.NoteType
 import com.example.thindie.leenotes.presentation.IconsHub
 import com.example.thindie.leenotes.common.design_system.IconHolder
-import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.composables.noteshubstate.NoteActionsHubState
+import com.example.thindie.leenotes.presentation.features.feature_notes.all_notes.composables.noteshubstate.NoteActionsHubState
 
 @Composable
 fun Actions(state: NoteActionsHubState) {

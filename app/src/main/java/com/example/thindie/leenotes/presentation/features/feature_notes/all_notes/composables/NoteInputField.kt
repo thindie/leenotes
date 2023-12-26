@@ -1,4 +1,4 @@
-package com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.composables
+package com.example.thindie.leenotes.presentation.features.feature_notes.all_notes.composables
 
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.thindie.leenotes.R
-import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.composables.noteshubstate.NoteActionsHubState
+import com.example.thindie.leenotes.presentation.features.feature_notes.all_notes.composables.noteshubstate.NoteActionsHubState
 
 @Composable
 fun NoteInputField(

@@ -1,4 +1,4 @@
-package com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.state
+package com.example.thindie.leenotes.presentation.features.feature_notes.viewodel
 
 import com.example.thindie.leenotes.domain.NoteType
 import com.example.thindie.leenotes.domain.entities.Note

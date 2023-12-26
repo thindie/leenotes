@@ -1,11 +1,11 @@
-package com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.composables.noteshubstate
+package com.example.thindie.leenotes.presentation.features.feature_notes.all_notes.composables.noteshubstate
 
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.example.thindie.leenotes.domain.NoteType
-import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.state.NoteScreenEvent
+import com.example.thindie.leenotes.presentation.features.feature_notes.viewodel.NoteScreenEvent
 
 @Stable
 class NoteActionsHubState(val onEvent: (NoteScreenEvent) -> Unit) {

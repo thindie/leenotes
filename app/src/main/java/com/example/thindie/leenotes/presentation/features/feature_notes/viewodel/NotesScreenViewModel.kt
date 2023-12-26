@@ -1,4 +1,4 @@
-package com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.viewodel
+package com.example.thindie.leenotes.presentation.features.feature_notes.viewodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,9 +9,6 @@ import com.example.thindie.leenotes.domain.usecase.CreateNoteUseCase
 import com.example.thindie.leenotes.domain.usecase.DestroyNoteUseCase
 import com.example.thindie.leenotes.domain.usecase.ObserveNotesUseCase
 import com.example.thindie.leenotes.domain.usecase.UpdateNoteUseCase
-import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.state.NoteScreenEvent
-import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.state.NotesScreenState
-import com.example.thindie.leenotes.presentation.features.feature_notes.allnotesscreen.state.toState
 import com.example.thindie.leenotes.presentation.features.feature_notes.di.NoteFeatureScope
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
