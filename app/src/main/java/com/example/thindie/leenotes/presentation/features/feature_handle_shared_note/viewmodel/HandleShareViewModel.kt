@@ -26,44 +26,37 @@ class HandleShareViewModel @Inject constructor(private val handleShareUseCase: H
     var currentDescription by mutableStateOf("")
         private set
 
-    fun onClickHandle() {
-        viewModelScope.launch {
-            if (currentTitle.isEmpty()) {
-                handleShareUseCase(
-                    Note(
-                        title = currentTitle,
-                        id = 0,
-                        description = currentDescription,
-                        creationTimeInMillis = System.currentTimeMillis(),
-                        cost = getCost(),
-                        bindings = null,
-                    )
-                )
+    fun onEvent(handleShareViewModelEvent: HandleShareViewModelEvent) {
+        when (handleShareViewModelEvent) {
+            HandleShareViewModelEvent.Cancel -> {
+                isFinished = true
             }
 
+            is HandleShareViewModelEvent.Submit -> {
+                currentCost = handleShareViewModelEvent.cost
+                currentTitle = handleShareViewModelEvent.description
+                onSubmit()
+            }
+
+            is HandleShareViewModelEvent.Initial -> {
+                 currentDescription = handleShareViewModelEvent.intentBody
+            }
         }
     }
 
-    fun onClickCancel() {
-        isFinished = true
+    private fun onSubmit(){
+        viewModelScope.launch {
+          val note = Note(
+                id = 0,
+                title = currentTitle,
+                description = currentDescription,
+                creationTimeInMillis = System.currentTimeMillis(),
+                cost = if (currentCost != null) Cost(id = 0, price = currentCost!!.toDouble()) else null,
+                bindings = null
+            )
+            handleShareUseCase.invoke(note)
+            isFinished = true
+        }
     }
 
-
-    fun onHandleRawString(rawString: String) {
-        currentDescription = rawString
-    }
-
-    fun onSelectCost(cost: Int) {
-        currentCost = cost
-    }
-
-    fun onProvideTitle(title: String) {
-        currentTitle = title
-    }
-
-    private fun getCost(): Cost? {
-       return if (currentCost == null) null else Cost(
-            id = 0, price = currentCost?.toDouble() ?: 0.0
-        )
-    }
 }

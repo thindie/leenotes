@@ -13,7 +13,7 @@ import androidx.compose.ui.text.input.KeyboardType
 @Stable
 class InputFieldState(val isNumeric: Boolean, val label: Int) {
 
-    var onAgreed : (String) -> Unit = {}
+
 
     val keyboardOptions =
         if (isNumeric) KeyboardOptions(keyboardType = KeyboardType.Number) else
@@ -22,32 +22,20 @@ class InputFieldState(val isNumeric: Boolean, val label: Int) {
     var fieldValue by mutableStateOf("")
         private set
 
-    var isInputAgreed by mutableStateOf(false)
+
 
     fun onValueChange(string: String) {
-        if (string.isBlank()){ isInputAgreed = false }
+
         fieldValue = string
     }
 
-    val colorTypeConfirmed
-        @Composable get() = MaterialTheme.colorScheme.primary
-
-    val colorNotConfirmed  get() =  Color.Green.copy(0.5f)
-
-
-
-    fun onAgreeInputClicked() {
-        isInputAgreed = true
-        onAgreed.invoke(fieldValue)
-
-    }
 
     companion object {
-        fun parseAndGet(string: String): Int {
+        fun parseAndGet(string: String): Int? {
             return try {
                 string.toInt()
             } catch (_: Exception) {
-                0
+                null
             }
         }
     }

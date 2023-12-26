@@ -2,6 +2,7 @@ package com.example.thindie.leenotes
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -14,6 +15,7 @@ import com.example.thindie.leenotes.common.di.viewmodels_factory.ViewModelFactor
 import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.composables.HandleIntentScreen
 import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.di.HandleFeatureComponent
 import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.viewmodel.HandleShareViewModel
+import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.viewmodel.HandleShareViewModelEvent
 import javax.inject.Inject
 
 class HandleShareIntentActivity : ComponentActivity() {
@@ -28,6 +30,11 @@ class HandleShareIntentActivity : ComponentActivity() {
         if (invokedIntent != null) {
             onValidIntent(invokedIntent)
             renderScreen()
+        }
+        else {
+            Toast.makeText(this, "Cant create note with this thing", Toast.LENGTH_SHORT)
+                .show()
+            this.finish()
         }
     }
 
@@ -69,7 +76,7 @@ class HandleShareIntentActivity : ComponentActivity() {
 
     private fun handleSendText(intent: Intent?) {
         if (intent != null) {
-            intent.getStringExtra(Intent.EXTRA_TEXT)?.let { viewModel.onHandleRawString(it) }
+            intent.getStringExtra(Intent.EXTRA_TEXT)?.let { viewModel.onEvent(HandleShareViewModelEvent.Initial(it)) }
         }
     }
 

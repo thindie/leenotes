@@ -30,9 +30,18 @@ import com.example.thindie.leenotes.presentation.features.feature_handle_shared_
 import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.composables.inputfields.InputRow
 import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.composables.inputfields.rememberInputFieldState
 import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.viewmodel.HandleShareViewModel
+import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.viewmodel.HandleShareViewModelEvent
 
 @Composable
 fun HandleIntentScreen(modifier: Modifier = Modifier, viewModel: HandleShareViewModel) {
+
+
+    val numericInputState =
+        rememberInputFieldState(isNumeric = true, label = R.string.text_field_cost)
+
+    val descriptionInputState =
+        rememberInputFieldState(isNumeric = false, label = R.string.text_field_enter_task)
+
 
     Column(
         modifier = modifier
@@ -45,12 +54,21 @@ fun HandleIntentScreen(modifier: Modifier = Modifier, viewModel: HandleShareView
         Title()
         Body(
             transferredString = viewModel.currentDescription,
-            onProvideCosts = viewModel::onSelectCost,
-            onProvideTitle = viewModel::onProvideTitle
+            numericState = numericInputState,
+            stringInputState = descriptionInputState
         )
         Spacer(modifier = modifier.weight(1f, true))
         Controllers(
-            onClickSubmit = viewModel::onClickHandle, onClickCancel = viewModel::onClickCancel
+            onClickSubmit = {
+                viewModel.onEvent(
+                    HandleShareViewModelEvent.Submit(
+                        description = descriptionInputState.fieldValue,
+                        cost = InputFieldState.parseAndGet(numericInputState.fieldValue)
+                    )
+                )
+            }, onClickCancel = {
+                viewModel.onEvent(HandleShareViewModelEvent.Cancel)
+            }
         )
     }
 
@@ -107,19 +125,9 @@ private fun Title() {
 private fun Body(
     modifier: Modifier = Modifier,
     transferredString: String,
-    onProvideCosts: (Int) -> Unit,
-    onProvideTitle: (String) -> Unit,
+    numericState: InputFieldState,
+    stringInputState: InputFieldState,
 ) {
-    val numericInputState =
-        rememberInputFieldState(isNumeric = true, label = R.string.text_field_cost)
-    numericInputState.onAgreed = {
-        onProvideCosts.invoke(InputFieldState.parseAndGet(it))
-    }
-
-    val descriptionInputState =
-        rememberInputFieldState(isNumeric = false, label = R.string.text_field_enter_task)
-
-    descriptionInputState.onAgreed = onProvideTitle
 
     Row(
         modifier = modifier
@@ -139,9 +147,9 @@ private fun Body(
                 modifier = modifier.padding(horizontal = 20.dp)
             )
             Spacer(modifier = modifier.height(3.dp))
-            InputRow(state = numericInputState)
+            InputRow(state = numericState)
             Spacer(modifier = modifier.height(3.dp))
-            InputRow(state = descriptionInputState)
+            InputRow(state = stringInputState)
         }
 
 
