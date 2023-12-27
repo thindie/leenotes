@@ -2,15 +2,23 @@ package com.example.thindie.leenotes.presentation.features.feature_note.viewmode
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.thindie.leenotes.common.di.dispatchers.IODispatcher
 import com.example.thindie.leenotes.domain.entities.Note
+import com.example.thindie.leenotes.domain.usecase.GetNoteUseCase
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class ConcreteNoteViewModel @Inject constructor() : ViewModel() {
+class ConcreteNoteViewModel @Inject constructor(
+    private val getNoteUseCase: GetNoteUseCase,
+    @IODispatcher private val dispatcherIO: CoroutineDispatcher,
+) : ViewModel() {
 
     private val note = MutableStateFlow<Note?>(null)
     private val isEditing = MutableStateFlow(false)
@@ -28,19 +36,31 @@ class ConcreteNoteViewModel @Inject constructor() : ViewModel() {
 
     fun onEvent(event: ConcreteViewModelEvent) {
         when (event) {
-            ConcreteViewModelEvent.DeleteCurrent -> TODO()
-            ConcreteViewModelEvent.Edit -> TODO()
+            ConcreteViewModelEvent.DeleteCurrent -> {
+
+            }
+
+            ConcreteViewModelEvent.Edit -> {
+
+            }
+
             is ConcreteViewModelEvent.ID -> {
                 onIdEvent(event.id)
             }
 
-            ConcreteViewModelEvent.Save -> TODO()
+            is ConcreteViewModelEvent.Save -> {
+
+            }
+
         }
     }
 
     private fun onIdEvent(id: Int) {
         if (id != -1) {
-
+            viewModelScope.launch(dispatcherIO) {
+                val noteById = getNoteUseCase(id)
+                note.update { noteById }
+            }
         }
     }
 }
