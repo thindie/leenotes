@@ -37,7 +37,7 @@ class NotesBuilder private constructor() {
 
     private fun Double?.toRawCost(): Cost?{
         return if (this != null){
-            Cost(price = this)
+            Cost(price = this, isBought = false)
         }
         else null
     }

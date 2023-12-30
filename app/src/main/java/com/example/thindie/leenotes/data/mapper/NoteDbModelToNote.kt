@@ -28,7 +28,7 @@ fun BindingsDbModel?.toNoteBindings(): NoteBindings? {
 
 fun CostDbModel?.toCost(): Cost? {
     return if (this != null) {
-        Cost(id, price)
+        Cost(id, price, isBought)
     }
     else null
 }

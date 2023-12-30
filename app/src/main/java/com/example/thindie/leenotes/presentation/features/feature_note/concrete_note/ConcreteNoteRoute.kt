@@ -17,7 +17,7 @@ import com.example.thindie.leenotes.presentation.features.feature_note.viewmodel
 private val argumentKey = "noteId"
 private val route = "concreteNote/"
 val concreteNoteRoute = "$route{$argumentKey}"
-fun NavGraphBuilder.concreteNote() {
+fun NavGraphBuilder.concreteNote(onReturnStartScreen: () -> Unit) {
     composable(
         route = concreteNoteRoute,
         arguments = listOf(navArgument(argumentKey) {
@@ -33,7 +33,7 @@ fun NavGraphBuilder.concreteNote() {
             val factory = provideFactoryFromDaggerComponent(dependenciesProvider)
             val viewModel: ConcreteNoteViewModel = viewModel(factory = factory)
             viewModel.onEvent(ConcreteViewModelEvent.ID(id))
-            ConcreteNoteScreen(viewModel = viewModel)
+            ConcreteNoteScreen(viewModel = viewModel, onReturnStartScreen = onReturnStartScreen)
         }
 
     }
