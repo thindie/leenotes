@@ -1,6 +1,5 @@
 package com.example.thindie.leenotes.data
 
-import com.example.thindie.leenotes.Q
 import com.example.thindie.leenotes.data.database.BindingsDao
 import com.example.thindie.leenotes.data.database.CostsDao
 import com.example.thindie.leenotes.data.database.NotesDao
@@ -11,7 +10,6 @@ import com.example.thindie.leenotes.data.mapper.toCostDbModel
 import com.example.thindie.leenotes.data.mapper.toNoteBindings
 import com.example.thindie.leenotes.data.mapper.toNoteDbModel
 import com.example.thindie.leenotes.domain.NoteProvider
-import com.example.thindie.leenotes.domain.entities.Cost
 import com.example.thindie.leenotes.domain.entities.Note
 import com.example.thindie.leenotes.presentation.features.feature_note.di.ConcreteNoteScope
 import javax.inject.Inject
@@ -70,14 +68,19 @@ class NoteProviderImpl @Inject constructor(
         var buildNoteDbModel = note.toNoteDbModel()
 
         costs?.let {
-            val costId =
-                if (it.id > 0) {
-                    costsDao.addCost(it.toCostDbModel())
-                    it.id
-                } else {
-                    costsDao.addCost(it.toCostDbModel()).toInt()
-                }
-            buildNoteDbModel = buildNoteDbModel.copy(costId = costId)
+            buildNoteDbModel = if (it.price > 0.0) {
+                val costId =
+                    if (it.id > 0) {
+                        costsDao.addCost(it.toCostDbModel())
+                        it.id
+                    } else {
+                        costsDao.addCost(it.toCostDbModel()).toInt()
+                    }
+                buildNoteDbModel.copy(costId = costId)
+            } else {
+                costsDao.deleteCost(it.id)
+                buildNoteDbModel.copy(costId = null)
+            }
         }
 
 
@@ -96,7 +99,6 @@ class NoteProviderImpl @Inject constructor(
 
 
 
-        Q(buildNoteDbModel)
         dao.upsertNote(buildNoteDbModel)
 
     }

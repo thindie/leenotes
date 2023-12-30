@@ -5,11 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.thindie.leenotes.Q
 import com.example.thindie.leenotes.common.di.dispatchers.IODispatcher
 import com.example.thindie.leenotes.domain.entities.Cost
 import com.example.thindie.leenotes.domain.entities.Note
-import com.example.thindie.leenotes.domain.entities.NoteBindings
 import com.example.thindie.leenotes.domain.usecase.DestroyNoteUseCase
 import com.example.thindie.leenotes.domain.usecase.GetNoteUseCase
 import com.example.thindie.leenotes.domain.usecase.UpdateNoteUseCase
@@ -85,8 +83,6 @@ class ConcreteNoteViewModel @Inject constructor(
                     val isBoughtNow = isSpent
                     val bindings = receivedParams.bindings
 
-                    Q(title,desc,cost, isBoughtNow, bindings)
-
                     val changedNote = currentNote.copy(
                         id = currentNote.id,
                         title = title,
@@ -94,13 +90,9 @@ class ConcreteNoteViewModel @Inject constructor(
                         creationTimeInMillis = currentNote.creationTimeInMillis,
                         cost = renewCost(currentNote, cost, isBoughtNow),
                         bindings = currentNote.bindings?.copy(properties = bindings)
-
                     )
 
-                    Q(changedNote)
-
                     isEditing.getAndUpdate { false }
-
                     viewModelScope.launch(dispatcherIO) { updateNoteUseCase.invoke(changedNote) }
 
                 }
