@@ -13,7 +13,6 @@ class NotesBuilder private constructor() {
     }
 
 
-
     fun build(): Note {
         val builtNote = Note(
             cost = tryFindCosts(stringsSplit),
@@ -29,17 +28,27 @@ class NotesBuilder private constructor() {
     }
 
 
-    private  fun tryFindCosts(list: List<String>): Cost? {
-        return list.associateWith{ it.isDigitsOnly() }
-            .firstNotNullOf { it.key.toDouble() }
-            .toRawCost()
+    private fun tryFindCosts(list: List<String>): Cost? {
+         var price: String = ""
+        list
+            .forEach {
+                if (it.isDigitsOnly()) price = it
+                else title = title
+                    .plus(it)
+                    .plus(" ")
+            }
+        title.trim()
+        return price.toRawCost()
     }
 
-    private fun Double?.toRawCost(): Cost?{
-        return if (this != null){
-            Cost(price = this, isBought = false)
-        }
-        else null
+    private fun String?.toRawCost(): Cost? {
+        return if (this != null) {
+            try {
+                Cost(price = this.toDouble(), isBought = false)
+            } catch (_: Exception) {
+                null
+            }
+        } else null
     }
 
     companion object {

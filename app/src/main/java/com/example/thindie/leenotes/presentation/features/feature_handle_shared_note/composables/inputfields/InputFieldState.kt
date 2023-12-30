@@ -14,6 +14,8 @@ class InputFieldState(
     private val onFieldChange: () -> Unit,
 ) {
 
+    var shouldShowLabel by mutableStateOf(false)
+        private set
 
     private var isInit = false
 
@@ -28,12 +30,14 @@ class InputFieldState(
     fun onValueChange(string: String) {
         if (isInit) onFieldChange()
         fieldValue = string
+        shouldShowLabel = string.isBlank()
     }
 
     fun onInit(string: String) {
+
         val str = if (string == "null") "" else string
         if (!isInit) {
-            onValueChange(str.ifEmpty { "..." })
+            onValueChange(str)
             isInit = true
         }
     }
