@@ -5,14 +5,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.thindie.leenotes.common.design_system.IconHolder
 import com.example.thindie.leenotes.domain.NoteType
 import com.example.thindie.leenotes.presentation.IconsHub
-import com.example.thindie.leenotes.common.design_system.IconHolder
 import com.example.thindie.leenotes.presentation.features.feature_notes.all_notes.composables.noteshubstate.NoteActionsHubState
 
 @Composable
@@ -28,11 +28,14 @@ fun Actions(state: NoteActionsHubState) {
 
 @Composable
 fun ActionSend(onSend: () -> Unit, onClear: () -> Unit) {
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly) {
-        IconButton(onSend) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        OutlinedIconButton(onSend) {
             Icon(painter = IconHolder.render(IconsHub.send).getIcon(), contentDescription = null)
         }
-        IconButton(onClick = onClear) {
+        OutlinedIconButton(onClick = onClear) {
             Icon(painter = IconHolder.render(IconsHub.cancel).getIcon(), contentDescription = null)
         }
     }
@@ -57,7 +60,7 @@ fun FilteringAction(
     holder: IconHolder,
     onClick: (NoteType) -> Unit,
 ) {
-    IconButton(onClick = { onClick(sortType) }) {
+    OutlinedIconButton(onClick = { onClick(sortType) }) {
         Icon(painter = holder.getIcon(), contentDescription = null)
     }
 

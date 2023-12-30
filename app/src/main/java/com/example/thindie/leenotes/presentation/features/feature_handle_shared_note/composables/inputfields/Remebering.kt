@@ -4,8 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 
 @Composable
-fun rememberInputFieldState(isNumeric: Boolean, label: Int): InputFieldState {
+fun rememberInputFieldState(
+    isNumeric: Boolean,
+    label: Int,
+    onFieldChange: () -> Unit,
+): InputFieldState {
     return remember {
-        InputFieldState(isNumeric, label)
+        InputFieldState(isNumeric, label, onFieldChange)
     }
 }

@@ -4,5 +4,7 @@ sealed class HandleShareViewModelEvent  {
     data object Cancel: HandleShareViewModelEvent()
     data class Submit(val description: String, val cost: Int? = null): HandleShareViewModelEvent()
 
+    data object Bought: HandleShareViewModelEvent()
+
     data class Initial(val intentBody: String): HandleShareViewModelEvent()
 }

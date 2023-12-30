@@ -1,19 +1,21 @@
 package com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.composables.inputfields
 
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 
 @Stable
-class InputFieldState(val isNumeric: Boolean, val label: Int) {
+class InputFieldState(
+    val isNumeric: Boolean,
+    val label: Int,
+    private val onFieldChange: () -> Unit,
+) {
 
 
+    private var isInit = false
 
     val keyboardOptions =
         if (isNumeric) KeyboardOptions(keyboardType = KeyboardType.Number) else
@@ -23,10 +25,17 @@ class InputFieldState(val isNumeric: Boolean, val label: Int) {
         private set
 
 
-
     fun onValueChange(string: String) {
-
+        if (isInit) onFieldChange()
         fieldValue = string
+    }
+
+    fun onInit(string: String) {
+        val str = if (string == "null") "" else string
+        if (!isInit) {
+            onValueChange(str.ifEmpty { "..." })
+            isInit = true
+        }
     }
 
 

@@ -19,6 +19,8 @@ class HandleShareViewModel @Inject constructor(private val handleShareUseCase: H
         private set
     private var currentTitle by mutableStateOf("")
 
+    private var isCurrentCostIsPaid by mutableStateOf(false)
+
 
     private var currentCost: Int? by mutableStateOf(null)
 
@@ -35,23 +37,29 @@ class HandleShareViewModel @Inject constructor(private val handleShareUseCase: H
             is HandleShareViewModelEvent.Submit -> {
                 currentCost = handleShareViewModelEvent.cost
                 currentTitle = handleShareViewModelEvent.description
-                onSubmit()
+                onSubmit(isCurrentCostIsPaid)
             }
 
             is HandleShareViewModelEvent.Initial -> {
-                 currentDescription = handleShareViewModelEvent.intentBody
+                currentDescription = handleShareViewModelEvent.intentBody
+            }
+
+            is HandleShareViewModelEvent.Bought -> {
+                isCurrentCostIsPaid = !isCurrentCostIsPaid
             }
         }
     }
 
-    private fun onSubmit(){
+    private fun onSubmit(isBought: Boolean) {
         viewModelScope.launch {
-          val note = Note(
+            val note = Note(
                 id = 0,
                 title = currentTitle,
                 description = currentDescription,
                 creationTimeInMillis = System.currentTimeMillis(),
-                cost = if (currentCost != null) Cost(id = 0, price = currentCost!!.toDouble()) else null,
+                cost = if (currentCost != null)
+                    Cost(id = 0, price = currentCost!!.toDouble(), isBought = isBought)
+                else null,
                 bindings = null
             )
             handleShareUseCase.invoke(note)

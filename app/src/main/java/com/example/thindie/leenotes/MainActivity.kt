@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity(), App {
                             onClickMenu = {},
                             onClickConcreteNote = navController::concreteNote
                         )
-                        concreteNote()
+                        concreteNote(navController::allNotes)
                     }
                 }
 

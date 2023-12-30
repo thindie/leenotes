@@ -2,4 +2,8 @@ package com.example.thindie.leenotes.presentation.features.feature_note.viewmode
 
 import com.example.thindie.leenotes.domain.entities.Note
 
-data class ConcreteNoteUiState(val note: Note? = null, val isEditingNow: Boolean = false)
+data class ConcreteNoteUiState(
+    val note: Note? = null,
+    val isEditingNow: Boolean = false,
+    val isSpent: Boolean,
+)

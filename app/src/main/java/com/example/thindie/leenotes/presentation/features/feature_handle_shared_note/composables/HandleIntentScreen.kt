@@ -1,5 +1,6 @@
 package com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.composables
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,11 +15,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,10 +45,16 @@ fun HandleIntentScreen(modifier: Modifier = Modifier, viewModel: HandleShareView
 
 
     val numericInputState =
-        rememberInputFieldState(isNumeric = true, label = R.string.text_field_cost)
+        rememberInputFieldState(
+            isNumeric = true,
+            label = R.string.hint_enter_cost,
+            onFieldChange = {})
 
     val descriptionInputState =
-        rememberInputFieldState(isNumeric = false, label = R.string.text_field_enter_task)
+        rememberInputFieldState(
+            isNumeric = false,
+            label = R.string.text_field_enter_task,
+            onFieldChange = {})
 
     Scaffold(topBar = { NotesTopAppBar {} }) {
         Column(
@@ -57,7 +70,8 @@ fun HandleIntentScreen(modifier: Modifier = Modifier, viewModel: HandleShareView
             Body(
                 transferredString = viewModel.currentDescription,
                 numericState = numericInputState,
-                stringInputState = descriptionInputState
+                stringInputState = descriptionInputState,
+                onClickChangeEventProperty = { viewModel.onEvent(HandleShareViewModelEvent.Bought) }
             )
             Spacer(modifier = modifier.weight(1f, true))
             Controllers(
@@ -129,8 +143,11 @@ private fun Body(
     transferredString: String,
     numericState: InputFieldState,
     stringInputState: InputFieldState,
+    onClickChangeEventProperty: () -> Unit,
 ) {
-
+    var isSpent by remember {
+        mutableStateOf(false)
+    }
     Row(
         modifier = modifier
             .padding(horizontal = 10.dp)
@@ -150,11 +167,41 @@ private fun Body(
             )
             Spacer(modifier = modifier.height(3.dp))
             InputRow(state = numericState)
+            Row(
+                modifier = modifier
+                    .padding(horizontal = 12.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                AnimatedVisibility(visible = isSpent) {
+                    Text(
+                        modifier = modifier.scale(0.7f),
+                        text = stringResource(id = R.string.text_field_caution_cant_delete_later),
+                        style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.error)
+                    )
+                }
+                SuggestionChip(
+                    modifier = modifier.scale(0.7f),
+                    onClick = { onClickChangeEventProperty(); isSpent = !isSpent },
+                    label = {
+                        Text(
+                            text = stringResource(id = R.string.chip_already_paid),
+                            style = MaterialTheme.typography.labelSmall
+                        )
+                    },
+                    icon = {
+                        Icon(
+                            painter = if (isSpent) IconHolder.render(IconsHub.confirm).getIcon()
+                            else IconHolder.render(IconsHub.cancel).getIcon(),
+                            contentDescription = null
+                        )
+                    })
+
+            }
             Spacer(modifier = modifier.height(3.dp))
             InputRow(state = stringInputState)
         }
-
-
     }
 }
 

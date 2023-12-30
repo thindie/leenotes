@@ -35,7 +35,8 @@ class HandleIntentNotesRepositoryImpl @Inject constructor(
     private suspend fun getCostId(cost: Cost?): Int? {
         return if (cost != null) costsDao.addCost(
             CostDbModel(
-                price = cost.price
+                price = cost.price,
+                isBought = cost.isBought
             )
         ).toInt() else null
     }
@@ -47,11 +48,6 @@ class HandleIntentNotesRepositoryImpl @Inject constructor(
             )
         ).toInt() else null
     }
-
-
-
-
-    override suspend fun deleteNote(id: Int) {}
 
     override fun observeNotes(): Flow<List<Note>> {
         return flow { }
