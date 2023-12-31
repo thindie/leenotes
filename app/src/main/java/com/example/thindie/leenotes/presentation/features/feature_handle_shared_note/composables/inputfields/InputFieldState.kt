@@ -2,6 +2,7 @@ package com.example.thindie.leenotes.presentation.features.feature_handle_shared
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,6 +17,8 @@ class InputFieldState(
 
     var shouldShowLabel by mutableStateOf(false)
         private set
+
+    val canBeUseAsLink by derivedStateOf { matchesWebLink() }
 
     private var isInit = false
 
@@ -40,6 +43,10 @@ class InputFieldState(
             onValueChange(str)
             isInit = true
         }
+    }
+
+    private fun matchesWebLink(): Boolean {
+        return fieldValue.contains(".com") || fieldValue.contains(".ru")
     }
 
 

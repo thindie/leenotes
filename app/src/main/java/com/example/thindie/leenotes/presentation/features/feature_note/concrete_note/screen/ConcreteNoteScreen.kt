@@ -1,5 +1,8 @@
 package com.example.thindie.leenotes.presentation.features.feature_note.concrete_note.screen
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -265,6 +269,17 @@ private fun Body(
 
 @Composable
 private fun BindingsSection(note: Note, titleInputState: InputFieldState) {
+
+    val context = LocalContext.current
+
+    fun viewLink(context: Context, url: String) {
+        val intent = Intent().apply {
+            action = Intent.ACTION_VIEW
+            data = Uri.parse(url)
+        }
+        context.startActivity(intent)
+    }
+
     Column(modifier = Modifier.padding(vertical = 10.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -286,17 +301,35 @@ private fun BindingsSection(note: Note, titleInputState: InputFieldState) {
             modifier = Modifier
                 .background(getColor())
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             titleInputState.onInit(note.bindings?.properties.orEmpty())
             BasicTextField(
                 modifier = Modifier
                     .heightIn(min = 40.dp)
                     .padding(horizontal = 8.dp, vertical = 10.dp)
-                    .fillMaxWidth(),
+                    .fillMaxWidth(0.7f),
                 value = titleInputState.fieldValue,
                 onValueChange = titleInputState::onValueChange
             )
+            AnimatedVisibility(visible = titleInputState.canBeUseAsLink) {
+                OutlinedIconButton(
+                    onClick = {
+                        viewLink(
+                            context = context,
+                            url = titleInputState.fieldValue
+                        )
+                    },
+                    modifier = Modifier.scale(0.5f)
+                ) {
+                    Icon(
+                        painter = IconHolder.render(IconsHub.web).getIcon(),
+                        contentDescription = null
+                    )
+                }
+            }
+
         }
     }
 
@@ -339,7 +372,8 @@ private fun CostSection(note: Note, titleInputState: InputFieldState, onNotifySp
             BasicTextField(
                 value = titleInputState.fieldValue,
                 onValueChange = titleInputState::onValueChange,
-                textStyle = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.W700)
+                textStyle = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.W700),
+                keyboardOptions = titleInputState.keyboardOptions
             )
         }
         if (note.cost?.isBought == false) {

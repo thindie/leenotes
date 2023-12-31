@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.thindie.leenotes.common.di.dispatchers.IODispatcher
 import com.example.thindie.leenotes.domain.entities.Cost
 import com.example.thindie.leenotes.domain.entities.Note
+import com.example.thindie.leenotes.domain.entities.NoteBindings
 import com.example.thindie.leenotes.domain.usecase.DestroyNoteUseCase
 import com.example.thindie.leenotes.domain.usecase.GetNoteUseCase
 import com.example.thindie.leenotes.domain.usecase.UpdateNoteUseCase
@@ -52,6 +53,7 @@ class ConcreteNoteViewModel @Inject constructor(
             initialValue = ConcreteNoteUiState(isSpent = false)
         )
 
+
     fun onEvent(event: ConcreteViewModelEvent) {
         when (event) {
             ConcreteViewModelEvent.DeleteCurrent -> {
@@ -76,25 +78,21 @@ class ConcreteNoteViewModel @Inject constructor(
                 val receivedParams = event
                 val currentNote = note.value
                 if (currentNote != null) {
-
                     val title = receivedParams.title
                     val desc = receivedParams.description
                     val cost = receivedParams.cost.tryParseOrDefault()
                     val isBoughtNow = isSpent
                     val bindings = receivedParams.bindings
-
                     val changedNote = currentNote.copy(
                         id = currentNote.id,
                         title = title,
                         description = desc,
                         creationTimeInMillis = currentNote.creationTimeInMillis,
                         cost = renewCost(currentNote, cost, isBoughtNow),
-                        bindings = currentNote.bindings?.copy(properties = bindings)
+                        bindings = renewBindings(currentNote, bindings)
                     )
-
                     isEditing.getAndUpdate { false }
                     viewModelScope.launch(dispatcherIO) { updateNoteUseCase.invoke(changedNote) }
-
                 }
             }
 
@@ -103,6 +101,17 @@ class ConcreteNoteViewModel @Inject constructor(
             }
         }
     }
+
+    private fun renewBindings(currentNote: Note, bindings: String): NoteBindings? {
+        val currentBindings = currentNote.bindings
+        return if (currentBindings == null && bindings.isNotBlank()) {
+            NoteBindings(id = 0, properties = bindings)
+        } else {
+            currentBindings?.copy(properties = bindings.ifBlank { currentBindings.properties })
+        }
+    }
+
+
 
     private fun renewCost(currentNote: Note, newCost: Double, boughtNow: Boolean): Cost? {
         val currentCost = currentNote.cost
@@ -130,7 +139,7 @@ class ConcreteNoteViewModel @Inject constructor(
 private fun String.tryParseOrDefault(): Double {
     return try {
         toDouble()
-    } catch (_: Exception){
+    } catch (_: Exception) {
         0.0
     }
 }

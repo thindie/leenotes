@@ -21,7 +21,7 @@
     <string name="text_field_cost">"Net spend"</string>
     <string name="hint_enter_cost">"Enter cost.."</string>
     <string name="text_field_description">"Description"</string>
-    <string name="text_field_additional_info">"Additional information"</string>
+    <string name="text_field_additional_info">"Internet link"</string>
     <string name="text_label_intent_parse_screen">Create</string>
     <string name="chip_description">"descr"</string>
     <string name="chip_additions">"with link"</string>
