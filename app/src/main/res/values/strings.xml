@@ -23,7 +23,7 @@
     <string name="text_field_description">"Description"</string>
     <string name="text_field_additional_info">"Internet link"</string>
     <string name="text_label_intent_parse_screen">Create</string>
-    <string name="chip_description">"descr"</string>
+    <string name="chip_description">"detailed"</string>
     <string name="chip_additions">"with link"</string>
     <string name="chip_costs">priced</string>
     <string name="chip_already_paid">"spent"</string>

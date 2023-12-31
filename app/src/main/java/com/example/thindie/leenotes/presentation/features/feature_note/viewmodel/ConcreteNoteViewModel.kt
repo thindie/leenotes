@@ -42,16 +42,13 @@ class ConcreteNoteViewModel @Inject constructor(
     private val isEditing = MutableStateFlow(false)
     private var isSpent by mutableStateOf(false)
 
-    val screenState = note
-        .filterNotNull()
-        .combine(isEditing)
-        { note, editStatus ->
-            ConcreteNoteUiState(note, editStatus, note.cost?.isBought ?: false)
-        }.stateIn(
-            viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = ConcreteNoteUiState(isSpent = false)
-        )
+    val screenState = note.filterNotNull().combine(isEditing) { note, editStatus ->
+        ConcreteNoteUiState(note, editStatus, note.cost?.isBought ?: false)
+    }.stateIn(
+        viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = ConcreteNoteUiState(isSpent = false)
+    )
 
 
     fun onEvent(event: ConcreteViewModelEvent) {
@@ -105,19 +102,21 @@ class ConcreteNoteViewModel @Inject constructor(
     private fun renewBindings(currentNote: Note, bindings: String): NoteBindings? {
         val currentBindings = currentNote.bindings
         return if (currentBindings == null && bindings.isNotBlank()) {
-            NoteBindings(id = 0, properties = bindings)
+            NoteBindings(id = 0, properties = NoteBindings.buildProperties(bindings))
         } else {
-            currentBindings?.copy(properties = bindings.ifBlank { currentBindings.properties })
+            currentBindings?.copy(properties = NoteBindings.buildProperties(bindings).ifBlank {
+                NoteBindings.buildProperties(
+                    currentBindings.properties
+                )
+            })
         }
     }
-
 
 
     private fun renewCost(currentNote: Note, newCost: Double, boughtNow: Boolean): Cost? {
         val currentCost = currentNote.cost
         return if (currentCost != null) {
-            if (currentCost.isBought)
-                currentCost
+            if (currentCost.isBought) currentCost
             else currentCost.copy(id = currentCost.id, price = newCost, isBought = boughtNow)
         } else {
             if (newCost == 0.0) null
