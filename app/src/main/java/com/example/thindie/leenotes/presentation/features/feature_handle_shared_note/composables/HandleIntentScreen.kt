@@ -56,7 +56,7 @@ fun HandleIntentScreen(modifier: Modifier = Modifier, viewModel: HandleShareView
             label = R.string.text_field_enter_task,
             onFieldChange = {})
 
-    Scaffold(topBar = { NotesTopAppBar {} }) {
+    Scaffold(topBar = { NotesTopAppBar () }) {
         Column(
             modifier = modifier
                 .padding(horizontal = 8.dp, vertical = 20.dp)

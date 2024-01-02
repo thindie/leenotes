@@ -24,7 +24,6 @@ import com.example.thindie.leenotes.common.design_system.theme.seedColor
 fun NotesTopAppBar(
     modifier: Modifier = Modifier,
     @StringRes title: Int = R.string.app_name,
-    action: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -38,14 +37,7 @@ fun NotesTopAppBar(
             style = MaterialTheme.typography.displaySmall,
             color = seedColor
         )
-        IconButton(onClick = action) {
-            Icon(
-                painter = painterResource(id = R.drawable.icon_menu),
-                contentDescription = "",
-                tint = seedColor
-            )
-        }
-    }
+     }
 }
 
 
@@ -53,6 +45,6 @@ fun NotesTopAppBar(
 @Composable
 fun NotesTopAppBarPreview() {
     LeenotesTheme {
-        NotesTopAppBar(action = {})
+        NotesTopAppBar( )
     }
 }

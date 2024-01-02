@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity(), App {
         setContent {
             val navController = rememberNavController()
             LeenotesTheme {
-                Scaffold(topBar = { NotesTopAppBar {} })
+                Scaffold(topBar = { NotesTopAppBar() })
                 { padding ->
                     NavHost(
                         modifier = Modifier

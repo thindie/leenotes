@@ -34,7 +34,7 @@ fun NoteSimpleUnit(
 ) {
     Column(
         modifier = modifier
-            .padding(horizontal = 8.dp, vertical = 10.dp)
+            .padding(horizontal = 8.dp)
             .clickable(onClick = onClickNote)
             .wrapContentHeight()
             .background(backGroundColor),
@@ -79,7 +79,7 @@ private fun Description(
             .wrapContentHeight()
             .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
+        horizontalArrangement = Arrangement.spacedBy(1.dp)
     ) {
         val description: String? = note.description.ifBlank { null }
         description.NoteChip(label = R.string.chip_description)

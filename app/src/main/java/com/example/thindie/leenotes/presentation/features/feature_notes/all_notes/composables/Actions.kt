@@ -1,15 +1,21 @@
 package com.example.thindie.leenotes.presentation.features.feature_notes.all_notes.composables
 
+import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.common.design_system.IconHolder
 import com.example.thindie.leenotes.domain.NoteType
 import com.example.thindie.leenotes.presentation.IconsHub
@@ -17,11 +23,11 @@ import com.example.thindie.leenotes.presentation.features.feature_notes.all_note
 
 @Composable
 fun Actions(state: NoteActionsHubState) {
+    if (state.isInputVisible.not()) {
+        ActionsNotesFilter(onClick = state::onFilter)
+    }
     if (state.shouldShowSendAction) {
         ActionSend(onSend = state::onSend, onClear = state::onClearOutput)
-
-    } else {
-        ActionsNotesFilter(onClick = state::onFilter)
     }
 }
 
@@ -44,24 +50,27 @@ fun ActionSend(onSend: () -> Unit, onClear: () -> Unit) {
 
 @Composable
 fun ActionsNotesFilter(onClick: (NoteType) -> Unit) {
-    val padding = Modifier.padding(horizontal = 8.dp)
-    Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-        FilteringAction(NoteType.COST, IconHolder.render(IconsHub.costs), onClick)
-        Spacer(padding)
-        FilteringAction(NoteType.NON_SPECIFIED, IconHolder.render(IconsHub.menu), onClick)
-        Spacer(padding)
-        FilteringAction(NoteType.HAS_HYPER, IconHolder.render(IconsHub.web), onClick)
+
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier
+            .padding(horizontal = 12.dp)
+            .height(40.dp)
+    ) {
+        FilteringAction(NoteType.SPENT, R.string.chip_bottom_spent, onClick)
+        FilteringAction(NoteType.TEMP, R.string.chip_bottom_temp, onClick)
+        FilteringAction(NoteType.PRICED, R.string.chip_bottom_priced, onClick)
+        FilteringAction(NoteType.ALL, R.string.chip_bottom_all, onClick)
     }
 }
 
 @Composable
 fun FilteringAction(
     sortType: NoteType,
-    holder: IconHolder,
+    @StringRes title: Int,
     onClick: (NoteType) -> Unit,
 ) {
-    OutlinedIconButton(onClick = { onClick(sortType) }) {
-        Icon(painter = holder.getIcon(), contentDescription = null)
-    }
+    AssistChip(
+        onClick = { onClick(sortType) },
+        label = { Text(text = stringResource(id = title)) })
 
 }

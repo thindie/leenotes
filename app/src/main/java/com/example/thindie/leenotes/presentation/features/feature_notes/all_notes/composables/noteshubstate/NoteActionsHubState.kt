@@ -9,6 +9,9 @@ import com.example.thindie.leenotes.presentation.features.feature_notes.viewodel
 
 @Stable
 class NoteActionsHubState(val onEvent: (NoteScreenEvent) -> Unit) {
+
+    var isInputVisible by mutableStateOf(false)
+        private set
     var inputFieldStringState by mutableStateOf("")
         private set
 
@@ -18,29 +21,33 @@ class NoteActionsHubState(val onEvent: (NoteScreenEvent) -> Unit) {
         private set
 
     fun onInput(input: String) {
-        if (input.isEmpty()){
+        if (input.isEmpty()) {
             isInputFieldEmpty = true
             shouldShowSendAction = false
 
-        }
-        else{
+        } else {
             isInputFieldEmpty = false
             shouldShowSendAction = true
         }
         inputFieldStringState = input
     }
 
-    fun onClearOutput(){
+    fun onClickInput() {
+        isInputVisible = !isInputVisible
+    }
+
+    fun onClearOutput() {
         onInput("")
     }
 
 
-    fun onSend(){
-        onEvent(NoteScreenEvent.CreateNote(inputFieldStringState ))
+    fun onSend() {
+        isInputVisible = false
+        onEvent(NoteScreenEvent.CreateNote(inputFieldStringState))
         onClearOutput()
     }
 
-    fun onFilter(type: NoteType){
+    fun onFilter(type: NoteType) {
         onEvent(NoteScreenEvent.Filter(type))
     }
 }

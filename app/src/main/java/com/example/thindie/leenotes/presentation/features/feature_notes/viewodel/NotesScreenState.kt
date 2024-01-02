@@ -5,7 +5,7 @@ import com.example.thindie.leenotes.domain.entities.Note
 
 data class NotesScreenState (
     val notesList: List<Note> = emptyList(),
-    val noteType: NoteType = NoteType.NON_SPECIFIED,
+    val noteType: NoteType = NoteType.ALL,
     val afterTimeStampInMillis: Long? = null
     )
 

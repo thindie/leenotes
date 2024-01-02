@@ -23,13 +23,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-private fun String.getOrReject(price: Double): Double {
-    return try {
-        toInt().toDouble()
-    } catch (_: Exception) {
-        price
-    }
-}
 
 class ConcreteNoteViewModel @Inject constructor(
     private val getNoteUseCase: GetNoteUseCase,

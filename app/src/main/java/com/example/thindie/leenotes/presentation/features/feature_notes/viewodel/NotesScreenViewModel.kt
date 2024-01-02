@@ -26,7 +26,7 @@ constructor(
     observeNotesUseCase: ObserveNotesUseCase,
 ) : ViewModel() {
 
-    private val selectedNoteType = MutableStateFlow(NoteType.NON_SPECIFIED)
+    private val selectedNoteType = MutableStateFlow(NoteType.ALL)
     private val selectedTimeStamp = MutableStateFlow<Long?>(null)
 
 
@@ -68,9 +68,11 @@ constructor(
     private fun updateStateWithNoteType(state: NotesScreenState, type: NoteType): NotesScreenState {
         val list = state.notesList
         return when (type) {
-            NoteType.COST -> state.copy(notesList = list.filter(Note::isSpendable))
-            NoteType.NON_SPECIFIED -> state
+            NoteType.PRICED -> state.copy(notesList = list.filter(Note::isSpendable))
+            NoteType.ALL -> state
             NoteType.HAS_HYPER -> state.copy(notesList = list.filter(Note::hasProperties))
+            NoteType.SPENT -> state.copy(notesList = list.filter(Note::isSpent))
+            NoteType.TEMP -> state.copy(notesList = list.filter(Note::isTemp))
         }
     }
 

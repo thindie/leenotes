@@ -78,10 +78,10 @@ fun ConcreteNoteScreen(
 
 
     Scaffold(
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
             modifier = modifier
-                .fillMaxSize()
                 .padding(it),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
