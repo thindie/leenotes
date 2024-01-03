@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.domain.entities.Note
@@ -63,7 +64,10 @@ private fun Title(
     Text(
         text = title,
         style = MaterialTheme.typography.titleSmall,
-        modifier = modifier.padding(vertical = 4.dp, horizontal = 12.dp)
+        modifier = modifier
+            .fillMaxWidth(0.5f)
+            .padding(vertical = 4.dp, horizontal = 12.dp),
+        overflow = TextOverflow.Ellipsis
     )
 }
 
