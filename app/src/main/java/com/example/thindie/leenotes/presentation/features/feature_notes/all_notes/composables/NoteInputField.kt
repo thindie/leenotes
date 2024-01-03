@@ -3,6 +3,7 @@ package com.example.thindie.leenotes.presentation.features.feature_notes.all_not
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Icon
@@ -40,14 +41,16 @@ fun NoteInputField(
     }
 
     LaunchedEffect(key1 = shouldRequestFocus, block = {
-        if (shouldRequestFocus){
+        if (shouldRequestFocus) {
             delay(100L)
             focusRequester.requestFocus()
             shouldRequestFocus = false
         }
     })
 
-    val focusedModifier = Modifier.focusRequester(focusRequester)
+    val focusedModifier = Modifier
+        .focusRequester(focusRequester)
+        .fillMaxWidth(if (state.isInputVisible) 0.7f else 0.2f)
 
     Row(
         modifier = modifier.wrapContentWidth(),

@@ -23,13 +23,13 @@
     <string name="text_field_description">"Description"</string>
     <string name="text_field_additional_info">"Internet link"</string>
     <string name="text_label_intent_parse_screen">Create</string>
-    <string name="chip_description">"detailed"</string>
-    <string name="chip_additions">"linked"</string>
-    <string name="chip_costs">priced</string>
+    <string name="chip_description">"detail"</string>
+    <string name="chip_additions">"link"</string>
+    <string name="chip_costs">price</string>
     <string name="chip_already_paid">"spent"</string>
     <string name="text_note_cant_be_deleted">It can be deleted cause spent</string>
     <string name="chip_spent">spent</string>
-    <string name="text_field_caution_cant_delete_later">Beware! spends cant be deleted!</string>
+    <string name="text_field_caution_cant_delete_later">Beware! spends can\'t be deleted!</string>
     <string name="chip_notify_spend">"I bought it"</string>
     <string name="chip_bottom_spent">spent</string>
     <string name="chip_bottom_temp">temp</string>
