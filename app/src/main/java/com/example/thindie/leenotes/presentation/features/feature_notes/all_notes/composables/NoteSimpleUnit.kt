@@ -20,10 +20,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.domain.entities.Note
+import kotlin.random.Random
 
 
 @Composable
@@ -44,6 +46,7 @@ fun NoteSimpleUnit(
         Row(
             modifier = modifier
                 .fillMaxWidth()
+                .padding(start = 8.dp)
                 .wrapContentHeight(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
@@ -61,9 +64,13 @@ private fun Title(
     modifier: Modifier = Modifier,
     title: String,
 ) {
+    val float = Random.nextDouble(from = 0.4, until = 0.9).toFloat()
     Text(
         text = title,
-        style = MaterialTheme.typography.titleSmall,
+        style = MaterialTheme.typography.titleSmall.copy(
+            color = MaterialTheme.colorScheme.onBackground.copy(float),
+            fontWeight = FontWeight.Bold
+        ),
         modifier = modifier
             .fillMaxWidth(0.5f)
             .padding(vertical = 4.dp, horizontal = 12.dp),

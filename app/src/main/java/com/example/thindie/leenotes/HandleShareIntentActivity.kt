@@ -6,8 +6,10 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import com.example.thindie.leenotes.common.design_system.TransparentSystemBars
 import com.example.thindie.leenotes.common.design_system.theme.LeenotesTheme
 import com.example.thindie.leenotes.common.di.App
 import com.example.thindie.leenotes.common.di.DependenciesProvider
@@ -55,6 +57,7 @@ class HandleShareIntentActivity : ComponentActivity() {
     private fun renderScreen() {
         setContent {
             LeenotesTheme {
+                TransparentSystemBars(isInDarkTheme = isSystemInDarkTheme())
                 listenFinish(viewModel = viewModel)
                 HandleIntentScreen(viewModel = viewModel)
             }
