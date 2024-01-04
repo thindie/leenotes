@@ -17,4 +17,7 @@ interface CostsDao {
 
     @Query("DELETE FROM $costsTable WHERE id =:id")
     suspend fun deleteCost(id: Int)
+
+    @Query("SELECT * FROM $costsTable WHERE isBought == :isSpent ORDER  BY price ASC LIMIT :limit")
+    suspend fun getTopCosts(limit: Int, isSpent: Boolean): List<CostDbModel>
 }
