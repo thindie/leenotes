@@ -9,5 +9,6 @@ import com.example.thindie.leenotes.data.database.DataBaseContract.costsTable
 data class CostDbModel(
     @PrimaryKey (autoGenerate = true)
     val id: Int = 0,
-    val price: Double
+    val price: Double,
+    val isBought: Boolean
 )

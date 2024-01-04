@@ -37,10 +37,6 @@ class NotesRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun deleteNote(id: Int) {
-
-    }
-
     override fun observeNotes(): Flow<List<Note>> {
         return dao
             .observeNotes()

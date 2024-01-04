@@ -2,26 +2,22 @@ package com.example.thindie.leenotes
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.example.thindie.leenotes.common.design_system.TransparentSystemBars
+import com.example.thindie.leenotes.common.design_system.theme.LeenotesTheme
 import com.example.thindie.leenotes.common.di.App
 import com.example.thindie.leenotes.common.di.DependenciesProvider
 import com.example.thindie.leenotes.common.di.viewmodels_factory.ViewModelFactory
-import com.example.thindie.leenotes.presentation.common.theme.LeenotesTheme
 import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.composables.HandleIntentScreen
 import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.di.HandleFeatureComponent
 import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.viewmodel.HandleShareViewModel
+import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.viewmodel.HandleShareViewModelEvent
 import javax.inject.Inject
 
 class HandleShareIntentActivity : ComponentActivity() {
@@ -37,7 +33,13 @@ class HandleShareIntentActivity : ComponentActivity() {
             onValidIntent(invokedIntent)
             renderScreen()
         }
+        else {
+            Toast.makeText(this, "Cant create note with this thing", Toast.LENGTH_SHORT)
+                .show()
+            this.finish()
+        }
     }
+
 
     private fun onValidIntent(intent: Intent) {
         dependencyInjection()
@@ -55,6 +57,7 @@ class HandleShareIntentActivity : ComponentActivity() {
     private fun renderScreen() {
         setContent {
             LeenotesTheme {
+                TransparentSystemBars(isInDarkTheme = isSystemInDarkTheme())
                 listenFinish(viewModel = viewModel)
                 HandleIntentScreen(viewModel = viewModel)
             }
@@ -76,7 +79,7 @@ class HandleShareIntentActivity : ComponentActivity() {
 
     private fun handleSendText(intent: Intent?) {
         if (intent != null) {
-            intent.getStringExtra(Intent.EXTRA_TEXT)?.let { viewModel.onHandleRawString(it) }
+            intent.getStringExtra(Intent.EXTRA_TEXT)?.let { viewModel.onEvent(HandleShareViewModelEvent.Initial(it)) }
         }
     }
 

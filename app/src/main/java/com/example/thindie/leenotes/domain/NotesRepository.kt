@@ -8,7 +8,7 @@ interface NotesRepository {
     @Attention(reason = MULTI_TARGETED_INITIAL_NOTE_STRING)
     suspend fun addNote(initialNoteText: String)
     suspend fun updateNote(note: Note)
-    suspend fun deleteNote(id: Int)
+
 
     fun observeNotes(): Flow<List<Note>>
 }

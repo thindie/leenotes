@@ -8,11 +8,11 @@ data class Note(
     val cost: Cost? = null,
     val bindings: NoteBindings? = null,
 ) {
-    val isSpendable: Boolean get() = cost != null
-
-    val isFreeOfCharge: Boolean get() = cost == null
+    val isSpendable: Boolean get() = cost?.isBought == false && cost.price > 0.0
 
     val hasProperties: Boolean get() = bindings != null
 
-    val hasNotProperties: Boolean get() = bindings == null
+    val isSpent: Boolean get() = cost?.isBought == true
+
+    val isTemp: Boolean get() = cost == null && bindings == null
 }
