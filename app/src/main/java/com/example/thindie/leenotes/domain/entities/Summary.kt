@@ -8,7 +8,7 @@ data class Summary(
     val totalPlannedCosts: Double,
     val topSpent: List<String>,
     val topPlanned: List<String>,
-    val monthOffset: Int = 0,
-    val yearOffset: Int = 0,
-    val dayOffset: Int = 0
+    val summaryMonth: String,
+    val summaryDay: String,
+    val summaryYear: String,
 )
