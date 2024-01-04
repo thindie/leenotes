@@ -1,7 +1,9 @@
 package com.example.thindie.leenotes.presentation.features.feature_notes.all_notes.composables
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -59,6 +61,7 @@ fun NoteSimpleUnit(
 }
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Title(
     modifier: Modifier = Modifier,
@@ -67,13 +70,15 @@ private fun Title(
     val float = Random.nextDouble(from = 0.4, until = 0.9).toFloat()
     Text(
         text = title,
+        maxLines = 1,
         style = MaterialTheme.typography.titleSmall.copy(
             color = MaterialTheme.colorScheme.onBackground.copy(float),
             fontWeight = FontWeight.Bold
         ),
         modifier = modifier
             .fillMaxWidth(0.5f)
-            .padding(vertical = 4.dp, horizontal = 12.dp),
+            .padding(vertical = 4.dp, horizontal = 12.dp)
+            .basicMarquee(),
         overflow = TextOverflow.Ellipsis
     )
 }

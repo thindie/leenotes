@@ -10,6 +10,7 @@ import com.example.thindie.leenotes.domain.entities.Cost
 import com.example.thindie.leenotes.domain.entities.Note
 import com.example.thindie.leenotes.domain.entities.NoteBindings
 import com.example.thindie.leenotes.domain.usecase.DestroyNoteUseCase
+import com.example.thindie.leenotes.domain.usecase.GetNoteTimeUseCase
 import com.example.thindie.leenotes.domain.usecase.GetNoteUseCase
 import com.example.thindie.leenotes.domain.usecase.UpdateNoteUseCase
 import javax.inject.Inject
@@ -28,6 +29,7 @@ class ConcreteNoteViewModel @Inject constructor(
     private val getNoteUseCase: GetNoteUseCase,
     private val deleteNoteUseCase: DestroyNoteUseCase,
     private val updateNoteUseCase: UpdateNoteUseCase,
+    private val getNoteTimeUseCase: GetNoteTimeUseCase,
     @IODispatcher private val dispatcherIO: CoroutineDispatcher,
 ) : ViewModel() {
 
@@ -36,7 +38,12 @@ class ConcreteNoteViewModel @Inject constructor(
     private var isSpent by mutableStateOf(false)
 
     val screenState = note.filterNotNull().combine(isEditing) { note, editStatus ->
-        ConcreteNoteUiState(note, editStatus, note.cost?.isBought ?: false)
+        ConcreteNoteUiState(
+            note,
+            isEditingNow = editStatus,
+            isSpent = note.cost?.isBought ?: false,
+            noteTime = getNoteTimeUseCase(note.creationTimeInMillis)
+        )
     }.stateIn(
         viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),

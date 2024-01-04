@@ -19,6 +19,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Scaffold
@@ -86,7 +88,9 @@ fun ConcreteNoteScreen(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Title(
-                note = viewState.note, titleInputState = titleInputFieldState
+                note = viewState.note,
+                noteCreationTime = viewState.noteTime,
+                titleInputState = titleInputFieldState
             )
             Body(
                 note = viewState.note,
@@ -118,7 +122,7 @@ fun ConcreteNoteScreen(
 }
 
 @Composable
-private fun Title(note: Note?, titleInputState: InputFieldState) {
+private fun Title(note: Note?, titleInputState: InputFieldState, noteCreationTime: String) {
     if (note != null) Column {
         Row(
             modifier = Modifier
@@ -147,7 +151,23 @@ private fun Title(note: Note?, titleInputState: InputFieldState) {
                 )
             }
         }
-
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
+                .background(getColor().copy(0.2f))
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Text(
+                text = noteCreationTime,
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+                style = LocalTextStyle.current.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = LocalContentColor.current.copy(0.4f)
+                )
+            )
+        }
     }
 }
 

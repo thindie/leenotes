@@ -7,7 +7,7 @@ import javax.inject.Singleton
 internal class TimePatterns @Inject constructor() {
 
     fun patternSpecialFormat(): String {
-        return "E, dd MMM"
+        return "E, dd MMM, yyyy"
     }
 
     fun patternSimpleDay(): String {
