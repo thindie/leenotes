@@ -1,7 +1,9 @@
 package com.example.thindie.leenotes.presentation.features.feature_note_stats.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.thindie.leenotes.common.di.dispatchers.IODispatcher
+import com.example.thindie.leenotes.domain.SummaryStep
 import com.example.thindie.leenotes.domain.usecase.GetAllTimeSummaryUseCase
 import com.example.thindie.leenotes.domain.usecase.SummaryDayStepSetUseCase
 import com.example.thindie.leenotes.domain.usecase.SummaryMonthStepSetUseCase
@@ -11,6 +13,10 @@ import com.example.thindie.leenotes.domain.usecase.SummaryYearStepSetUseCase
 import com.example.thindie.leenotes.presentation.features.feature_note_stats.viewmodel.NotesStatisticsScreenEvent.*
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 
 @Suppress("LongParameterList")
 class NotesStatisticsViewModel @Inject constructor(
@@ -24,15 +30,38 @@ class NotesStatisticsViewModel @Inject constructor(
 ) : ViewModel() {
 
 
+    private val _summaryStep = MutableStateFlow(SummaryStep.MONTH)
 
+    val screenState = _summaryStep.combine(getAllTimeSummaryUseCase()) { step, summary ->
+        NotesStatisticsScreenState(step, summary)
+    }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5_000L),
+            NotesStatisticsScreenState()
+        )
 
     fun onEvent(event: NotesStatisticsScreenEvent) {
         when (event) {
-            BackWard -> TODO()
-            Day -> TODO()
-            Forward -> TODO()
-            Month -> TODO()
-            Year -> TODO()
+            BackWard -> {
+
+            }
+
+            Day -> {
+
+            }
+
+            Forward -> {
+
+            }
+
+            Month -> {
+
+            }
+
+            Year -> {
+
+            }
         }
     }
 }
