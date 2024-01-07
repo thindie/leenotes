@@ -27,15 +27,20 @@ class SummaryRepositoryImpl @Inject constructor(
     private val timeOffset = MutableStateFlow(0)
 
     private val summaryFlow =
-        summaryStep.combine(timeOffset) { step, offset ->
+        combine(
+            summaryStep,
+            timeOffset,
+            notesDao.observeNotes(),
+            costsDao.getTopCosts()
+        ) { step, offset, notes, costs ->
             Summary(
-                totalNotes = 0,
-                totalSpent = 0.0,
-                totalTempNotes = 0,
-                totalPlannedToSpentNotes = 0,
-                totalPlannedCosts = 0.0,
-                topSpent = listOf(),
-                topPlanned = listOf(),
+                totalNotes = getNotesQuota(notes),
+                totalSpent = getTotalCost(costs, isSpent = true),
+                totalTempNotes = getNotesQuota(notes.filter { it.costId == 0 && it.bindingsId == 0 }),
+                totalPlannedToSpentNotes = getNotesQuota(costs.filter { !it.isBought }),
+                totalPlannedCosts = getTotalCost(costs, isSpent = false),
+                topSpent = getTopCosts(notes, costs, isSpent = true),
+                topPlanned = getTopCosts(notes, costs, isSpent = false),
                 summaryMonth = "",
                 summaryDay = "",
                 summaryYear = ""
@@ -70,17 +75,30 @@ class SummaryRepositoryImpl @Inject constructor(
         return list.size
     }
 
-    private suspend fun getTopCosts(list: List<NoteDbModel>, isSpent: Boolean): List<String> {
-        val topCosts = costsDao.getTopCosts(limit = 5, isSpent)
+    private fun getTopCosts(
+        list: List<NoteDbModel>,
+        costList: List<CostDbModel>,
+        isSpent: Boolean,
+    ): List<String> {
+
+
+        val filteredBySpent = costList
+            .filter { it.isBought == isSpent }
+            .sortedBy { it.price }
+            .asReversed()
+
+        val idList = costList.map(CostDbModel::id)
 
         return list
-            .filter { topCosts.map(CostDbModel::id).contains(it.costId) }
+            .filter { idList.contains(it.costId) }
             .map { noteDbModel ->
                 noteDbModel
                     .title
                     .plus(" ")
-                    .plus(topCosts.last { it.id == noteDbModel.costId }.price)
+                    .plus(filteredBySpent.lastOrNull { it.id == noteDbModel.costId }?.price)
             }
+            .filter { !it.contains("null") }
+            .take(3)
     }
 
 
