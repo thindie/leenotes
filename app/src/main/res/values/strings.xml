@@ -36,4 +36,9 @@
     <string name="chip_bottom_linked">linked</string>
     <string name="chip_bottom_priced">priced</string>
     <string name="chip_bottom_all">all</string>
+    <string name="text_label_total_notes">Total notes: %d</string>
+    <string name="text_label_total_spent">total spent: %f</string>
+    <string name="text_label_total_temp_notes">total temp notes: %d</string>
+    <string name="text_label_planned_to_spent">planned to spent: %d</string>
+    <string name="text_label_planned_costs">planned cost: %f</string>
 </resources>

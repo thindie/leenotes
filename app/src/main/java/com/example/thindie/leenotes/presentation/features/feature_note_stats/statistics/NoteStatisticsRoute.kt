@@ -20,7 +20,7 @@ fun NavGraphBuilder.statisticsScreen() {
         if (daggerComponent != null) {
             val factory = daggerComponent.getViewModelFactory()
             val viewModel: NotesStatisticsViewModel = viewModel(factory = factory)
-            NotesStatisticsScreen(viewModel)
+            NotesStatisticsScreen(viewModel = viewModel)
         }
     }
 }
