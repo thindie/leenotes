@@ -8,6 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.thindie.leenotes.QFun
 import com.example.thindie.leenotes.common.di.App
 import com.example.thindie.leenotes.presentation.features.feature_note.concrete_note.screen.ConcreteNoteScreen
 import com.example.thindie.leenotes.presentation.features.feature_note.di.ConcreteNoteFeatureComponent
@@ -40,6 +41,7 @@ fun NavGraphBuilder.concreteNote(onReturnStartScreen: () -> Unit) {
 }
 
 private fun getIdFromArgument(parsedArg: String?): Int {
+    QFun(parsedArg)
     return if (parsedArg == null) -1 else {
         try {
             parsedArg.toInt()

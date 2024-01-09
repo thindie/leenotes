@@ -24,7 +24,7 @@ class HandleShareIntentActivity : ComponentActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    val viewModel: HandleShareViewModel by viewModels(factoryProducer = { viewModelFactory })
+    private val viewModel: HandleShareViewModel by viewModels(factoryProducer = { viewModelFactory })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
