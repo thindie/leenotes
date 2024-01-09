@@ -4,7 +4,6 @@ import com.example.thindie.leenotes.domain.SummaryStep
 import com.example.thindie.leenotes.domain.entities.Summary
 
 data class NotesStatisticsScreenState(
-
-    val step: SummaryStep = SummaryStep.MONTH,
-    val summary: Summary? = null
+     val dateOffset: Int = 0,
+    val summary: Summary? = null,
 )

@@ -27,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.common.design_system.IconHolder
 import com.example.thindie.leenotes.common.design_system.getColor
+import com.example.thindie.leenotes.domain.SummaryStep
 import com.example.thindie.leenotes.domain.entities.Summary
 import com.example.thindie.leenotes.presentation.IconsHub
 import com.example.thindie.leenotes.presentation.features.feature_note_stats.viewmodel.NotesStatisticsScreenEvent
@@ -42,6 +43,7 @@ fun NotesStatisticsScreen(modifier: Modifier = Modifier, viewModel: NotesStatist
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        ChronoSection(state.summary)
         TotalNotes(int = state.summary?.totalNotes)
         TotalSpent(int = state.summary?.totalSpent)
         TotalTempAndPlanned(
@@ -53,10 +55,50 @@ fun NotesStatisticsScreen(modifier: Modifier = Modifier, viewModel: NotesStatist
             topSpent = state.summary?.topSpent,
             topPlanned = state.summary?.topPlanned
         )
+
+
         Spacer(modifier = modifier.weight(1f, true))
         ControlRow(onEvent = viewModel::onEvent, state.summary)
     }
 
+}
+
+@Composable
+fun ChronoSection(
+    summary: Summary?,
+) {
+    if (summary != null) {
+        when (summary.step) {
+            SummaryStep.DAY -> {
+                    Text(
+                        text = stringResource(
+                            R.string.text_label_summary_day_chrono,
+                            summary.summaryDay,
+                            summary.summaryMonth,
+                            summary.summaryYear
+                        )
+                    )
+            }
+
+            SummaryStep.MONTH -> Text(
+                text = stringResource(
+                    R.string.text_label_summary_day_chrono,
+                    "",
+                    summary.summaryMonth,
+                    summary.summaryYear
+                )
+            )
+            SummaryStep.YEAR -> Text(
+                text = stringResource(
+                    R.string.text_label_summary_day_chrono,
+                    "",
+                    "",
+                    summary.summaryYear
+                )
+            )
+            SummaryStep.ALL -> Text(text = stringResource(id = R.string.text_label_summary_all))
+        }
+    }
 }
 
 @Composable
@@ -75,14 +117,18 @@ fun ControlRow(onEvent: (NotesStatisticsScreenEvent) -> Unit, summary: Summary?)
             )
         }
 
-        OutlinedButton(onClick = { onEvent(NotesStatisticsScreenEvent.Year) }) {
+        OutlinedButton(onClick = { onEvent(NotesStatisticsScreenEvent.All) }) {
             Text(text = stringResource(R.string.text_field_all))
         }
 
-        OutlinedIconButton(onClick = { onEvent(NotesStatisticsScreenEvent.Forward) }) {
+
+        OutlinedIconButton(
+            onClick = { onEvent(NotesStatisticsScreenEvent.Forward) },
+            enabled = summary?.isCurrentTimeSummary == false
+        ) {
             Icon(
                 painter = IconHolder.render(IconsHub.right).getIcon(),
-                contentDescription = null
+                contentDescription = null,
             )
         }
     }
@@ -94,7 +140,7 @@ fun TopSpentAndTopPlanned(
     topSpent: List<String>?,
     topPlanned: List<String>?,
 ) {
-    Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+    Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
         LazyColumn(
             modifier = modifier
                 .background(getColor())
@@ -111,11 +157,15 @@ fun TopSpentAndTopPlanned(
                 Text(text = it)
             }
         }
+    }
+    Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
         LazyColumn(
             modifier = modifier
                 .background(getColor())
-                .fillMaxWidth(0.5f)
+                .fillMaxWidth(0.8f),
+            horizontalAlignment = Alignment.End
         ) {
+
             item {
                 Text(
                     modifier = modifier.padding(bottom = 20.dp),
@@ -129,6 +179,7 @@ fun TopSpentAndTopPlanned(
         }
     }
 }
+
 
 @Composable
 private fun TotalNotes(modifier: Modifier = Modifier, int: Int?) {
@@ -177,10 +228,20 @@ private fun TotalTempAndPlanned(
                 text = stringResource(id = R.string.text_label_planned_to_spent, plannedSpent),
                 style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold)
             )
+
+    }
+    Row(
+        modifier = modifier
+            .background(getColor())
+            .padding(horizontal = 15.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.End
+    ) {
         if (plannedCosts != null)
             Text(
                 text = stringResource(id = R.string.text_label_planned_costs, plannedCosts),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
             )
     }
 }
