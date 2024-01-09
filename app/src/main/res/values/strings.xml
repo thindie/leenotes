@@ -43,4 +43,7 @@
     <string name="text_field_all">all notes</string>
     <string name="text_label_summary_all">All Time</string>
     <string name="text_label_summary_day_chrono">"%s  %s of %s"</string>
+    <string name="text_label_chip_day">day</string>
+    <string name="text_label_chip_month">month</string>
+    <string name="text_label_chip_year">year</string>
 </resources>

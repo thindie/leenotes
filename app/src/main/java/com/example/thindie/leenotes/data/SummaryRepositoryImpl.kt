@@ -75,9 +75,18 @@ class SummaryRepositoryImpl @Inject constructor(
                 plannedCosts = getTotalCost(costs, isSpent = false),
                 topSpent = getTopCosts(notes, costs, isSpent = true, takenSize = 3),
                 topPlanned = getTopCosts(notes, costs, isSpent = false, takenSize = 3),
-                summaryMonth = summaryLocalDateTime.month.name,
-                summaryDay = summaryLocalDateTime.dayOfWeek.name,
-                summaryYear = summaryLocalDateTime.year.toString(),
+                summaryMonth = timeOperator.getCurrent(
+                    localDateTime = summaryLocalDateTime,
+                    pattern = "MMM, yyyy"
+                ),
+                summaryDay = timeOperator.getCurrent(
+                    localDateTime = summaryLocalDateTime,
+                    pattern = "E, dd MMM, yyyy"
+                ),
+                summaryYear = timeOperator.getCurrent(
+                    localDateTime = summaryLocalDateTime,
+                    pattern = "yyyy"
+                ),
                 isCurrentTimeSummary = offset == 0,
                 step = step
             )
@@ -125,7 +134,7 @@ class SummaryRepositoryImpl @Inject constructor(
         list: List<NoteDbModel>,
         costList: List<CostDbModel>,
         isSpent: Boolean,
-        takenSize: Int
+        takenSize: Int,
     ): List<String> {
 
 

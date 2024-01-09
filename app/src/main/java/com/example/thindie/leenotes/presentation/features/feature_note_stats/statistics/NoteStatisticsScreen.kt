@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -55,12 +56,46 @@ fun NotesStatisticsScreen(modifier: Modifier = Modifier, viewModel: NotesStatist
             topSpent = state.summary?.topSpent,
             topPlanned = state.summary?.topPlanned
         )
-
+        ChipsStepSelection(onEvent = viewModel::onEvent)
 
         Spacer(modifier = modifier.weight(1f, true))
         ControlRow(onEvent = viewModel::onEvent, state.summary)
     }
 
+}
+
+@Composable
+fun ChipsStepSelection(onEvent: (NotesStatisticsScreenEvent) -> Unit) {
+    Row(
+        modifier = Modifier
+            .padding(horizontal = 20.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        AssistChip(onClick = { onEvent(NotesStatisticsScreenEvent.Day) }, label = {
+            Text(
+                text = stringResource(
+                    id = R.string.text_label_chip_day
+                )
+            )
+        })
+        AssistChip(onClick = { onEvent(NotesStatisticsScreenEvent.Month) }, label = {
+            Text(
+                text = stringResource(
+                    id = R.string.text_label_chip_month
+                )
+            )
+        })
+
+        AssistChip(onClick = { onEvent(NotesStatisticsScreenEvent.Year) }, label = {
+            Text(
+                text = stringResource(
+                    id = R.string.text_label_chip_year
+                )
+            )
+        })
+    }
 }
 
 @Composable
@@ -70,32 +105,19 @@ fun ChronoSection(
     if (summary != null) {
         when (summary.step) {
             SummaryStep.DAY -> {
-                    Text(
-                        text = stringResource(
-                            R.string.text_label_summary_day_chrono,
-                            summary.summaryDay,
-                            summary.summaryMonth,
-                            summary.summaryYear
-                        )
-                    )
+                Text(
+                    text = summary.summaryDay
+                )
             }
 
             SummaryStep.MONTH -> Text(
-                text = stringResource(
-                    R.string.text_label_summary_day_chrono,
-                    "",
-                    summary.summaryMonth,
-                    summary.summaryYear
-                )
+                text = summary.summaryMonth
             )
+
             SummaryStep.YEAR -> Text(
-                text = stringResource(
-                    R.string.text_label_summary_day_chrono,
-                    "",
-                    "",
-                    summary.summaryYear
-                )
+                text = summary.summaryYear
             )
+
             SummaryStep.ALL -> Text(text = stringResource(id = R.string.text_label_summary_all))
         }
     }
@@ -110,7 +132,8 @@ fun ControlRow(onEvent: (NotesStatisticsScreenEvent) -> Unit, summary: Summary?)
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        OutlinedIconButton(onClick = { onEvent(NotesStatisticsScreenEvent.BackWard) }) {
+        OutlinedIconButton(onClick = { onEvent(NotesStatisticsScreenEvent.BackWard) },
+            enabled =   summary?.step != SummaryStep.ALL) {
             Icon(
                 painter = IconHolder.render(IconsHub.left).getIcon(),
                 contentDescription = null
@@ -124,7 +147,7 @@ fun ControlRow(onEvent: (NotesStatisticsScreenEvent) -> Unit, summary: Summary?)
 
         OutlinedIconButton(
             onClick = { onEvent(NotesStatisticsScreenEvent.Forward) },
-            enabled = summary?.isCurrentTimeSummary == false
+            enabled = summary?.isCurrentTimeSummary == false && summary.step != SummaryStep.ALL
         ) {
             Icon(
                 painter = IconHolder.render(IconsHub.right).getIcon(),
