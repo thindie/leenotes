@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">leenotes</string>
+    <string name="app_name">Wrabbyte</string>
     <string name="text_field_hint_search">search</string>
     <string name="text_field_remove">Remove</string>
     <string name="text_field_created">"Created at %s"</string>
