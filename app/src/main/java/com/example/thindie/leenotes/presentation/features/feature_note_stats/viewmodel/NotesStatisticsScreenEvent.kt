@@ -7,4 +7,6 @@ sealed class NotesStatisticsScreenEvent {
     data object Month: NotesStatisticsScreenEvent()
     data object Year: NotesStatisticsScreenEvent()
     data object Day: NotesStatisticsScreenEvent()
+
+    data object All: NotesStatisticsScreenEvent()
 }

@@ -21,7 +21,19 @@ class TimeOperatorImpl @Inject constructor(
     }
 
     override fun getCurrent(timeInMillis: Long, pattern: String): String {
-        return ""
+        return try {
+            DateTimeFormatter.ofPattern(pattern).format(getCurrentLocalDateTime(timeInMillis))
+        } catch (_: Exception) {
+            "null with $pattern"
+        }
+    }
+
+    override fun getCurrent(localDateTime: LocalDateTime, pattern: String): String {
+        return try {
+            DateTimeFormatter.ofPattern(pattern).format(localDateTime)
+        } catch (_: Exception) {
+            "null with $pattern"
+        }
     }
 
     override fun getCurrent(): LocalDateTime {

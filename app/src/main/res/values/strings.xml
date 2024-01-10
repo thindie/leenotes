@@ -1,12 +1,9 @@
 <resources>
-    <string name="app_name">leenotes</string>
+    <string name="app_name">Wrabbyte</string>
     <string name="text_field_hint_search">search</string>
     <string name="text_field_remove">Remove</string>
     <string name="text_field_created">"Created at %s"</string>
     <string name="text_field_attach_link">Attach link</string>
-
-
-
     <string name="button_label_cancel">Cancel</string>
     <string name="button_label_details">Details</string>
      <string name="button_label_dokay">Create</string>
@@ -36,4 +33,19 @@
     <string name="chip_bottom_linked">linked</string>
     <string name="chip_bottom_priced">priced</string>
     <string name="chip_bottom_all">all</string>
+    <string name="text_label_total_notes">total: %d</string>
+    <string name="text_label_total_spent">spent: %.1f</string>
+    <string name="text_label_total_temp_notes">temp notes: %d</string>
+    <string name="text_label_planned_to_spent">spent: %d</string>
+    <string name="text_label_planned_costs">plans &amp; wishes: %.1f</string>
+    <string name="text_label_top_from_spent">top spents:</string>
+    <string name="text_label_top_from_planned">top planned:</string>
+    <string name="text_field_all">all notes</string>
+    <string name="text_label_summary_all">All Time</string>
+    <string name="text_label_summary_day_chrono">"%s  %s of %s"</string>
+    <string name="text_label_chip_day">day</string>
+    <string name="text_label_chip_month">month</string>
+    <string name="text_label_chip_year">year</string>
+    <string name="text_label_no_notes_at_period">No notes at\n selected period</string>
+    <string name="text_label_no_notes_try_select">try select another period or navigate \nby arrows below</string>
 </resources>

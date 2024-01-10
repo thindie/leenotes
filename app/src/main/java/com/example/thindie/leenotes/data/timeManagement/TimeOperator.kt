@@ -8,5 +8,7 @@ interface TimeOperator {
 
     fun getCurrentLocalDateTime(timeInMillis: Long): LocalDateTime
 
+    fun getCurrent(localDateTime: LocalDateTime, pattern: String): String
+
     fun getCurrent(): LocalDateTime
 }

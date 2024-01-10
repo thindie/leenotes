@@ -9,6 +9,7 @@ import com.example.thindie.leenotes.domain.SummaryRepository
 import com.example.thindie.leenotes.domain.SummaryStep
 import com.example.thindie.leenotes.domain.entities.Summary
 import com.example.thindie.leenotes.presentation.features.feature_note_stats.di.NotesStatisticsScope
+import java.time.LocalDateTime
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,33 +28,92 @@ class SummaryRepositoryImpl @Inject constructor(
     private val timeOffset = MutableStateFlow(0)
 
     private val summaryFlow =
-        summaryStep.combine(timeOffset) { step, offset ->
+        combine(
+            summaryStep,
+            timeOffset,
+            notesDao.observeNotes(),
+            costsDao.getTopCosts()
+        ) { step, offset, allNotes, costs ->
+
+            val summaryLocalDateTime = getLocalDateTime(offset, step)
+            fun noteTime(noteDbModel: NoteDbModel, timeOperator: TimeOperator) = run {
+                timeOperator
+                    .getCurrentLocalDateTime(
+                        noteDbModel.creationTimeInMillis
+                    )
+            }
+
+            val notes = allNotes.filter {
+                when (step) {
+                    SummaryStep.DAY -> {
+                        noteTime(it, timeOperator)
+                            .dayOfYear ==
+                                summaryLocalDateTime.dayOfYear
+                    }
+
+                    SummaryStep.MONTH -> {
+                        noteTime(it, timeOperator).month == summaryLocalDateTime.month
+                    }
+
+                    SummaryStep.YEAR -> {
+                        noteTime(it, timeOperator).year == summaryLocalDateTime.year
+                    }
+
+                    SummaryStep.ALL -> {
+                        true
+                    }
+                }
+            }
+
+            val costIds = notes.map(NoteDbModel::costId)
+
             Summary(
-                totalNotes = 0,
-                totalSpent = 0.0,
-                totalTempNotes = 0,
-                totalPlannedToSpentNotes = 0,
-                totalPlannedCosts = 0.0,
-                topSpent = listOf(),
-                topPlanned = listOf(),
-                summaryMonth = "",
-                summaryDay = "",
-                summaryYear = ""
+                totalNotes = getNotesQuota(notes),
+                totalSpent = getTotalCost(costs.filter { costIds.contains(it.id) }, isSpent = true),
+                tempNotes = getNotesQuota(notes.filter { it.costId == null && it.bindingsId == null }),
+                spentNotes = getNotesQuota(costs.filter { costIds.contains(it.id) && it.isBought }),
+                plannedCosts = getTotalCost(costs, isSpent = false),
+                topSpent = getTopCosts(notes, costs, isSpent = true, takenSize = 3),
+                topPlanned = getTopCosts(notes, costs, isSpent = false, takenSize = 3),
+                summaryMonth = timeOperator.getCurrent(
+                    localDateTime = summaryLocalDateTime,
+                    pattern = "MMM, yyyy"
+                ),
+                summaryDay = timeOperator.getCurrent(
+                    localDateTime = summaryLocalDateTime,
+                    pattern = "E, dd MMM, yyyy"
+                ),
+                summaryYear = timeOperator.getCurrent(
+                    localDateTime = summaryLocalDateTime,
+                    pattern = "yyyy"
+                ),
+                isCurrentTimeSummary = offset == 0,
+                step = step
             )
         }
+
+    private fun getLocalDateTime(offset: Int, step: SummaryStep): LocalDateTime {
+        return when (step) {
+            SummaryStep.DAY -> timeOperator.getCurrent().minusDays(offset.toLong())
+            SummaryStep.MONTH -> timeOperator.getCurrent().minusMonths(offset.toLong())
+            SummaryStep.YEAR -> timeOperator.getCurrent().minusYears(offset.toLong())
+            SummaryStep.ALL -> timeOperator.getCurrent()
+        }
+    }
+
 
     override fun getSummary(): Flow<Summary> {
         return summaryFlow
     }
 
     override fun requestPreviousSummaryStep() {
-        if (timeOffset.value > 0) {
-            timeOffset.update { it - 1 }
-        }
+        timeOffset.update(Int::inc)
     }
 
     override fun requestNextSummaryStep() {
-        timeOffset.update { it + 1 }
+        if (timeOffset.value > 0) {
+            timeOffset.update(Int::dec)
+        }
     }
 
     override fun setSummaryStep(step: SummaryStep) {
@@ -70,17 +130,31 @@ class SummaryRepositoryImpl @Inject constructor(
         return list.size
     }
 
-    private suspend fun getTopCosts(list: List<NoteDbModel>, isSpent: Boolean): List<String> {
-        val topCosts = costsDao.getTopCosts(limit = 5, isSpent)
+    private fun getTopCosts(
+        list: List<NoteDbModel>,
+        costList: List<CostDbModel>,
+        isSpent: Boolean,
+        takenSize: Int,
+    ): List<String> {
+
+
+        val filteredBySpent = costList
+            .filter { it.isBought == isSpent }
+            .sortedBy(CostDbModel::price)
+            .asReversed()
+
+        val idList = costList.map(CostDbModel::id)
 
         return list
-            .filter { topCosts.map(CostDbModel::id).contains(it.costId) }
+            .filter { idList.contains(it.costId) }
             .map { noteDbModel ->
                 noteDbModel
                     .title
-                    .plus(" ")
-                    .plus(topCosts.last { it.id == noteDbModel.costId }.price)
+                    .plus(": ")
+                    .plus(filteredBySpent.lastOrNull { it.id == noteDbModel.costId }?.price)
             }
+            .filter { !it.contains("null") }
+            .take(takenSize)
     }
 
 

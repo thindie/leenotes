@@ -16,6 +16,7 @@ import com.example.thindie.leenotes.common.design_system.theme.LeenotesTheme
 import com.example.thindie.leenotes.common.di.App
 import com.example.thindie.leenotes.presentation.common.NotesTopAppBar
 import com.example.thindie.leenotes.presentation.features.feature_note.concrete_note.concreteNote
+import com.example.thindie.leenotes.presentation.features.feature_note_stats.statistics.statisticsScreen
 import com.example.thindie.leenotes.presentation.features.feature_notes.all_notes.allNotesScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -32,7 +33,7 @@ class MainActivity : ComponentActivity(), App {
             )
             val navController = rememberNavController()
             LeenotesTheme {
-                Scaffold(topBar = { NotesTopAppBar() })
+                Scaffold(topBar = { NotesTopAppBar(onClick = navController::statistics) })
                 { padding ->
                     NavHost(
                         modifier = Modifier
@@ -46,6 +47,7 @@ class MainActivity : ComponentActivity(), App {
                             onClickConcreteNote = navController::concreteNote
                         )
                         concreteNote(navController::allNotes)
+                        statisticsScreen()
                     }
                 }
 

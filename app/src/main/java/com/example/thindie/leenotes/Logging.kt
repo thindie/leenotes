@@ -14,3 +14,7 @@ fun Any?.Q(vararg any: Any?) {
         Log.d("SERVICE_TAG", "function :: $messageString}")
     }
 }
+
+fun QFun(vararg any: Any?) {
+    null.Q(any)
+}

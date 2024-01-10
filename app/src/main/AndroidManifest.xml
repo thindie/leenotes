@@ -7,9 +7,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/lee_notes_launcher"
+        android:icon="@drawable/wrabbyte"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/lee_notes_launcher_round"
+        android:roundIcon="@drawable/wrabbyte"
         android:supportsRtl="true"
         android:theme="@style/Theme.Leenotes"
         tools:targetApi="31">
