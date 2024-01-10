@@ -17,7 +17,7 @@ object DataBaseModule {
         return Room
             .databaseBuilder(
                 context = context, klass = NotesAppDataBase::class.java, name = DB_NAME
-            ).fallbackToDestructiveMigration()
+            )
             .build()
     }
 }

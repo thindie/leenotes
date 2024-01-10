@@ -20,21 +20,4 @@ class NoteTimeOperatorImpl @Inject constructor(private val operator: TimeOperato
         return operator.getCurrent().year.toString()
     }
 
-    override fun isCurrentMonth(millis: Long, timeOffset: Int): Boolean {
-        val currentMonth = operator.getCurrent().minusMonths(timeOffset.toLong())
-        val millisMonth = operator.getCurrentLocalDateTime(millis)
-        return currentMonth.month == millisMonth.month
-    }
-
-    override fun isCurrentYear(millis: Long, timeOffset: Int): Boolean {
-        val currentMonth = operator.getCurrent().minusYears(timeOffset.toLong())
-        val millisMonth = operator.getCurrentLocalDateTime(millis)
-        return currentMonth.year == millisMonth.year
-    }
-
-    override fun isCurrentDay(millis: Long, timeOffset: Int): Boolean {
-        val currentMonth = operator.getCurrent().minusDays(timeOffset.toLong())
-        val millisMonth = operator.getCurrentLocalDateTime(millis)
-        return currentMonth.dayOfMonth == millisMonth.dayOfMonth
-    }
 }

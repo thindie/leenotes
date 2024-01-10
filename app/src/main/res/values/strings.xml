@@ -46,4 +46,6 @@
     <string name="text_label_chip_day">day</string>
     <string name="text_label_chip_month">month</string>
     <string name="text_label_chip_year">year</string>
+    <string name="text_label_no_notes_at_period">No notes at\n selected period</string>
+    <string name="text_label_no_notes_try_select">try select another period or navigate \nby arrows below</string>
 </resources>

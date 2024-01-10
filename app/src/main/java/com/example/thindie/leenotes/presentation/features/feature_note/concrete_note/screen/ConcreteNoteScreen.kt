@@ -392,7 +392,7 @@ private fun CostSection(note: Note, titleInputState: InputFieldState, onNotifySp
             BasicTextField(
                 value = titleInputState.fieldValue,
                 onValueChange = titleInputState::onValueChange,
-                textStyle = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.W700),
+                textStyle = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.W700),
                 keyboardOptions = titleInputState.keyboardOptions
             )
         }
