@@ -86,6 +86,7 @@ dependencies {
     implementation(Dependencies.Accompanist.animationNavigation)
     implementation(Dependencies.Accompanist.systemUiController)
 
+
  
 
     // Room
@@ -106,4 +107,11 @@ dependencies {
     androidTestImplementation(Dependencies.Testing.composeJunit)
     debugImplementation(Dependencies.Compose.tooling)
     debugImplementation(Dependencies.Compose.manifest)
+
+    testImplementation(Testing.testMockk)
+    testImplementation(Testing.testKotestRunner)
+    testImplementation(Testing.testKotestAssertions)
+    implementation(Testing.mockk)
+    implementation(Testing.mockkAgent)
+    implementation(Testing.kotestRunner)
 }
