@@ -3,7 +3,9 @@ package com.example.thindie.leenotes.common.design_system
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
@@ -98,7 +100,7 @@ fun WrabbyteInteractiveElement(
     maxTextLines: Int = 3,
     shape: Shape,
     textStyle: TextStyle = MaterialTheme.typography.headlineSmall,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
 
 
@@ -156,5 +158,6 @@ fun WrabbyteInteractiveElement(
             )
         }
         content()
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }
