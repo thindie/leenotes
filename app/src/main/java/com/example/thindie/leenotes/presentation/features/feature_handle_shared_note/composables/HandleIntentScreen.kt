@@ -1,93 +1,143 @@
 package com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.composables
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.common.design_system.IconHolder
 import com.example.thindie.leenotes.common.design_system.LeeNotesButton
+import com.example.thindie.leenotes.common.design_system.WrabbyteInteractiveElement
+import com.example.thindie.leenotes.common.design_system.WrabbyteTimeSection
+import com.example.thindie.leenotes.common.design_system.firstElementShape
+import com.example.thindie.leenotes.common.design_system.input_field.InputFieldState
+import com.example.thindie.leenotes.common.design_system.input_field.rememberInputFieldState
+import com.example.thindie.leenotes.common.design_system.lastElementShape
 import com.example.thindie.leenotes.presentation.IconsHub
 import com.example.thindie.leenotes.presentation.common.NotesTopAppBar
-import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.composables.inputfields.InputFieldState
-import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.composables.inputfields.InputRow
-import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.composables.inputfields.rememberInputFieldState
 import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.viewmodel.HandleShareViewModel
 import com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.viewmodel.HandleShareViewModelEvent
 
 @Composable
-fun HandleIntentScreen(modifier: Modifier = Modifier, viewModel: HandleShareViewModel) {
+fun HandleIntentScreen(
+    modifier: Modifier = Modifier,
+    viewModel: HandleShareViewModel,
+    currentTime: String,
+) {
 
 
-    val numericInputState =
-        rememberInputFieldState(
-            isNumeric = true,
-            label = R.string.hint_enter_cost,
-            onFieldChange = {})
+    val numericInputState = rememberInputFieldState(
+        isNumeric = true,
+        label = R.string.hint_enter_cost,
+        onFieldChange = {})
 
-    val descriptionInputState =
-        rememberInputFieldState(
-            isNumeric = false,
-            label = R.string.text_field_enter_task,
-            onFieldChange = {})
+    val mockInputState =
+        rememberInputFieldState(isNumeric = false, label = R.string.hint_enter_cost) {}
 
-    Scaffold(topBar = { NotesTopAppBar () }) {
+    val descriptionInputState = rememberInputFieldState(
+        isNumeric = false,
+        label = R.string.text_field_enter_task,
+        onFieldChange = {})
+
+    Scaffold(topBar = { NotesTopAppBar() }, bottomBar = {
+        Controllers(onClickSubmit = {
+            viewModel.onEvent(
+                HandleShareViewModelEvent.Submit(
+                    description = descriptionInputState.fieldValue,
+                    cost = InputFieldState.parseAndGet(numericInputState.fieldValue)
+                )
+            )
+        }, onClickCancel = {
+            viewModel.onEvent(HandleShareViewModelEvent.Cancel)
+        })
+    }) { pv ->
         Column(
             modifier = modifier
-                .padding(horizontal = 8.dp, vertical = 20.dp)
-                .padding(it)
+                .padding(horizontal = 8.dp)
+                .padding(pv)
                 .imePadding()
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+                .fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-
             Title()
-            Body(
-                transferredString = viewModel.currentDescription,
-                numericState = numericInputState,
-                stringInputState = descriptionInputState,
-                onClickChangeEventProperty = { viewModel.onEvent(HandleShareViewModelEvent.Bought) }
-            )
-            Spacer(modifier = modifier.weight(1f, true))
-            Controllers(
-                onClickSubmit = {
-                    viewModel.onEvent(
-                        HandleShareViewModelEvent.Submit(
-                            description = descriptionInputState.fieldValue,
-                            cost = InputFieldState.parseAndGet(numericInputState.fieldValue)
-                        )
-                    )
-                }, onClickCancel = {
-                    viewModel.onEvent(HandleShareViewModelEvent.Cancel)
-                }
-            )
+            WrabbyteTimeSection(currentTime = currentTime)
+            WrabbyteInteractiveElement(
+                inputState = mockInputState,
+                title = R.string.text_field_description,
+                initialValue = viewModel.currentDescription,
+                shape = MaterialTheme.shapes.extraLarge
+            ) {
+                Body(
+                    modifier = modifier,
+                    numericState = numericInputState,
+                    stringInputState = descriptionInputState,
+                )
+            }
+
+            SpendConfirmSection(
+                modifier = modifier, isCostPayed = viewModel.isCurrentCostIsPaid
+            ) {
+                viewModel.onEvent(HandleShareViewModelEvent.Bought)
+            }
+
+
         }
     }
+}
+
+
+@Composable
+private fun SpendConfirmSection(
+    modifier: Modifier = Modifier,
+    isCostPayed: Boolean,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = modifier
+            .padding(horizontal = 12.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        AssistChip(
+            onClick = onClick,label = { Text(text = stringResource(id = R.string.chip_notify_spend)) },
+            leadingIcon = {
+                if (isCostPayed) Icon(
+                    painter = IconHolder.render(IconsHub.confirm).getIcon(),
+                    contentDescription = null
+                )
+            },
+            shape = MaterialTheme.shapes.extraLarge
+        )
+        AnimatedVisibility(visible = isCostPayed) {
+            Text(
+                modifier = Modifier,
+                text = stringResource(id = R.string.text_field_caution_cant_delete_later),
+                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
+            )
+        }
+
+    }
+
 }
 
 @Composable
@@ -103,13 +153,11 @@ private fun Controllers(
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         LeeNotesButton(
-            onClick = onClickSubmit,
-            title = R.string.button_label_dokay
+            onClick = onClickSubmit, title = R.string.button_label_dokay
         )
 
         LeeNotesButton(
-            onClick = onClickCancel,
-            title = R.string.button_label_cancel
+            onClick = onClickCancel, title = R.string.button_label_cancel
         )
 
     }
@@ -130,7 +178,7 @@ private fun Title() {
         )
         Text(
             text = stringResource(R.string.text_label_intent_parse_screen),
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
             textAlign = TextAlign.Center
         )
     }
@@ -140,67 +188,35 @@ private fun Title() {
 @Composable
 private fun Body(
     modifier: Modifier = Modifier,
-    transferredString: String,
     numericState: InputFieldState,
     stringInputState: InputFieldState,
-    onClickChangeEventProperty: () -> Unit,
 ) {
-    var isSpent by remember {
-        mutableStateOf(false)
-    }
+
     Row(
         modifier = modifier
             .padding(horizontal = 10.dp)
-            .clip(RoundedCornerShape(10))
-            .background(MaterialTheme.colorScheme.primaryContainer),
+            .clip(RoundedCornerShape(10)),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
         Column(
-            modifier = modifier
-                .padding(5.dp)
+            modifier = Modifier.padding(5.dp)
         ) {
-            Text(
-                text = transferredString,
-                style = MaterialTheme.typography.labelSmall,
-                modifier = modifier.padding(horizontal = 20.dp)
-            )
-            Spacer(modifier = modifier.height(3.dp))
-            InputRow(state = numericState)
-            Row(
-                modifier = modifier
-                    .padding(horizontal = 12.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                AnimatedVisibility(visible = isSpent) {
-                    Text(
-                        modifier = modifier.scale(0.7f),
-                        text = stringResource(id = R.string.text_field_caution_cant_delete_later),
-                        style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.error)
-                    )
-                }
-                SuggestionChip(
-                    modifier = modifier.scale(0.7f),
-                    onClick = { onClickChangeEventProperty(); isSpent = !isSpent },
-                    label = {
-                        Text(
-                            text = stringResource(id = R.string.chip_already_paid),
-                            style = MaterialTheme.typography.labelSmall
-                        )
-                    },
-                    icon = {
-                        Icon(
-                            painter = if (isSpent) IconHolder.render(IconsHub.confirm).getIcon()
-                            else IconHolder.render(IconsHub.cancel).getIcon(),
-                            contentDescription = null
-                        )
-                    })
 
-            }
-            Spacer(modifier = modifier.height(3.dp))
-            InputRow(state = stringInputState)
+
+            WrabbyteInteractiveElement(
+                inputState = stringInputState,
+                title = R.string.text_label_title,
+                initialValue = "",
+                shape = firstElementShape
+            )
+            WrabbyteInteractiveElement(
+                inputState = numericState,
+                title = R.string.text_field_cost,
+                initialValue = "",
+                shape = lastElementShape
+            )
+
         }
     }
 }

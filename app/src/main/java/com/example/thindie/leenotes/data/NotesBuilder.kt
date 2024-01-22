@@ -27,23 +27,27 @@ class NotesBuilder private constructor() {
         return builtNote
     }
 
-    private fun String.capitalize() = try {
-        replaceFirstChar { it.uppercase() }
-    } catch (_: Exception) {
-        ""
-    }
 
 
     private fun tryFindCosts(list: List<String>): Cost? {
         var price: String = ""
         list
-            .forEach {
-                if (it.isDigitsOnly()) price = it
-                else title = title
-                    .plus(it)
-                    .plus(" ")
+            .forEachIndexed { i, string ->
+                if (string.isDigitsOnly()) price = string
+                else
+                    if (i < 4){
+                        title = title
+                            .plus(string)
+                            .plus(" ")
+                    }
+                    else {
+                        description = description
+                            .plus(string)
+                            .plus(" ")
+                    }
             }
         title.trim()
+        description.trim()
         return price.toRawCost()
     }
 
@@ -60,9 +64,17 @@ class NotesBuilder private constructor() {
     companion object {
         private var initialString: String? = null
         private var cost: Cost? = null
+        private var description: String =""
         private var title: String = ""
         private var binding: NoteBindings? = null
         private var stringsSplit = emptyList<String>()
+
+        private fun String.capitalize() = try {
+            replaceFirstChar { it.uppercase() }
+        } catch (_: Exception) {
+            ""
+        }
+
 
 
         fun init(initialString: String?): NotesBuilder {
@@ -70,10 +82,19 @@ class NotesBuilder private constructor() {
             return NotesBuilder()
         }
 
+        fun calibrate(note: Note): Note {
+            return note.copy(
+              title =  title.capitalize(),
+                description = description.capitalize()
+            )
+        }
+
+
         private fun resetInitialValues() {
             initialString = null
             cost = null
             title = ""
+            description = ""
             binding = null
             stringsSplit = emptyList()
         }

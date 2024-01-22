@@ -19,7 +19,8 @@ class HandleShareViewModel @Inject constructor(private val handleShareUseCase: H
         private set
     private var currentTitle by mutableStateOf("")
 
-    private var isCurrentCostIsPaid by mutableStateOf(false)
+    var isCurrentCostIsPaid by mutableStateOf(false)
+        private set
 
 
     private var currentCost: Int? by mutableStateOf(null)
