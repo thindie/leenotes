@@ -1,10 +1,6 @@
 package com.example.thindie.leenotes.presentation.features.feature_notes.all_notes.composables
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.MaterialTheme
@@ -20,72 +17,84 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.domain.entities.Note
-import kotlin.random.Random
 
 
 @Composable
 fun NoteSimpleUnit(
     modifier: Modifier = Modifier,
     note: Note,
-    backGroundColor: Color,
     onClickNote: () -> Unit,
 ) {
-    Column(
-        modifier = modifier
-            .padding(horizontal = 8.dp)
-            .clickable(onClick = onClickNote)
-            .wrapContentHeight()
-            .background(backGroundColor),
-
-        ) {
+    Column(modifier = modifier) {
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 8.dp)
                 .wrapContentHeight(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Title(title = note.title)
-            Description(note = note)
+            Title(title = note.title, onClickNote = onClickNote)
+            Properties(note = note)
         }
-
+        Description(description = note.description)
     }
+
+
 }
 
-
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun Title(
-    modifier: Modifier = Modifier,
-    title: String,
-) {
-    val float = Random.nextDouble(from = 0.4, until = 0.9).toFloat()
+private fun Description(modifier: Modifier = Modifier, description: String) {
     Text(
-        text = title,
+        text = description,
         maxLines = 1,
-        style = MaterialTheme.typography.titleSmall.copy(
-            color = MaterialTheme.colorScheme.onBackground.copy(float),
-            fontWeight = FontWeight.Bold
+        style = MaterialTheme.typography.titleLarge.copy(
+            color = MaterialTheme.colorScheme.onBackground.copy(0.3f),
         ),
+        fontSize = 14.sp,
         modifier = modifier
-            .fillMaxWidth(0.5f)
-            .padding(vertical = 4.dp, horizontal = 12.dp)
-            .basicMarquee(),
+            .fillMaxWidth(0.4f)
+            .padding(horizontal = 24.dp),
         overflow = TextOverflow.Ellipsis
     )
 }
 
 
 @Composable
-private fun Description(
+private fun Title(
+    modifier: Modifier = Modifier,
+    title: String,
+    onClickNote: () -> Unit,
+) {
+
+    ClickableText(
+        text = AnnotatedString(text = title),
+        maxLines = 1,
+        style = MaterialTheme.typography.headlineSmall.copy(
+            color = MaterialTheme.colorScheme.onBackground,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold
+        ),
+        softWrap = true,
+        modifier = modifier
+            .fillMaxWidth(0.5f)
+            .padding(horizontal = 12.dp),
+
+        onClick = { onClickNote() }
+    )
+}
+
+
+@Composable
+private fun Properties(
     modifier: Modifier = Modifier,
     note: Note,
 ) {
@@ -97,8 +106,6 @@ private fun Description(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(1.dp)
     ) {
-        val description: String? = note.description.ifBlank { null }
-        description.NoteChip(label = R.string.chip_description)
         note.bindings.NoteChip(label = R.string.chip_additions)
         if (note.cost?.isBought != true) {
             note.cost.NoteChip(label = R.string.chip_costs)
