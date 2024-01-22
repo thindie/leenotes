@@ -17,7 +17,7 @@ class NotesBuilder private constructor() {
         val builtNote = Note(
             cost = tryFindCosts(stringsSplit),
             bindings = binding,
-            title = title,
+            title = title.capitalize(),
             id = 0,
             description = "",
             creationTimeInMillis = System.currentTimeMillis()
@@ -27,9 +27,15 @@ class NotesBuilder private constructor() {
         return builtNote
     }
 
+    private fun String.capitalize() = try {
+        replaceFirstChar { it.uppercase() }
+    } catch (_: Exception) {
+        ""
+    }
+
 
     private fun tryFindCosts(list: List<String>): Cost? {
-         var price: String = ""
+        var price: String = ""
         list
             .forEach {
                 if (it.isDigitsOnly()) price = it
