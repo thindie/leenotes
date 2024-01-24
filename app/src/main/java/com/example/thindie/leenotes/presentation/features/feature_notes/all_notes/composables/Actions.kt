@@ -1,13 +1,13 @@
 package com.example.thindie.leenotes.presentation.features.feature_notes.all_notes.composables
 
 import androidx.annotation.StringRes
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.thindie.leenotes.R
 import com.example.thindie.leenotes.common.design_system.IconHolder
 import com.example.thindie.leenotes.domain.NoteType
@@ -52,9 +53,12 @@ fun ActionSend(onSend: () -> Unit, onClear: () -> Unit) {
 fun ActionsNotesFilter(onClick: (NoteType) -> Unit) {
 
     Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier
+
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier
             .padding(horizontal = 12.dp)
             .height(40.dp)
+
     ) {
         FilteringAction(NoteType.SPENT, R.string.chip_bottom_spent, onClick)
         FilteringAction(NoteType.TEMP, R.string.chip_bottom_temp, onClick)
@@ -69,8 +73,11 @@ fun FilteringAction(
     @StringRes title: Int,
     onClick: (NoteType) -> Unit,
 ) {
-    AssistChip(
-        onClick = { onClick(sortType) },
-        label = { Text(text = stringResource(id = title)) })
+    AssistChip(onClick = { onClick(sortType) }, label = {
+        Text(
+            text = stringResource(id = title),
+            style = LocalTextStyle.current.copy(fontSize = 14.sp)
+        )
+    })
 
 }

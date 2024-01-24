@@ -2,7 +2,7 @@ package com.example.thindie.leenotes.common.design_system
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import kotlin.random.Random
+import androidx.compose.ui.graphics.Color
 
 val containerColorsList
     @Composable get() = listOf(
@@ -13,5 +13,8 @@ val containerColorsList
         MaterialTheme.colorScheme.surfaceVariant
     )
 
+
 @Composable
-fun getColor() = containerColorsList[Random.nextInt(containerColorsList.size - 1)]
+fun getColor(): Color {
+   return MaterialTheme.colorScheme.surface
+}

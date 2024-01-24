@@ -62,10 +62,10 @@ fun NoteInputField(
         }
         AnimatedVisibility(visible = state.isInputVisible) {
             BasicTextField(
-                modifier = modifier.then(focusedModifier),
+                modifier = Modifier.then(focusedModifier),
                 value = state.inputFieldStringState,
                 onValueChange = state::onInput,
-                textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onBackground),
+                textStyle = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onBackground),
                 cursorBrush = Brush.linearGradient(listOf(getColor(), getColor()))
             )
         }

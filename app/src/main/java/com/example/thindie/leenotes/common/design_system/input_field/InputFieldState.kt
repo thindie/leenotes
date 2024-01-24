@@ -1,4 +1,4 @@
-package com.example.thindie.leenotes.presentation.features.feature_handle_shared_note.composables.inputfields
+package com.example.thindie.leenotes.common.design_system.input_field
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Stable
@@ -15,9 +15,6 @@ class InputFieldState(
     private val onFieldChange: () -> Unit,
 ) {
 
-    var shouldShowLabel by mutableStateOf(false)
-        private set
-
     val canBeUseAsLink by derivedStateOf { matchesWebLink() }
 
     private var isInit = false
@@ -33,7 +30,6 @@ class InputFieldState(
     fun onValueChange(string: String) {
         if (isInit) onFieldChange()
         fieldValue = string
-        shouldShowLabel = string.isBlank()
     }
 
     fun onInit(string: String) {

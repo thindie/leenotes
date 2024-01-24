@@ -26,7 +26,8 @@ class HandleIntentNotesRepositoryImpl @Inject constructor(
 ) : NotesRepository {
     override suspend fun addNote(initialNoteText: String) {}
     override suspend fun updateNote(note: Note) {
-        val noteDbModel: NoteDbModel = note.toNoteDbModel()
+        val calibratedNote = NotesBuilder.calibrate(note)
+        val noteDbModel: NoteDbModel = calibratedNote.toNoteDbModel()
         val costId = getCostId(note.cost)
         val bindingsId = getBindingsId(note.bindings)
         notesDao.upsertNote(noteDbModel.copy(costId = costId, bindingsId = bindingsId))

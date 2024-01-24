@@ -50,7 +50,6 @@ fun NotesTopAppBar(
             text = AnnotatedString(text = stringResource(id = title)),
             style = MaterialTheme.typography.displaySmall.copy(
                 seedColor,
-                fontWeight = FontWeight.Bold
             ),
             onClick = { onClick() }
         )
