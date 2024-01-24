@@ -3,6 +3,8 @@ package com.example.thindie.leenotes.presentation.features.feature_handle_shared
 import com.example.thindie.leenotes.HandleShareIntentActivity
 import com.example.thindie.leenotes.common.di.DependenciesProvider
 import com.example.thindie.leenotes.data.di.HandleIntentRepositoryModule
+import com.example.thindie.leenotes.data.timeManagement.TimeOperator
+import com.example.thindie.leenotes.data.timeManagement.TimeOperatorProvider
 import com.example.thindie.leenotes.presentation.features.feature_notes.di.ViewModelFactoryModule
 import dagger.Component
 
@@ -27,4 +29,5 @@ interface HandleFeatureComponent {
     }
 
     fun inject(handleIntentActivity: HandleShareIntentActivity)
+
 }

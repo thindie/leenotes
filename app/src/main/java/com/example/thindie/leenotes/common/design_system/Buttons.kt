@@ -20,12 +20,3 @@ fun LeeNotesButton(modifier: Modifier = Modifier, onClick: () -> Unit, @StringRe
         Text(text = stringResource(id = title))
     }
 }
-
-
-@Preview(showBackground = true)
-@Composable
-fun LeeNotesButtonPreview() {
-    LeenotesTheme {
-        LeeNotesButton(onClick = { }, title = R.string.text_field_cost)
-    }
-}
